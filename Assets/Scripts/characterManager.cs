@@ -11,12 +11,13 @@ public class characterManager : MonoBehaviour
     public float horseCaptureTimer;
     public float gameTimeLeft;
 
-    public int horsesCollected; 
+    public int horsesCollected;
+    public int horseCount; 
 
     public bool timerOn = false;
-    public bool playerInRadius = false;
     public bool playerInSafeZone = false;
-    public bool allHorsesCollected = false; 
+    public bool allHorsesCollected = false;
+    // public bool playerInRadius = false;
 
     public void Start()
     {
@@ -37,9 +38,9 @@ public class characterManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("timer is up!");
-                gameTimeLeft = 0;
-                timerOn = false; 
+                // Debug.Log("GAME OVER");
+                // gameTimeLeft = 0;
+                // timerOn = false; 
             }
         }
 
@@ -47,9 +48,14 @@ public class characterManager : MonoBehaviour
         {
             Debug.Log("You've won the game!");
         }
+        else if(gameTimeLeft <= 0)
+        {
+            Debug.Log("Game Over"); 
+        }
+
     }
 
-    // updates the UI text displaying timer time
+    // updates the UI text displaying timer time remaining
     void updateTimer(float currentTime)
     {
         currentTime += 1;
@@ -60,27 +66,21 @@ public class characterManager : MonoBehaviour
         gameTimerTxt.text = string.Format("{0:00} : {1:00}", minutes, seconds); 
     }
 
+    // each time a player collets a horse, this adds one, and checks to see if all of the lost horses have been collected
     public void horseCounter()
     {
         horsesCollected += 1; 
 
-        if(horsesCollected > 0)
+        if(horsesCollected == horseCount)
         {
+            // this has to be true in order for player to win
             allHorsesCollected = true; 
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "safeZone")
-        {
-            Debug.Log("I've entered safe zone"); 
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        playerInRadius = true; 
+        // playerInRadius = true; 
         // starts counting down till the player catches the horse
 
         if(other.tag == "horse")
@@ -91,12 +91,14 @@ public class characterManager : MonoBehaviour
             // if the player stays in the horses radius until 0 seconds, they catch it
             if (horseCaptureTimer <= 0)
             {
-                Debug.Log("i caught the horse completely");
                 horseCounter();
+                horseCaptureTimer = 10; 
+                // eventually turn this into the horse following player
                 Destroy(other.gameObject);
             }
         }
 
+        // check if player is in safe zone, this has to be active in order for player to win
         if (other.tag == "safeZone")
         {
             playerInSafeZone = true; 
@@ -105,9 +107,16 @@ public class characterManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        playerInRadius = false;
-        horseCaptureTimer = 10; 
-        Debug.Log("I've lost the horse"); 
+        if(other.tag == "horse")
+        {
+            horseCaptureTimer = 10;
+            // Debug.Log("I've lost the horse");
+        }
+
+        if (other.tag == "safeZone")
+        {
+            playerInSafeZone = false;
+        }
     }
 
 }
