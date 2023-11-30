@@ -94,7 +94,7 @@ public class characterManager : MonoBehaviour
                 horseCounter();
                 horseCaptureTimer = 10; 
                 // eventually turn this into the horse following player
-                Destroy(other.gameObject);
+                Destroy(other.transform.parent.gameObject);
             }
         }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class horseWanderAI : MonoBehaviour
 {
     public float moveSpeed = 3f;
-    public float rotSpeed = 100f;
+    public float rotSpeed = 70f;
 
     private bool isWandering = false;
     private bool isRotatingRight = false;
@@ -21,27 +21,29 @@ public class horseWanderAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if the horse isn't wandering already, start the wandering process
         if (isWandering == false)
         {
             StartCoroutine(Wander());
         }
 
+        // if this is true (set in the coroutine) rotate right
         if (isRotatingRight == true)
         {
-            transform.Rotate(transform.up * moveSpeed);
+            transform.Rotate(transform.up * rotSpeed * Time.deltaTime);
         }
 
+        // if this is true (set in the coroutine) rotate left
         if (isRotatingLeft == true)
         {
-            transform.Rotate(transform.up * -moveSpeed);
+            transform.Rotate(transform.up * -rotSpeed * Time.deltaTime);
         }
 
-        /*
+        // if this is true (set in the coroutine) walk forward
         if(isWalking == true)
         {
-            transform.position += transform.forward * moveSpeed;
+            transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
-        */
     }
 
     IEnumerator Wander()
@@ -50,7 +52,7 @@ public class horseWanderAI : MonoBehaviour
         int rotTime = Random.Range(1, 3);
         // rot wait is amount of time between capsule rotations
         int rotWait = Random.Range(1, 4);
-        // this determines whether or not it is going to rotate left or right
+        // this determines whether or not it is going to rotate left or right (basically a bool)
         int rotateLorR = Random.Range(1, 2);
         // amount of time between walking
         int walkWait = Random.Range(1, 4);
@@ -73,13 +75,17 @@ public class horseWanderAI : MonoBehaviour
         if (rotateLorR == 1)
         {
             isRotatingRight = true;
+        }
             yield return new WaitForSeconds(rotTime);
+        { 
             isRotatingLeft = false;
         }
         if (rotateLorR == 2)
         {
             isRotatingLeft = true;
+        }
             yield return new WaitForSeconds(rotTime);
+        { 
             isRotatingRight = false;
         }
         // stops AI from wandering again so the cycle can start all over (in fixed update)
