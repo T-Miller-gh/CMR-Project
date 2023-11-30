@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 151441363}
   - component: {fileID: 151441362}
   - component: {fileID: 151441361}
+  - component: {fileID: 151441365}
   m_Layer: 0
   m_Name: fakeHorse (1)
   m_TagString: horse
@@ -313,6 +314,20 @@ Transform:
   - {fileID: 595910143}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -52.107, z: 0}
+--- !u!114 &151441365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151441360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f989bf517b2a074596c97e69d26e2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  rotSpeed: 100
 --- !u!1 &283067133
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1294,7 @@ GameObject:
   - component: {fileID: 573637416}
   - component: {fileID: 573637415}
   - component: {fileID: 573637414}
+  - component: {fileID: 573637418}
   m_Layer: 0
   m_Name: fakeHorse (2)
   m_TagString: horse
@@ -1374,6 +1390,20 @@ Transform:
   - {fileID: 1740594768}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -160.82, z: 0}
+--- !u!114 &573637418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573637413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f989bf517b2a074596c97e69d26e2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  rotSpeed: 100
 --- !u!1 &595910142
 GameObject:
   m_ObjectHideFlags: 0
@@ -3332,6 +3362,7 @@ GameObject:
   - component: {fileID: 1894547697}
   - component: {fileID: 1894547696}
   - component: {fileID: 1894547695}
+  - component: {fileID: 1894547699}
   m_Layer: 0
   m_Name: fakeHorse
   m_TagString: horse
@@ -3427,6 +3458,20 @@ Transform:
   - {fileID: 1781611030}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1894547699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894547694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f989bf517b2a074596c97e69d26e2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  rotSpeed: 100
 --- !u!1 &2047487360
 GameObject:
   m_ObjectHideFlags: 0
