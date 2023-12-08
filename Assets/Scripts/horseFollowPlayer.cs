@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI; 
 
 public class horseFollowPlayer : MonoBehaviour
 {
     public Transform player;
+    NavMeshAgent nav; 
 
     public float horseFollowSpeed = 3f;
   
     // Start is called before the first frame update
     void Start()
     {
-        
+        nav = GetComponent<NavMeshAgent>(); 
     }
 
     // Update is called once per frame
@@ -19,9 +21,11 @@ public class horseFollowPlayer : MonoBehaviour
     {
         // transform.position = new Vector3(player.x, player.y, player.z) * horseFollowSpeed * Time.deltaTime; 
 
-        var step = horseFollowSpeed * Time.deltaTime;
+        nav.SetDestination(player.position); 
 
-        transform.position = new Vector3(player.position.x, player.position.y, player.position.z); 
+        // var step = horseFollowSpeed * Time.deltaTime;
+
+        // transform.position = new Vector3(player.position.x, player.position.y, player.position.z); 
         // this works but then the horse is directonly ON the player. how can we distance the horse from the player a bit? 
         // transform.position = Vector3.MoveTowards(transform.position, player.position, step); 
        /*

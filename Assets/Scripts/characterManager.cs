@@ -6,6 +6,10 @@ using TMPro;
 
 public class characterManager : MonoBehaviour
 {
+    // get rid of horse later (maybe unless you condense all horse scripts into one) 
+    public GameObject horse; 
+    public GameObject capturedHorse; 
+
     public TextMeshProUGUI gameTimerTxt; 
 
     public float horseCaptureTimer;
@@ -17,13 +21,14 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
+
     // public bool playerInRadius = false;
 
     public void Start()
     {
         // starts the overall game timer (players need to return to base before this runs out)
         timerOn = true;
-        playerInSafeZone = false; 
+        playerInSafeZone = false;
     }
 
     public void FixedUpdate()
@@ -95,6 +100,9 @@ public class characterManager : MonoBehaviour
                 horseCaptureTimer = 10; 
                 // eventually turn this into the horse following player
                 Destroy(other.transform.parent.gameObject);
+                // perhaps we dont need to instantiate...maybe we can just make the old horse follow 
+                // the player after it has been capture. (turn off the corutine, switch to follow player 
+                // code with if statement
             }
         }
 

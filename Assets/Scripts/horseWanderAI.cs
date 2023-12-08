@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class horseWanderAI : MonoBehaviour
 {
+    public characterManager characterManagerScript; 
+
     public float moveSpeed = 3f;
     public float rotSpeed = 70f;
 
@@ -11,6 +13,8 @@ public class horseWanderAI : MonoBehaviour
     private bool isRotatingRight = false;
     private bool isRotatingLeft = false;
     private bool isWalking = false;
+
+    public bool scriptCommunicationTest = true; 
 
 
     // Start is called before the first frame update
@@ -21,6 +25,13 @@ public class horseWanderAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        /*
+        if (characterManagerScript.horseCaptured == true)
+        {
+            Debug.Log("a horse has been capture");
+        }
+        */
+
         // if the horse isn't wandering already, start the wandering process
         if (isWandering == false)
         {
