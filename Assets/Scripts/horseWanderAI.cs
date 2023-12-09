@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class horseWanderAI : MonoBehaviour
 {
+    // all assigned IN EDITOR
     public characterManager characterManagerScript;
     public Transform player;
     public NavMeshAgent nav; 
@@ -29,12 +30,14 @@ public class horseWanderAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // PULLING THIS BOOL FROM characterManager
         if(characterManagerScript.changeHorseBehavior == true)
         {
             // Debug.Log("this horse has been caught");
             // Destroy(gameObject);
             // SWITCH HORSE BEHAVIOR HERE
             isWandering = true;
+            // stop the horse custom horse AI, enable NavMeshAgent
             StopAllCoroutines(); 
             startFollowingPlayer(); 
         }
@@ -119,9 +122,12 @@ public class horseWanderAI : MonoBehaviour
 
     public void startFollowingPlayer()
     {
+        // set movSpeed and rotSpeed to zero so horse has no independant movemant after it has been captured
         moveSpeed = 0f;
         rotSpeed = 0f; 
+        // turn on navMesh Agent
         nav.enabled = true; 
+        // set destination of horse to player position (adjust stopping distance and such IN EDITOR)
         nav.SetDestination(player.position);
 
     }
