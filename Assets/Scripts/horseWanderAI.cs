@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI; 
 
 public class horseWanderAI : MonoBehaviour
 {
-    public characterManager characterManagerScript; 
+    public characterManager characterManagerScript;
+    public Transform player;
+    public NavMeshAgent nav; 
 
     public float moveSpeed = 3f;
     public float rotSpeed = 70f;
@@ -20,17 +23,28 @@ public class horseWanderAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        nav = GetComponent<NavMeshAgent>();
+        nav.enabled = false; 
     }
 
     private void FixedUpdate()
     {
-        /*
-        if (characterManagerScript.horseCaptured == true)
+        if(characterManagerScript.changeHorseBehavior == true)
         {
-            Debug.Log("a horse has been capture");
+            // Debug.Log("this horse has been caught");
+            // Destroy(gameObject);
+            // SWITCH HORSE BEHAVIOR HERE
+            isWandering = true;
+            StopAllCoroutines(); 
+            startFollowingPlayer(); 
         }
-        */
+
+        //characterManager cManager = FindObjectOfType<characterManager>();
+
+        //for(int i = 0; i < 1; i++)
+        //{
+        //    //Debug.Log(cManager.timerOn); 
+        //}
 
         // if the horse isn't wandering already, start the wandering process
         if (isWandering == false)
@@ -101,5 +115,14 @@ public class horseWanderAI : MonoBehaviour
         }
         // stops AI from wandering again so the cycle can start all over (in fixed update)
         isWandering = false;
+    }
+
+    public void startFollowingPlayer()
+    {
+        moveSpeed = 0f;
+        rotSpeed = 0f; 
+        nav.enabled = true; 
+        nav.SetDestination(player.position);
+
     }
 }

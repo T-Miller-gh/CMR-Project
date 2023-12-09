@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1388017684257720626}
   - component: {fileID: 7173020459753883763}
   - component: {fileID: 2026944071925928331}
+  - component: {fileID: 7748648759435474484}
   m_Layer: 0
   m_Name: fakeHorse
   m_TagString: horse
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3621967858948952794}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.2010104, z: -0, w: 0.9795891}
+  m_LocalRotation: {x: 0, y: 0.20100951, z: 0, w: 0.97958934}
   m_LocalPosition: {x: -1.86, y: 1.9, z: 16.98}
   m_LocalScale: {x: 1, y: 1, z: 2.3100781}
   m_ConstrainProportionsScale: 0
@@ -100,8 +101,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f989bf517b2a074596c97e69d26e2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterManagerScript: {fileID: 0}
+  player: {fileID: 0}
+  nav: {fileID: 7748648759435474484}
   moveSpeed: 3
   rotSpeed: 70
+  scriptCommunicationTest: 1
 --- !u!54 &2026944071925928331
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,6 +134,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!195 &7748648759435474484
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621967858948952794}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 8
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4714064319746128749
 GameObject:
   m_ObjectHideFlags: 0
