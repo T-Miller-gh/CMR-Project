@@ -6,7 +6,8 @@ using TMPro;
 
 public class characterManager : MonoBehaviour
 {
-    public TextMeshProUGUI gameTimerTxt; 
+    public TextMeshProUGUI gameTimerTxt;
+    public TextMeshProUGUI horsesCapturedTxt;
 
     public float horseCaptureTimer;
     public float gameTimeLeft;
@@ -17,13 +18,13 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
-    // public bool playerInRadius = false;
+    public bool changeHorseBehavior = false; 
 
     public void Start()
     {
         // starts the overall game timer (players need to return to base before this runs out)
         timerOn = true;
-        playerInSafeZone = false; 
+        playerInSafeZone = false;
     }
 
     public void FixedUpdate()
@@ -38,9 +39,7 @@ public class characterManager : MonoBehaviour
             }
             else
             {
-                // Debug.Log("GAME OVER");
-                // gameTimeLeft = 0;
-                // timerOn = false; 
+                // add game over functionality here 
             }
         }
 
@@ -63,15 +62,17 @@ public class characterManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(currentTime / 60);
         float seconds = Mathf.FloorToInt(currentTime % 60);
 
-        gameTimerTxt.text = string.Format("{0:00} : {1:00}", minutes, seconds); 
+        gameTimerTxt.text = string.Format("Time remaining: " + "{0:00} : {1:00}", minutes, seconds); 
     }
 
     // each time a player collets a horse, this adds one, and checks to see if all of the lost horses have been collected
     public void horseCounter()
     {
-        horsesCollected += 1; 
+        horsesCollected += 1;
+        // update horses collected UI
+        horsesCapturedTxt.text = "Horses collected: " + horsesCollected + "/3";
 
-        if(horsesCollected == horseCount)
+        if (horsesCollected == horseCount)
         {
             // this has to be true in order for player to win
             allHorsesCollected = true; 
@@ -80,21 +81,21 @@ public class characterManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        // playerInRadius = true; 
-        // starts counting down till the player catches the horse
-
         if(other.tag == "horse")
         {
+            // get the script off the horse you are capturing
+            horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
+
             horseCaptureTimer -= Time.deltaTime;
 
-            // Debug.Log(countdownTimer); 
             // if the player stays in the horses radius until 0 seconds, they catch it
             if (horseCaptureTimer <= 0)
             {
                 horseCounter();
-                horseCaptureTimer = 10; 
-                // eventually turn this into the horse following player
-                Destroy(other.transform.parent.gameObject);
+                horseCaptureTimer = 10;
+
+                // change that horses behavior within it's script
+                horseScript.isCaught = true; 
             }
         }
 

@@ -1,26 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI; 
 
 public class horseWanderAI : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    public float rotSpeed = 70f;
+    // all assigned IN EDITOR
+    public characterManager characterManagerScript;
+    public Transform player;
+    public NavMeshAgent nav; 
+
+    private float moveSpeed = 3f;
+    private float rotSpeed = 70f;
 
     private bool isWandering = false;
     private bool isRotatingRight = false;
     private bool isRotatingLeft = false;
     private bool isWalking = false;
+    public bool isCaught = false; 
+
+    public bool scriptCommunicationTest = true; 
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        nav = GetComponent<NavMeshAgent>();
+        nav.enabled = false; 
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
+        // this bool is set to true in characterManger.cs
+        if (isCaught == true)
+        {
+            // stop the horse custom horse AI, enable NavMeshAgent
+            StopAllCoroutines();
+            startFollowingPlayer();
+        }
+
         // if the horse isn't wandering already, start the wandering process
         if (isWandering == false)
         {
@@ -90,5 +108,17 @@ public class horseWanderAI : MonoBehaviour
         }
         // stops AI from wandering again so the cycle can start all over (in fixed update)
         isWandering = false;
+    }
+
+    void startFollowingPlayer()
+    {
+        // set movSpeed and rotSpeed to zero so horse has no independant movemant after it has been captured
+        moveSpeed = 0f;
+        rotSpeed = 0f; 
+        // turn on navMesh Agent
+        nav.enabled = true; 
+        // set destination of horse to player position (adjust stopping distance and such IN EDITOR)
+        nav.SetDestination(player.position);
+
     }
 }
