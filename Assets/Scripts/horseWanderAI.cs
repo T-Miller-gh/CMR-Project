@@ -10,13 +10,14 @@ public class horseWanderAI : MonoBehaviour
     public Transform player;
     public NavMeshAgent nav; 
 
-    public float moveSpeed = 3f;
-    public float rotSpeed = 70f;
+    private float moveSpeed = 3f;
+    private float rotSpeed = 70f;
 
     private bool isWandering = false;
     private bool isRotatingRight = false;
     private bool isRotatingLeft = false;
     private bool isWalking = false;
+    public bool isCaught = false; 
 
     public bool scriptCommunicationTest = true; 
 
@@ -28,18 +29,29 @@ public class horseWanderAI : MonoBehaviour
         nav.enabled = false; 
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         // PULLING THIS BOOL FROM characterManager
-        if(characterManagerScript.changeHorseBehavior == true)
+        //if(characterManagerScript.changeHorseBehavior == true)
+        //{
+        //    // Debug.Log("this horse has been caught");
+        //    // Destroy(gameObject);
+        //    // SWITCH HORSE BEHAVIOR HERE
+        //    isWandering = true;
+        //    // stop the horse custom horse AI, enable NavMeshAgent
+        //    StopAllCoroutines(); 
+        //    startFollowingPlayer(); 
+        //}
+
+        if (isCaught == true)
         {
             // Debug.Log("this horse has been caught");
             // Destroy(gameObject);
             // SWITCH HORSE BEHAVIOR HERE
             isWandering = true;
             // stop the horse custom horse AI, enable NavMeshAgent
-            StopAllCoroutines(); 
-            startFollowingPlayer(); 
+            StopAllCoroutines();
+            startFollowingPlayer();
         }
 
         //characterManager cManager = FindObjectOfType<characterManager>();
@@ -120,7 +132,7 @@ public class horseWanderAI : MonoBehaviour
         isWandering = false;
     }
 
-    public void startFollowingPlayer()
+    void startFollowingPlayer()
     {
         // set movSpeed and rotSpeed to zero so horse has no independant movemant after it has been captured
         moveSpeed = 0f;

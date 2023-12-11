@@ -7,6 +7,8 @@ using TMPro;
 public class characterManager : MonoBehaviour
 {
     // get rid of horse later (maybe unless you condense all horse scripts into one) 
+    // public horseWanderAI horseScript; 
+    
     public GameObject horse; 
     public GameObject capturedHorse; 
 
@@ -91,6 +93,9 @@ public class characterManager : MonoBehaviour
 
         if(other.tag == "horse")
         {
+            horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
+            Debug.Log(horseScript); 
+
             horseCaptureTimer -= Time.deltaTime;
 
             // Debug.Log(countdownTimer); 
@@ -98,10 +103,11 @@ public class characterManager : MonoBehaviour
             if (horseCaptureTimer <= 0)
             {
                 horseCounter();
-                horseCaptureTimer = 10; 
+                horseCaptureTimer = 10;
                 // eventually turn this into the horse following player
                 // Destroy(other.transform.parent.gameObject);
-                changeHorseBehavior = true; 
+                // changeHorseBehavior = true; 
+                horseScript.isCaught = true; 
                 // perhaps we dont need to instantiate...maybe we can just make the old horse follow 
                 // the player after it has been capture. (turn off the corutine, switch to follow player 
                 // code with if statement

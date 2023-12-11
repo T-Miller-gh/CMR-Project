@@ -280,6 +280,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8021830657656280240, guid: f4478a44a6857194b8be0809cf05aaaf,
+        type: 3}
+      propertyPath: horseScript
+      value: 
+      objectReference: {fileID: 1691667217}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -713,6 +718,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1544402382
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_Name
+      value: fakeHorse
+      objectReference: {fileID: 0}
+    - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 686646876}
+    - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: characterManagerScript
+      value: 
+      objectReference: {fileID: 1657877211}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8141908
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.58059746
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -70.985
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713373523320588705, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ef38fbbcd4d9f5349afb1fddcfb96f75, type: 3}
 --- !u!114 &1657877211 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8021830657656280240, guid: f4478a44a6857194b8be0809cf05aaaf,
@@ -723,6 +806,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 686e7018ca39d2142aae00798710f922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1691667217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+    type: 3}
+  m_PrefabInstance: {fileID: 4943108215174118550}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f989bf517b2a074596c97e69d26e2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1769563218
@@ -1097,6 +1192,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: fakeHorse
       objectReference: {fileID: 0}
+    - target: {fileID: 4710398929102085149, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_Height
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4710398929102085149, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.17
+      objectReference: {fileID: 0}
     - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
       propertyPath: player
@@ -1157,6 +1262,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8994098930608778429, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 686646876}
+    - target: {fileID: 8994098930608778429, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: characterManagerScript
+      value: 
+      objectReference: {fileID: 1657877211}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1171,6 +1286,7 @@ SceneRoots:
   - {fileID: 1828986766}
   - {fileID: 1769563218}
   - {fileID: 4943108215174118550}
+  - {fileID: 1544402382}
   - {fileID: 3217868114713083823}
   - {fileID: 1003972038}
   - {fileID: 803999376}
