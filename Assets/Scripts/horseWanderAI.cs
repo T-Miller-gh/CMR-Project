@@ -31,35 +31,13 @@ public class horseWanderAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        // PULLING THIS BOOL FROM characterManager
-        //if(characterManagerScript.changeHorseBehavior == true)
-        //{
-        //    // Debug.Log("this horse has been caught");
-        //    // Destroy(gameObject);
-        //    // SWITCH HORSE BEHAVIOR HERE
-        //    isWandering = true;
-        //    // stop the horse custom horse AI, enable NavMeshAgent
-        //    StopAllCoroutines(); 
-        //    startFollowingPlayer(); 
-        //}
-
+        // this bool is set to true in characterManger.cs
         if (isCaught == true)
         {
-            // Debug.Log("this horse has been caught");
-            // Destroy(gameObject);
-            // SWITCH HORSE BEHAVIOR HERE
-            isWandering = true;
             // stop the horse custom horse AI, enable NavMeshAgent
             StopAllCoroutines();
             startFollowingPlayer();
         }
-
-        //characterManager cManager = FindObjectOfType<characterManager>();
-
-        //for(int i = 0; i < 1; i++)
-        //{
-        //    //Debug.Log(cManager.timerOn); 
-        //}
 
         // if the horse isn't wandering already, start the wandering process
         if (isWandering == false)
