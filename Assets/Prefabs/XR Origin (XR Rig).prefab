@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTimerTxt: {fileID: 6973154251954451941}
+  horsesCapturedTxt: {fileID: 0}
   horseCaptureTimer: 10
   gameTimeLeft: 300
   horsesCollected: 0
@@ -232,6 +233,7 @@ MonoBehaviour:
   timerOn: 0
   playerInSafeZone: 0
   allHorsesCollected: 0
+  changeHorseBehavior: 0
 --- !u!195 &3302609007294969243
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -758,8 +760,17 @@ LineRenderer:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1433,8 +1444,17 @@ LineRenderer:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

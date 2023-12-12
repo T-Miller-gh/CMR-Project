@@ -45,11 +45,19 @@ public class characterManager : MonoBehaviour
 
         if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
         {
-            Debug.Log("You've won the game!");
+            // Debug.Log("You've won the game!");
+            gameTimerTxt.text = "You won!!";
+            horsesCapturedTxt.text = "You won!!";
+            // pauses the game, change this later
+            Time.timeScale = 0; 
         }
         else if(gameTimeLeft <= 0)
         {
-            Debug.Log("Game Over"); 
+            // Debug.Log("Game Over");
+            gameTimerTxt.text = "Game over";
+            horsesCapturedTxt.text = "Game over";
+            // pauses the game, change later; 
+            Time.timeScale = 0; 
         }
 
     }
