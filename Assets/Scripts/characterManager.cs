@@ -6,11 +6,18 @@ using TMPro;
 
 public class characterManager : MonoBehaviour
 {
+    public ParticleSystem playerSnowParticles; 
+
     public TextMeshProUGUI gameTimerTxt;
     public TextMeshProUGUI horsesCapturedTxt;
 
     public float horseCaptureTimer;
-    public float gameTimeLeft;
+    public float gameTimeLeft = 300;
+    public float totalGameTime = 300;
+    float gameProgress; 
+    float maxParticleSize = 3f;
+    float maxEmissionRate = 100f;
+    float maxParticleSpeed = 5f; 
 
     public int horsesCollected;
     public int horseCount; 
@@ -34,8 +41,11 @@ public class characterManager : MonoBehaviour
         {
             if(gameTimeLeft > 0)
             {
-                gameTimeLeft -= Time.deltaTime;
-                updateTimer(gameTimeLeft); 
+                // gameTimeLeft -= Time.deltaTime;
+                gameProgress = 1f - (Time.time / totalGameTime); 
+                gameTimeLeft = totalGameTime - Time.time; 
+                updateTimer(gameTimeLeft);
+                updatePlayerParticles();
             }
             else
             {
@@ -59,7 +69,21 @@ public class characterManager : MonoBehaviour
             // pauses the game, change later; 
             Time.timeScale = 0; 
         }
+    }
 
+    void updatePlayerParticles()
+    {
+        var particleSize = playerSnowParticles.main;
+        var particleRateOverTime = playerSnowParticles.emission;
+        var particleSpeed = playerSnowParticles.velocityOverLifetime; 
+
+        float newParticleSize = Mathf.Lerp(maxParticleSize, 0.03f, gameProgress);
+        float newParticleRate = Mathf.Lerp(maxEmissionRate, 10f, gameProgress);
+        float newParticleSpeed = Mathf.Lerp(maxParticleSpeed, 1f, gameProgress); 
+
+        particleSize.startSize = newParticleSize;
+        particleRateOverTime.rateOverTime = newParticleRate;
+        particleSpeed.speedModifier = newParticleSpeed; 
     }
 
     // updates the UI text displaying timer time remaining
