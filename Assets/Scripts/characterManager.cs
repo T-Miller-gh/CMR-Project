@@ -12,12 +12,12 @@ public class characterManager : MonoBehaviour
     public TextMeshProUGUI horsesCapturedTxt;
 
     public float horseCaptureTimer;
-    public float gameTimeLeft;
-    public float totalGameTime = 120f; 
-    public float maxParticleSize = 2;
-    public float maxEmissionRate = 350;
-    //public float sizeChangeSpeed = .0001f; // Adjust as needed
-    //public float rateChangeSpeed = 2f; // Adjust as needed
+    public float gameTimeLeft = 300;
+    public float totalGameTime = 300;
+    float gameProgress; 
+    float maxParticleSize = 3f;
+    float maxEmissionRate = 100f;
+    float maxParticleSpeed = 5f; 
 
     public int horsesCollected;
     public int horseCount; 
@@ -32,13 +32,6 @@ public class characterManager : MonoBehaviour
         // starts the overall game timer (players need to return to base before this runs out)
         timerOn = true;
         playerInSafeZone = false;
-
-        var particleSize = playerSnowParticles.main;
-        var particleRateOverTime = playerSnowParticles.emission; 
-
-        // these two variables create a great white-out...so it should build up to this as time goes on. 
-        particleSize.startSize = .1f;
-        particleRateOverTime.rateOverTime = 10f; 
     }
 
     public void FixedUpdate()
@@ -48,9 +41,11 @@ public class characterManager : MonoBehaviour
         {
             if(gameTimeLeft > 0)
             {
-                gameTimeLeft -= Time.deltaTime;
-                updatePlayerParticles(); 
-                updateTimer(gameTimeLeft); 
+                // gameTimeLeft -= Time.deltaTime;
+                gameProgress = 1f - (Time.time / totalGameTime); 
+                gameTimeLeft = totalGameTime - Time.time; 
+                updateTimer(gameTimeLeft);
+                updatePlayerParticles();
             }
             else
             {
@@ -74,28 +69,21 @@ public class characterManager : MonoBehaviour
             // pauses the game, change later; 
             Time.timeScale = 0; 
         }
-
     }
 
     void updatePlayerParticles()
     {
         var particleSize = playerSnowParticles.main;
         var particleRateOverTime = playerSnowParticles.emission;
+        var particleSpeed = playerSnowParticles.velocityOverLifetime; 
 
-        float remainingGameTime = Mathf.Max(0f, gameTimeLeft - Time.time);
-
-        //float sizeChangeRate = sizeChangeSpeed * Time.deltaTime;
-        //float emissionChangeRate = rateChangeSpeed * Time.deltaTime;
-
-
-        //float newParticleSize = Mathf.MoveTowards(particleSize.startSize.constant, maxParticleSize, sizeChangeRate);
-        //float newParticleRate = Mathf.MoveTowards(particleRateOverTime.rateOverTime.constant, maxEmissionRate, emissionChangeRate); 
-
-        float newParticleSize = Mathf.Lerp(0.1f, maxParticleSize, 1f - (remainingGameTime / totalGameTime));
-        float newParticleRate = Mathf.Lerp(10f, maxEmissionRate, 1f - (remainingGameTime / totalGameTime));
+        float newParticleSize = Mathf.Lerp(maxParticleSize, 0.03f, gameProgress);
+        float newParticleRate = Mathf.Lerp(maxEmissionRate, 10f, gameProgress);
+        float newParticleSpeed = Mathf.Lerp(maxParticleSpeed, 1f, gameProgress); 
 
         particleSize.startSize = newParticleSize;
         particleRateOverTime.rateOverTime = newParticleRate;
+        particleSpeed.speedModifier = newParticleSpeed; 
     }
 
     // updates the UI text displaying timer time remaining
