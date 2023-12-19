@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/NightWrangler/menu.unity
+    guid: 0f1d0afc53b6d6f4bad93916322e717a
+  - enabled: 1
+    path: Assets/Scenes/NightWrangler/Level_main.unity
+    guid: 5b600f6ee63a1ca479e52bde92029ad5
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}

@@ -2600,6 +2600,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CustomUI",
+            "id": "94608330-2ed2-4751-b0d1-b7c1c6bb30b2",
+            "actions": [
+                {
+                    "name": "goToMenu",
+                    "type": "Button",
+                    "id": "b8745c6c-bab2-4ec3-8937-58c15a2d9922",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3fa1e6fd-97c9-41e4-816f-f18f17718951",
+                    "path": "<XRController>{LeftHand}/{MenuButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "goToMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
