@@ -4,12 +4,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; 
+// using UnityEngine.InputSystem; 
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 
 public class menuManager : MonoBehaviour
 {
+    private XRNode xrNodeleft = XRNode.LeftHand; 
+    private UnityEngine.XR.InputDevice device; 
+
+
     public delegate void ButtonClickMethod(); 
     Dictionary<string, ButtonClickMethod> buttonDictionay = new Dictionary<string, ButtonClickMethod>();
 
@@ -19,7 +23,32 @@ public class menuManager : MonoBehaviour
 
     public int sceneSelection = 0;
 
-    // Start is called before the first frame update
+    void GetDevice()
+    {
+        List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();
+        // UnityEngine.XR.InputDevices.GetDevicesAtXRNode(xrNodeleft, devices);
+        InputDevices.GetDevicesAtXRNode(xrNodeleft, devices); 
+
+        if(devices.Count > 0)
+        {
+            device = devices[0];
+            Debug.Log("Device aquired: " + device.name); 
+        }
+        else
+        {
+            Debug.LogError("No valid deavice found at XRNODE: " + xrNodeleft);
+        }
+        // InputDevices.GetDeviceAtXRNode(xrNodeleft); 
+    }
+
+    void OnEnable()
+    {
+        if(!device.isValid)
+        {
+            GetDevice(); 
+        }
+    }
+
     void Start()
     {
         Button nightWranglerPlay = nightwranglerBtn.GetComponent<Button>();
@@ -32,6 +61,24 @@ public class menuManager : MonoBehaviour
 
         nightWranglerPlay.onClick.AddListener(() => OnButtonClick("nightwrangler"));
         playGameBtn.onClick.AddListener(() => OnButtonClick("play")); 
+    }
+
+    void Update()
+    {
+        Debug.Log("update method called"); 
+
+        if(!device.isValid)
+        {
+            GetDevice();
+            Debug.Log("device not valid, try again"); 
+        }
+
+        bool menuButton = false; 
+
+        if(device.TryGetFeatureValue(CommonUsages.menuButton, out menuButton) && menuButton)
+        {
+            Debug.Log("menu button was pressed"); 
+        }
     }
 
     //private void Update()
