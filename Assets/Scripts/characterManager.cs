@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
+using UnityEngine.InputSystem; 
 
 public class characterManager : MonoBehaviour
 {
+    [SerializeField] private InputActionReference menuInputActionReference;
+
     public ParticleSystem playerSnowParticles; 
 
     public TextMeshProUGUI gameTimerTxt;
@@ -25,7 +28,24 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
-    public bool changeHorseBehavior = false; 
+    public bool changeHorseBehavior = false;
+
+    void OnEnable()
+    {
+        menuInputActionReference.action.started += MenuPressed;
+    }
+
+    private void OnDisable()
+    {
+        menuInputActionReference.action.started -= MenuPressed;
+    }
+
+    void MenuPressed(InputAction.CallbackContext context)
+    {
+        // Debug.Log("Menu pressed");
+        menuManager.LoadMenuScene();
+    }
+
 
     public void Start()
     {
