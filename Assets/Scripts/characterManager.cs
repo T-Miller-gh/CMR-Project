@@ -43,7 +43,7 @@ public class characterManager : MonoBehaviour
     void MenuPressed(InputAction.CallbackContext context)
     {
         // Debug.Log("Menu pressed");
-        menuManager.LoadMenuScene();
+        SceneSelectionManager.LoadMenuScene();
     }
 
 

@@ -5,13 +5,11 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem; 
-// using UnityEngine.XR.Interaction.Toolkit;
-// using UnityEngine.XR;
 
-public class menuManager : MonoBehaviour
+
+public class SceneSelectionManager : MonoBehaviour
 {
-    // private XRNode xrNodeleft = XRNode.LeftHand; 
-    // private UnityEngine.XR.InputDevice device;
+
     [SerializeField] private InputActionReference menuInputActionReference; 
 
     public delegate void ButtonClickMethod(); 
@@ -23,34 +21,8 @@ public class menuManager : MonoBehaviour
 
     public int sceneSelection = 0;
 
-    //void GetDevice()
-    //{
-    //    // List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();
-    //    // UnityEngine.XR.InputDevices.GetDevicesAtXRNode(xrNodeleft, devices);
-    //    // InputDevices.GetDevicesAtXRNode(xrNodeleft, devices); 
-
-    //    if(devices.Count > 0)
-    //    {
-    //        device = devices[0];
-    //        Debug.Log("Device aquired: " + device.name); 
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("No valid deavice found at XRNODE: " + xrNodeleft);
-    //    }
-    //    // InputDevices.GetDeviceAtXRNode(xrNodeleft); 
-    //}
-
-    //void OnEnable()
-    //{
-    //    menuInputActionReference.action.started += MenuPressed; 
-    //}
-
-    //private void OnDisable()
-    //{
-    //    menuInputActionReference.action.started -= MenuPressed; 
-    //}
-
+    public GameObject loadingScreen;
+    float loadingDelay = 2.0f; 
 
     void Start()
     {
@@ -72,15 +44,28 @@ public class menuManager : MonoBehaviour
         if(buttonDictionay.ContainsKey(buttonName))
         {
             buttonDictionay[buttonName].Invoke(); 
+            // StartCoroutine(LoadSceneWithDelay(buttonDictionay[buttonName]));
         }
     }
 
+    IEnumerator LoadSceneWithDelay(ButtonClickMethod sceneLoadMethod)
+    {
+        Debug.Log("loading screen activated"); 
+        // Show the loading screen
+        loadingScreen.SetActive(true);
 
-    //void MenuPressed(InputAction.CallbackContext context)
-    //{
-    //    // Debug.Log("Menu pressed");
-    //    LoadMenuScene(); 
-    //}
+        // Wait for the specified delay
+        yield return new WaitForSeconds(loadingDelay);
+
+        // Invoke the scene loading method
+        sceneLoadMethod.Invoke();
+
+        // loadingScreen.SetActive(false);
+        Debug.Log("loading screen deactivated"); 
+
+        // Hide the loading screen
+        // loadingScreen.SetActive(false);
+    }
 
     void LoadNightwranglerScene()
     {
@@ -101,8 +86,10 @@ public class menuManager : MonoBehaviour
 
     void PlayGame()
     {
+        
         string sceneSelected = DetermineSceneSelection(sceneSelection);
-        SceneManager.LoadScene(sceneSelected); 
+        //SceneManager.LoadScene(sceneSelected); 
+        StartCoroutine(LoadSceneWithDelay(() => SceneManager.LoadScene(sceneSelected)));
         Debug.Log("Play whatever game was selected in here"); 
     }
 
