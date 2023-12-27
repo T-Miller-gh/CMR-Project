@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
+using UnityEngine.InputSystem; 
 
 public class characterManager : MonoBehaviour
 {
+    [SerializeField] private InputActionReference menuInputActionReference;
+
     public ParticleSystem playerSnowParticles; 
 
     public TextMeshProUGUI gameTimerTxt;
     public TextMeshProUGUI horsesCapturedTxt;
+
+    public GameObject quitMenu;
+    public GameObject loadingUI; 
 
     public float horseCaptureTimer;
     public float gameTimeLeft = 300;
@@ -25,13 +31,49 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
-    public bool changeHorseBehavior = false; 
+    public bool changeHorseBehavior = false;
+
+    void OnEnable()
+    {
+        menuInputActionReference.action.started += MenuPressed;
+    }
+
+    private void OnDisable()
+    {
+        menuInputActionReference.action.started -= MenuPressed;
+    }
+
+    void MenuPressed(InputAction.CallbackContext context)
+    {
+        Time.timeScale = 0; 
+        quitMenu.SetActive(true); 
+        // Debug.Log("Menu pressed");
+        // SceneSelectionManager.LoadMenuScene();
+    }
+
+    public void HideQuitMenu()
+    {
+        quitMenu.SetActive(false);
+        Time.timeScale = 1; 
+    }
+
+    public void ReturnToMenu()
+    {
+        quitMenu.SetActive(false); 
+        loadingUI.SetActive(true);
+        Time.timeScale = 1; 
+        SceneSelectionManager.LoadMenuScene(); 
+    }
 
     public void Start()
     {
         // starts the overall game timer (players need to return to base before this runs out)
         timerOn = true;
         playerInSafeZone = false;
+        // add functions here that start the game 
+        // intro to game by pete vann (mini tutorial, etc) 
+        // fade to black then back to game view
+        // timer starts now
     }
 
     public void FixedUpdate()
