@@ -9,7 +9,6 @@ using UnityEngine.InputSystem;
 
 public class SceneSelectionManager : MonoBehaviour
 {
-
     [SerializeField] private InputActionReference menuInputActionReference; 
 
     public delegate void ButtonClickMethod(); 

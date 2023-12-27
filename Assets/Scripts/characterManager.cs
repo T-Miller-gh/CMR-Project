@@ -14,6 +14,9 @@ public class characterManager : MonoBehaviour
     public TextMeshProUGUI gameTimerTxt;
     public TextMeshProUGUI horsesCapturedTxt;
 
+    public GameObject quitMenu;
+    public GameObject loadingUI; 
+
     public float horseCaptureTimer;
     public float gameTimeLeft = 300;
     public float totalGameTime = 300;
@@ -42,16 +45,35 @@ public class characterManager : MonoBehaviour
 
     void MenuPressed(InputAction.CallbackContext context)
     {
+        Time.timeScale = 0; 
+        quitMenu.SetActive(true); 
         // Debug.Log("Menu pressed");
-        SceneSelectionManager.LoadMenuScene();
+        // SceneSelectionManager.LoadMenuScene();
     }
 
+    public void HideQuitMenu()
+    {
+        quitMenu.SetActive(false);
+        Time.timeScale = 1; 
+    }
+
+    public void ReturnToMenu()
+    {
+        quitMenu.SetActive(false); 
+        loadingUI.SetActive(true);
+        Time.timeScale = 1; 
+        SceneSelectionManager.LoadMenuScene(); 
+    }
 
     public void Start()
     {
         // starts the overall game timer (players need to return to base before this runs out)
         timerOn = true;
         playerInSafeZone = false;
+        // add functions here that start the game 
+        // intro to game by pete vann (mini tutorial, etc) 
+        // fade to black then back to game view
+        // timer starts now
     }
 
     public void FixedUpdate()
