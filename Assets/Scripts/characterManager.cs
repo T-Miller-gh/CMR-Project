@@ -31,7 +31,8 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
-    public bool changeHorseBehavior = false;
+    public bool gameStarted = false; 
+    // public bool changeHorseBehavior = false;
 
     void OnEnable()
     {
@@ -41,6 +42,38 @@ public class characterManager : MonoBehaviour
     private void OnDisable()
     {
         menuInputActionReference.action.started -= MenuPressed;
+    }
+
+    private void Awake()
+    {
+        totalGameTime = 300;
+        gameTimeLeft = totalGameTime;
+    }
+
+    public void Start()
+    {
+        // starts the overall game timer (players need to return to base before this runs out)
+        gameStarted = true;
+        timerOn = true;
+        horsesCollected = 0;
+        // totalGameTime = 300; 
+        // gameTimeLeft = totalGameTime;
+
+        // add functions here that start the game 
+        // intro to game by pete vann (mini tutorial, etc) 
+        // fade to black then back to game view
+        // timer starts now
+    }
+
+    public void ResetGame()
+    {
+        timerOn = false;
+        gameStarted = false; 
+        playerInSafeZone = false;
+        allHorsesCollected = false;
+        horsesCollected = 0;
+        gameTimeLeft = 300;
+        totalGameTime = 300;
     }
 
     void MenuPressed(InputAction.CallbackContext context)
@@ -61,55 +94,51 @@ public class characterManager : MonoBehaviour
     {
         quitMenu.SetActive(false); 
         loadingUI.SetActive(true);
-        Time.timeScale = 1; 
-        SceneSelectionManager.LoadMenuScene(); 
-    }
+        Time.timeScale = 1;
 
-    public void Start()
-    {
-        // starts the overall game timer (players need to return to base before this runs out)
-        timerOn = true;
-        playerInSafeZone = false;
-        // add functions here that start the game 
-        // intro to game by pete vann (mini tutorial, etc) 
-        // fade to black then back to game view
-        // timer starts now
+        Destroy(gameObject);
+
+        ResetGame();
+        SceneSelectionManager.LoadMenuScene();
     }
 
     public void FixedUpdate()
     {
-        // checks if the game started, if so, it counts down
-        if(timerOn)
+        if (gameStarted)
         {
-            if(gameTimeLeft > 0)
+            // checks if the game started, if so, it counts down
+            if (timerOn)
             {
-                // gameTimeLeft -= Time.deltaTime;
-                gameProgress = 1f - (Time.time / totalGameTime); 
-                gameTimeLeft = totalGameTime - Time.time; 
-                updateTimer(gameTimeLeft);
-                updatePlayerParticles();
+                if (gameTimeLeft > 0)
+                {
+                    // gameTimeLeft -= Time.deltaTime;
+                    gameProgress = 1f - (Time.time / totalGameTime);
+                    gameTimeLeft = totalGameTime - Time.time;
+                    updateTimer(gameTimeLeft);
+                    updatePlayerParticles();
+                }
+                else
+                {
+                    // add game over functionality here 
+                }
             }
-            else
-            {
-                // add game over functionality here 
-            }
-        }
 
-        if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
-        {
-            // Debug.Log("You've won the game!");
-            gameTimerTxt.text = "You won!!";
-            horsesCapturedTxt.text = "You won!!";
-            // pauses the game, change this later
-            Time.timeScale = 0; 
-        }
-        else if(gameTimeLeft <= 0)
-        {
-            // Debug.Log("Game Over");
-            gameTimerTxt.text = "Game over";
-            horsesCapturedTxt.text = "Game over";
-            // pauses the game, change later; 
-            Time.timeScale = 0; 
+            if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
+            {
+                // Debug.Log("You've won the game!");
+                gameTimerTxt.text = "You won!!";
+                horsesCapturedTxt.text = "You won!!";
+                // pauses the game, change this later
+                Time.timeScale = 0;
+            }
+            else if (gameTimeLeft <= 0)
+            {
+                // Debug.Log("Game Over");
+                gameTimerTxt.text = "Game over";
+                horsesCapturedTxt.text = "Game over";
+                // pauses the game, change later; 
+                Time.timeScale = 0;
+            }
         }
     }
 

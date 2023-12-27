@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9062999964371891440}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8949248598215451627}
+        m_TargetAssemblyTypeName: characterManager, Assembly-CSharp
+        m_MethodName: ReturnToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1349498445613301800
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,15 +753,17 @@ MonoBehaviour:
   playerSnowParticles: {fileID: 4804805350795165355}
   gameTimerTxt: {fileID: 6973154251954451941}
   horsesCapturedTxt: {fileID: 5551538383155785482}
+  quitMenu: {fileID: 5075747340557659041}
+  loadingUI: {fileID: 8435909205715592155}
   horseCaptureTimer: 10
-  gameTimeLeft: 60
-  totalGameTime: 60
+  gameTimeLeft: 300
+  totalGameTime: 300
   horsesCollected: 0
   horseCount: 3
   timerOn: 0
   playerInSafeZone: 0
   allHorsesCollected: 0
-  changeHorseBehavior: 0
+  gameStarted: 0
 --- !u!1 &2172769631018000785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,7 +2504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5491262487615117829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2499,8 +2513,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5075747340557659041}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.6}
-  m_LocalScale: {x: 0.18723013, y: 0.18723013, z: 0.18723013}
+  m_LocalPosition: {x: 0, y: 0, z: 64.3}
+  m_LocalScale: {x: 0.35768443, y: 0.35768443, z: 0.35768443}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1145277469854061011}
@@ -2510,7 +2524,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.000047438}
+  m_AnchoredPosition: {x: -0, y: -0.00052181}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3882986542341966097
@@ -2805,7 +2819,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3519827720934341188}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8949248598215451627}
+        m_TargetAssemblyTypeName: characterManager, Assembly-CSharp
+        m_MethodName: HideQuitMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5290788340448691247
 GameObject:
   m_ObjectHideFlags: 0
