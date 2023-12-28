@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; 
 
 public class characterManager : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class characterManager : MonoBehaviour
     public GameObject loadingUI; 
 
     public float horseCaptureTimer;
-    public float gameTimeLeft = 300;
-    public float totalGameTime = 300;
+    float gameTimeLeft = 300;
+    float totalGameTime = 300;
     float gameProgress; 
     float maxParticleSize = 3f;
     float maxEmissionRate = 100f;
@@ -52,12 +53,19 @@ public class characterManager : MonoBehaviour
 
     public void Start()
     {
-        // starts the overall game timer (players need to return to base before this runs out)
-        gameStarted = true;
-        timerOn = true;
-        horsesCollected = 0;
-        // totalGameTime = 300; 
-        // gameTimeLeft = totalGameTime;
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            // starts the overall game timer (players need to return to base before this runs out)
+            gameStarted = true;
+            timerOn = true;
+            horsesCollected = 0;
+        }
+        else
+        {
+            gameStarted = false;
+            timerOn = false;
+            horsesCollected = 0; 
+        }
 
         // add functions here that start the game 
         // intro to game by pete vann (mini tutorial, etc) 
@@ -92,6 +100,7 @@ public class characterManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Debug.Log("returning to menu"); 
         quitMenu.SetActive(false); 
         loadingUI.SetActive(true);
         Time.timeScale = 1;
@@ -99,6 +108,7 @@ public class characterManager : MonoBehaviour
         Destroy(gameObject);
 
         ResetGame();
+        Debug.Log("Game reset"); 
         SceneSelectionManager.LoadMenuScene();
     }
 
@@ -111,11 +121,10 @@ public class characterManager : MonoBehaviour
             {
                 if (gameTimeLeft > 0)
                 {
-                    // gameTimeLeft -= Time.deltaTime;
-                    gameProgress = 1f - (Time.time / totalGameTime);
-                    gameTimeLeft = totalGameTime - Time.time;
+                    gameTimeLeft -= Time.deltaTime;
+                    gameProgress = 1f - (gameTimeLeft / totalGameTime);
                     updateTimer(gameTimeLeft);
-                    updatePlayerParticles();
+                    updatePlayerParticles(); 
                 }
                 else
                 {
@@ -144,17 +153,20 @@ public class characterManager : MonoBehaviour
 
     void updatePlayerParticles()
     {
-        var particleSize = playerSnowParticles.main;
-        var particleRateOverTime = playerSnowParticles.emission;
-        var particleSpeed = playerSnowParticles.velocityOverLifetime; 
+        if(timerOn)
+        {
+            var particleSize = playerSnowParticles.main;
+            var particleRateOverTime = playerSnowParticles.emission;
+            var particleSpeed = playerSnowParticles.velocityOverLifetime;
 
-        float newParticleSize = Mathf.Lerp(maxParticleSize, 0.03f, gameProgress);
-        float newParticleRate = Mathf.Lerp(maxEmissionRate, 10f, gameProgress);
-        float newParticleSpeed = Mathf.Lerp(maxParticleSpeed, 1f, gameProgress); 
+            float newParticleSize = Mathf.Lerp(0.03f, maxParticleSize, gameProgress);
+            float newParticleRate = Mathf.Lerp(10f, maxEmissionRate, gameProgress);
+            float newParticleSpeed = Mathf.Lerp(1f, maxParticleSpeed, gameProgress);
 
-        particleSize.startSize = newParticleSize;
-        particleRateOverTime.rateOverTime = newParticleRate;
-        particleSpeed.speedModifier = newParticleSpeed; 
+            particleSize.startSize = newParticleSize;
+            particleRateOverTime.rateOverTime = newParticleRate;
+            particleSpeed.speedModifier = newParticleSpeed;
+        }
     }
 
     // updates the UI text displaying timer time remaining
