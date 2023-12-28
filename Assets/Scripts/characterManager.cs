@@ -16,7 +16,9 @@ public class characterManager : MonoBehaviour
     public TextMeshProUGUI horsesCapturedTxt;
 
     public GameObject quitMenu;
-    public GameObject loadingUI; 
+    public GameObject loadingUI;
+    public GameObject youLoseUI;
+    public GameObject youWinUI; 
 
     public float horseCaptureTimer;
     float gameTimeLeft = 300;
@@ -47,25 +49,32 @@ public class characterManager : MonoBehaviour
 
     private void Awake()
     {
-        totalGameTime = 300;
+        totalGameTime = 90;
         gameTimeLeft = totalGameTime;
     }
 
     public void Start()
     {
-        if(SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            // starts the overall game timer (players need to return to base before this runs out)
-            gameStarted = true;
-            timerOn = true;
-            horsesCollected = 0;
-        }
-        else
-        {
-            gameStarted = false;
-            timerOn = false;
-            horsesCollected = 0; 
-        }
+        //if(SceneManager.GetActiveScene().buildIndex == 1)
+        //{
+        //    // starts the overall game timer (players need to return to base before this runs out)
+        //    gameStarted = true;
+        //    timerOn = true;
+        //    horsesCollected = 0;
+        //}
+        //else
+        //{
+        //    gameStarted = false;
+        //    timerOn = false;
+        //    horsesCollected = 0; 
+        //}
+
+        gameStarted = true;
+        timerOn = true;
+        horsesCollected = 0;
+
+        youWinUI.GetComponent<CanvasGroup>().alpha = 0;
+
 
         // add functions here that start the game 
         // intro to game by pete vann (mini tutorial, etc) 
@@ -134,6 +143,8 @@ public class characterManager : MonoBehaviour
 
             if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
             {
+                youWinUI.GetComponent<CanvasGroup>().alpha = 1; 
+
                 // Debug.Log("You've won the game!");
                 gameTimerTxt.text = "You won!!";
                 horsesCapturedTxt.text = "You won!!";
