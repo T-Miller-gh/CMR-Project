@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class characterManager : MonoBehaviour
 {
@@ -15,15 +16,18 @@ public class characterManager : MonoBehaviour
     public TextMeshProUGUI horsesCapturedTxt;
 
     public GameObject quitMenu;
-    public GameObject loadingUI; 
+    public GameObject loadingUI;
+    public CanvasGroup youLoseUI;
+    public CanvasGroup youWinUI; 
 
     public float horseCaptureTimer;
-    public float gameTimeLeft = 300;
-    public float totalGameTime = 300;
+    float gameTimeLeft = 300;
+    float totalGameTime = 300;
     float gameProgress; 
     float maxParticleSize = 3f;
     float maxEmissionRate = 100f;
-    float maxParticleSpeed = 5f; 
+    float maxParticleSpeed = 5f;
+    float fadeDuration = 2f; 
 
     public int horsesCollected;
     public int horseCount; 
@@ -46,18 +50,33 @@ public class characterManager : MonoBehaviour
 
     private void Awake()
     {
-        totalGameTime = 300;
+        totalGameTime = 90;
         gameTimeLeft = totalGameTime;
     }
 
     public void Start()
     {
-        // starts the overall game timer (players need to return to base before this runs out)
+        //if(SceneManager.GetActiveScene().buildIndex == 1)
+        //{
+        //    // starts the overall game timer (players need to return to base before this runs out)
+        //    gameStarted = true;
+        //    timerOn = true;
+        //    horsesCollected = 0;
+        //}
+        //else
+        //{
+        //    gameStarted = false;
+        //    timerOn = false;
+        //    horsesCollected = 0; 
+        //}
+
         gameStarted = true;
         timerOn = true;
         horsesCollected = 0;
-        // totalGameTime = 300; 
-        // gameTimeLeft = totalGameTime;
+
+        youWinUI.alpha = 0f;
+        youLoseUI.alpha = 0f; 
+
 
         // add functions here that start the game 
         // intro to game by pete vann (mini tutorial, etc) 
@@ -92,6 +111,7 @@ public class characterManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Debug.Log("returning to menu"); 
         quitMenu.SetActive(false); 
         loadingUI.SetActive(true);
         Time.timeScale = 1;
@@ -99,7 +119,16 @@ public class characterManager : MonoBehaviour
         Destroy(gameObject);
 
         ResetGame();
+        Debug.Log("Game reset"); 
         SceneSelectionManager.LoadMenuScene();
+    }
+
+    public void RestartGame()
+    {
+        Destroy(gameObject); 
+        ResetGame();
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1; 
     }
 
     public void FixedUpdate()
@@ -111,11 +140,10 @@ public class characterManager : MonoBehaviour
             {
                 if (gameTimeLeft > 0)
                 {
-                    // gameTimeLeft -= Time.deltaTime;
-                    gameProgress = 1f - (Time.time / totalGameTime);
-                    gameTimeLeft = totalGameTime - Time.time;
+                    gameTimeLeft -= Time.deltaTime;
+                    gameProgress = 1f - (gameTimeLeft / totalGameTime);
                     updateTimer(gameTimeLeft);
-                    updatePlayerParticles();
+                    updatePlayerParticles(); 
                 }
                 else
                 {
@@ -125,6 +153,9 @@ public class characterManager : MonoBehaviour
 
             if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
             {
+                StartCoroutine(FadeInYouWinUI());  
+                // youWinUI.GetComponent<CanvasGroup>().alpha = 1; 
+
                 // Debug.Log("You've won the game!");
                 gameTimerTxt.text = "You won!!";
                 horsesCapturedTxt.text = "You won!!";
@@ -134,6 +165,7 @@ public class characterManager : MonoBehaviour
             else if (gameTimeLeft <= 0)
             {
                 // Debug.Log("Game Over");
+                StartCoroutine(FadeInYouLoseUI()); 
                 gameTimerTxt.text = "Game over";
                 horsesCapturedTxt.text = "Game over";
                 // pauses the game, change later; 
@@ -142,19 +174,61 @@ public class characterManager : MonoBehaviour
         }
     }
 
+    // systems for fading in UI when player either wins or loses game
+    IEnumerator FadeInYouWinUI()
+    {
+        // Debug.Log("I am within the coroutine"); 
+        float elapsedTime = 0f;
+        float startAlpha = 0f;
+        float targetAlpha = 1f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            youWinUI.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+            // Debug.Log("im within the while loop"); 
+        }
+
+        youWinUI.alpha = targetAlpha;
+    }
+
+    IEnumerator FadeInYouLoseUI()
+    {
+        // Debug.Log("I am within the coroutine");
+
+        float elapsedTime = 0f;
+        float startAlpha = 0f;
+        float targetAlpha = 1f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            youLoseUI.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+            // Debug.Log("im within the while loop");
+        }
+
+        youLoseUI.alpha = targetAlpha;
+    }
+
+    // increases the intensity of snow as the game time gets closer to 0
     void updatePlayerParticles()
     {
-        var particleSize = playerSnowParticles.main;
-        var particleRateOverTime = playerSnowParticles.emission;
-        var particleSpeed = playerSnowParticles.velocityOverLifetime; 
+        if(timerOn)
+        {
+            var particleSize = playerSnowParticles.main;
+            var particleRateOverTime = playerSnowParticles.emission;
+            var particleSpeed = playerSnowParticles.velocityOverLifetime;
 
-        float newParticleSize = Mathf.Lerp(maxParticleSize, 0.03f, gameProgress);
-        float newParticleRate = Mathf.Lerp(maxEmissionRate, 10f, gameProgress);
-        float newParticleSpeed = Mathf.Lerp(maxParticleSpeed, 1f, gameProgress); 
+            float newParticleSize = Mathf.Lerp(0.03f, maxParticleSize, gameProgress);
+            float newParticleRate = Mathf.Lerp(10f, maxEmissionRate, gameProgress);
+            float newParticleSpeed = Mathf.Lerp(1f, maxParticleSpeed, gameProgress);
 
-        particleSize.startSize = newParticleSize;
-        particleRateOverTime.rateOverTime = newParticleRate;
-        particleSpeed.speedModifier = newParticleSpeed; 
+            particleSize.startSize = newParticleSize;
+            particleRateOverTime.rateOverTime = newParticleRate;
+            particleSpeed.speedModifier = newParticleSpeed;
+        }
     }
 
     // updates the UI text displaying timer time remaining
