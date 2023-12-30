@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 public class SceneSelectionManager : MonoBehaviour
 {
-    [SerializeField] private InputActionReference menuInputActionReference; 
+    // [SerializeField] private InputActionReference menuInputActionReference; 
 
     public delegate void ButtonClickMethod(); 
     Dictionary<string, ButtonClickMethod> buttonDictionay = new Dictionary<string, ButtonClickMethod>();

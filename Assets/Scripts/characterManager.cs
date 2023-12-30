@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class characterManager : MonoBehaviour
 {
@@ -17,8 +17,8 @@ public class characterManager : MonoBehaviour
 
     public GameObject quitMenu;
     public GameObject loadingUI;
-    public GameObject youLoseUI;
-    public GameObject youWinUI; 
+    public CanvasGroup youLoseUI;
+    public CanvasGroup youWinUI; 
 
     public float horseCaptureTimer;
     float gameTimeLeft = 300;
@@ -26,7 +26,8 @@ public class characterManager : MonoBehaviour
     float gameProgress; 
     float maxParticleSize = 3f;
     float maxEmissionRate = 100f;
-    float maxParticleSpeed = 5f; 
+    float maxParticleSpeed = 5f;
+    float fadeDuration = 2f; 
 
     public int horsesCollected;
     public int horseCount; 
@@ -73,7 +74,8 @@ public class characterManager : MonoBehaviour
         timerOn = true;
         horsesCollected = 0;
 
-        youWinUI.GetComponent<CanvasGroup>().alpha = 0;
+        youWinUI.alpha = 0f;
+        youLoseUI.alpha = 0f; 
 
 
         // add functions here that start the game 
@@ -121,6 +123,14 @@ public class characterManager : MonoBehaviour
         SceneSelectionManager.LoadMenuScene();
     }
 
+    public void RestartGame()
+    {
+        Destroy(gameObject); 
+        ResetGame();
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1; 
+    }
+
     public void FixedUpdate()
     {
         if (gameStarted)
@@ -143,7 +153,8 @@ public class characterManager : MonoBehaviour
 
             if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
             {
-                youWinUI.GetComponent<CanvasGroup>().alpha = 1; 
+                StartCoroutine(FadeInYouWinUI());  
+                // youWinUI.GetComponent<CanvasGroup>().alpha = 1; 
 
                 // Debug.Log("You've won the game!");
                 gameTimerTxt.text = "You won!!";
@@ -154,6 +165,7 @@ public class characterManager : MonoBehaviour
             else if (gameTimeLeft <= 0)
             {
                 // Debug.Log("Game Over");
+                StartCoroutine(FadeInYouLoseUI()); 
                 gameTimerTxt.text = "Game over";
                 horsesCapturedTxt.text = "Game over";
                 // pauses the game, change later; 
@@ -162,6 +174,45 @@ public class characterManager : MonoBehaviour
         }
     }
 
+    // systems for fading in UI when player either wins or loses game
+    IEnumerator FadeInYouWinUI()
+    {
+        // Debug.Log("I am within the coroutine"); 
+        float elapsedTime = 0f;
+        float startAlpha = 0f;
+        float targetAlpha = 1f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            youWinUI.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+            // Debug.Log("im within the while loop"); 
+        }
+
+        youWinUI.alpha = targetAlpha;
+    }
+
+    IEnumerator FadeInYouLoseUI()
+    {
+        // Debug.Log("I am within the coroutine");
+
+        float elapsedTime = 0f;
+        float startAlpha = 0f;
+        float targetAlpha = 1f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            youLoseUI.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+            // Debug.Log("im within the while loop");
+        }
+
+        youLoseUI.alpha = targetAlpha;
+    }
+
+    // increases the intensity of snow as the game time gets closer to 0
     void updatePlayerParticles()
     {
         if(timerOn)
