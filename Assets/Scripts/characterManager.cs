@@ -2,22 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class characterManager : MonoBehaviour
 {
+    [SerializeField] private InputActionReference menuInputActionReference;
+
     public ParticleSystem playerSnowParticles; 
 
     public TextMeshProUGUI gameTimerTxt;
     public TextMeshProUGUI horsesCapturedTxt;
 
+    public GameObject quitMenu;
+    public GameObject loadingUI;
+    public CanvasGroup youLoseUI;
+    public CanvasGroup youWinUI; 
+
     public float horseCaptureTimer;
-    public float gameTimeLeft = 300;
-    public float totalGameTime = 300;
+    float gameTimeLeft = 300;
+    float totalGameTime = 300;
     float gameProgress; 
     float maxParticleSize = 3f;
     float maxEmissionRate = 100f;
-    float maxParticleSpeed = 5f; 
+    float maxParticleSpeed = 5f;
+    float fadeDuration = 2f; 
 
     public int horsesCollected;
     public int horseCount; 
@@ -25,65 +35,200 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
-    public bool changeHorseBehavior = false; 
+    public bool gameStarted = false; 
+    // public bool changeHorseBehavior = false;
+
+    void OnEnable()
+    {
+        menuInputActionReference.action.started += MenuPressed;
+    }
+
+    private void OnDisable()
+    {
+        menuInputActionReference.action.started -= MenuPressed;
+    }
+
+    private void Awake()
+    {
+        totalGameTime = 90;
+        gameTimeLeft = totalGameTime;
+    }
 
     public void Start()
     {
-        // starts the overall game timer (players need to return to base before this runs out)
+        //if(SceneManager.GetActiveScene().buildIndex == 1)
+        //{
+        //    // starts the overall game timer (players need to return to base before this runs out)
+        //    gameStarted = true;
+        //    timerOn = true;
+        //    horsesCollected = 0;
+        //}
+        //else
+        //{
+        //    gameStarted = false;
+        //    timerOn = false;
+        //    horsesCollected = 0; 
+        //}
+
+        gameStarted = true;
         timerOn = true;
+        horsesCollected = 0;
+
+        youWinUI.alpha = 0f;
+        youLoseUI.alpha = 0f; 
+
+
+        // add functions here that start the game 
+        // intro to game by pete vann (mini tutorial, etc) 
+        // fade to black then back to game view
+        // timer starts now
+    }
+
+    public void ResetGame()
+    {
+        timerOn = false;
+        gameStarted = false; 
         playerInSafeZone = false;
+        allHorsesCollected = false;
+        horsesCollected = 0;
+        gameTimeLeft = 300;
+        totalGameTime = 300;
+    }
+
+    void MenuPressed(InputAction.CallbackContext context)
+    {
+        Time.timeScale = 0; 
+        quitMenu.SetActive(true); 
+        // Debug.Log("Menu pressed");
+        // SceneSelectionManager.LoadMenuScene();
+    }
+
+    public void HideQuitMenu()
+    {
+        quitMenu.SetActive(false);
+        Time.timeScale = 1; 
+    }
+
+    public void ReturnToMenu()
+    {
+        Debug.Log("returning to menu"); 
+        quitMenu.SetActive(false); 
+        loadingUI.SetActive(true);
+        Time.timeScale = 1;
+
+        Destroy(gameObject);
+
+        ResetGame();
+        Debug.Log("Game reset"); 
+        SceneSelectionManager.LoadMenuScene();
+    }
+
+    public void RestartGame()
+    {
+        Destroy(gameObject); 
+        ResetGame();
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1; 
     }
 
     public void FixedUpdate()
     {
-        // checks if the game started, if so, it counts down
-        if(timerOn)
+        if (gameStarted)
         {
-            if(gameTimeLeft > 0)
+            // checks if the game started, if so, it counts down
+            if (timerOn)
             {
-                // gameTimeLeft -= Time.deltaTime;
-                gameProgress = 1f - (Time.time / totalGameTime); 
-                gameTimeLeft = totalGameTime - Time.time; 
-                updateTimer(gameTimeLeft);
-                updatePlayerParticles();
+                if (gameTimeLeft > 0)
+                {
+                    gameTimeLeft -= Time.deltaTime;
+                    gameProgress = 1f - (gameTimeLeft / totalGameTime);
+                    updateTimer(gameTimeLeft);
+                    updatePlayerParticles(); 
+                }
+                else
+                {
+                    // add game over functionality here 
+                }
             }
-            else
-            {
-                // add game over functionality here 
-            }
-        }
 
-        if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
-        {
-            // Debug.Log("You've won the game!");
-            gameTimerTxt.text = "You won!!";
-            horsesCapturedTxt.text = "You won!!";
-            // pauses the game, change this later
-            Time.timeScale = 0; 
-        }
-        else if(gameTimeLeft <= 0)
-        {
-            // Debug.Log("Game Over");
-            gameTimerTxt.text = "Game over";
-            horsesCapturedTxt.text = "Game over";
-            // pauses the game, change later; 
-            Time.timeScale = 0; 
+            if (playerInSafeZone && allHorsesCollected && gameTimeLeft > 0)
+            {
+                StartCoroutine(FadeInYouWinUI());  
+                // youWinUI.GetComponent<CanvasGroup>().alpha = 1; 
+
+                // Debug.Log("You've won the game!");
+                gameTimerTxt.text = "You won!!";
+                horsesCapturedTxt.text = "You won!!";
+                // pauses the game, change this later
+                Time.timeScale = 0;
+            }
+            else if (gameTimeLeft <= 0)
+            {
+                // Debug.Log("Game Over");
+                StartCoroutine(FadeInYouLoseUI()); 
+                gameTimerTxt.text = "Game over";
+                horsesCapturedTxt.text = "Game over";
+                // pauses the game, change later; 
+                Time.timeScale = 0;
+            }
         }
     }
 
+    // systems for fading in UI when player either wins or loses game
+    IEnumerator FadeInYouWinUI()
+    {
+        // Debug.Log("I am within the coroutine"); 
+        float elapsedTime = 0f;
+        float startAlpha = 0f;
+        float targetAlpha = 1f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            youWinUI.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+            // Debug.Log("im within the while loop"); 
+        }
+
+        youWinUI.alpha = targetAlpha;
+    }
+
+    IEnumerator FadeInYouLoseUI()
+    {
+        // Debug.Log("I am within the coroutine");
+
+        float elapsedTime = 0f;
+        float startAlpha = 0f;
+        float targetAlpha = 1f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            youLoseUI.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+            // Debug.Log("im within the while loop");
+        }
+
+        youLoseUI.alpha = targetAlpha;
+    }
+
+    // increases the intensity of snow as the game time gets closer to 0
     void updatePlayerParticles()
     {
-        var particleSize = playerSnowParticles.main;
-        var particleRateOverTime = playerSnowParticles.emission;
-        var particleSpeed = playerSnowParticles.velocityOverLifetime; 
+        if(timerOn)
+        {
+            var particleSize = playerSnowParticles.main;
+            var particleRateOverTime = playerSnowParticles.emission;
+            var particleSpeed = playerSnowParticles.velocityOverLifetime;
 
-        float newParticleSize = Mathf.Lerp(maxParticleSize, 0.03f, gameProgress);
-        float newParticleRate = Mathf.Lerp(maxEmissionRate, 10f, gameProgress);
-        float newParticleSpeed = Mathf.Lerp(maxParticleSpeed, 1f, gameProgress); 
+            float newParticleSize = Mathf.Lerp(0.03f, maxParticleSize, gameProgress);
+            float newParticleRate = Mathf.Lerp(10f, maxEmissionRate, gameProgress);
+            float newParticleSpeed = Mathf.Lerp(1f, maxParticleSpeed, gameProgress);
 
-        particleSize.startSize = newParticleSize;
-        particleRateOverTime.rateOverTime = newParticleRate;
-        particleSpeed.speedModifier = newParticleSpeed; 
+            particleSize.startSize = newParticleSize;
+            particleRateOverTime.rateOverTime = newParticleRate;
+            particleSpeed.speedModifier = newParticleSpeed;
+        }
     }
 
     // updates the UI text displaying timer time remaining
