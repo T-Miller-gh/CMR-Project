@@ -5274,6 +5274,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572748774}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &596847224 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8691088660895360728, guid: 4888a55005327484d8610ce3af43141c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1836326187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &803999372
 GameObject:
   m_ObjectHideFlags: 0
@@ -6128,6 +6134,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691088660895360728, guid: 4888a55005327484d8610ce3af43141c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691088660895360728, guid: 4888a55005327484d8610ce3af43141c,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
+        type: 3}
+      propertyPath: horseAnim
+      value: 
+      objectReference: {fileID: 596847224}
+    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
+        type: 3}
+      propertyPath: movementInputSource
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
