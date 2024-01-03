@@ -192,19 +192,28 @@ public class characterManager : MonoBehaviour
             if (thumbstickVertical > 0)
             {
                 Debug.Log("Thumbstick pushed forward: " + thumbstickVertical);
-                horseAnim.SetFloat("isWalkingForwards", 1f); 
-                
+                horseAnim.SetBool("isWalkingForward", true);
+                horseAnim.SetBool("isWalkingBackward", false); 
+                // horseAnim.SetFloat("isWalkingForwards", 1f); 
+
             }
             else if(thumbstickVertical < 0)
             {
                 Debug.Log("thumbstick pushed backwards: " + thumbstickVertical);
-                horseAnim.SetFloat("isWalkingBackwards", -1f); 
+                horseAnim.SetBool("isWalkingBackward", true); 
+                horseAnim.SetBool("isWalkingForward", false);
+                // horseAnim.SetBool("isWalkingBackward", true);
+                // horseAnim.SetFloat("isWalkingBackwards", -1f); 
             }
-            else
-            {
-                horseAnim.SetFloat("isWalkingForwards", 0f);
-                horseAnim.SetFloat("isWalkingBackwards", 0f); 
-            }
+
+        }
+        else
+        {
+            horseAnim.SetBool("isWalkingForward", false);
+            horseAnim.SetBool("isWalkingBackward", false); 
+            // horseAnim.SetBool("isWalkingBackward", false);
+            // horseAnim.SetFloat("isWalkingForwards", 0f);
+            // horseAnim.SetFloat("isWalkingBackwards", 0f); 
         }
 
         //InputTracking.GetNodeStates(nodeStates);
