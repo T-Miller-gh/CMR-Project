@@ -1437,9 +1437,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuInputActionReference: {fileID: -2863247274097042417, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
-  movementInputSource: 0
+  movementInputSource: 6
   playerSnowParticles: {fileID: 4804805350795165355}
-  horseAnim: {fileID: 0}
+  horseAnim: {fileID: 8691088660895360728}
   gameTimerTxt: {fileID: 6973154251954451941}
   horsesCapturedTxt: {fileID: 5551538383155785482}
   quitMenu: {fileID: 5075747340557659041}
@@ -11422,7 +11422,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8789252612792631508}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 08833823dcb6f6a4aa8960343557aba6, type: 3}
   m_Controller: {fileID: 9100000, guid: 742e5a408496a864cb5d50a1f15c50d3, type: 2}
   m_CullingMode: 1
