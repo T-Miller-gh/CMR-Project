@@ -192,18 +192,18 @@ public class characterManager : MonoBehaviour
             if (thumbstickVertical > 0)
             {
                 Debug.Log("Thumbstick pushed forward: " + thumbstickVertical);
-                horseAnim.SetFloat("isWalkingForwards", thumbstickVertical); 
+                horseAnim.SetFloat("isWalkingForwards", 1f); 
                 
             }
             else if(thumbstickVertical < 0)
             {
                 Debug.Log("thumbstick pushed backwards: " + thumbstickVertical);
-                horseAnim.SetFloat("isWalkingBackwards", thumbstickVertical); 
+                horseAnim.SetFloat("isWalkingBackwards", -1f); 
             }
             else
             {
-                horseAnim.SetFloat("isWalkingForwards", thumbstickVertical);
-                horseAnim.SetFloat("isWalkingBackwards", thumbstickVertical); 
+                horseAnim.SetFloat("isWalkingForwards", 0f);
+                horseAnim.SetFloat("isWalkingBackwards", 0f); 
             }
         }
 
