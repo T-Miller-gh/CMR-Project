@@ -10,7 +10,8 @@ using UnityEngine.XR;
 public class characterManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference menuInputActionReference;
-    public XRNode movementInputSource;
+    public XRNode leftMovementInputSource;
+    public XRNode rightMovementInputSource; 
     float threshold = 0.5f; 
 
     List<XRNodeState> nodeStates = new List<XRNodeState>();
@@ -182,24 +183,25 @@ public class characterManager : MonoBehaviour
             }
         }
 
-        InputTracking.GetNodeStates(nodeStates);
-        XRNodeState state = nodeStates.Find(s => s.nodeType == movementInputSource); 
+        //InputTracking.GetNodeStates(nodeStates);
+        //XRNodeState state = nodeStates.Find(s => s.nodeType == movementInputSource); 
 
-        float thumbstickVertical = Input.GetAxis("Vertical");
+        float leftThumbstickVertical = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical");
+        float rightThumbstickHorizontal = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal"); 
 
-        if (Mathf.Abs(thumbstickVertical) > threshold)
+        if (Mathf.Abs(leftThumbstickVertical) > threshold)
         {
-            if (thumbstickVertical > 0)
+            if (leftThumbstickVertical > 0)
             {
-                Debug.Log("Thumbstick pushed forward: " + thumbstickVertical);
+                Debug.Log("Thumbstick pushed forward: " + leftThumbstickVertical);
                 horseAnim.SetBool("isWalkingForward", true);
-                horseAnim.SetBool("isWalkingBackward", false); 
+                horseAnim.SetBool("isWalkingBackward", false);
                 // horseAnim.SetFloat("isWalkingForwards", 1f); 
 
             }
-            else if(thumbstickVertical < 0)
+            else if(leftThumbstickVertical < 0)
             {
-                Debug.Log("thumbstick pushed backwards: " + thumbstickVertical);
+                Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
                 horseAnim.SetBool("isWalkingBackward", true); 
                 horseAnim.SetBool("isWalkingForward", false);
                 // horseAnim.SetBool("isWalkingBackward", true);
@@ -211,6 +213,35 @@ public class characterManager : MonoBehaviour
         {
             horseAnim.SetBool("isWalkingForward", false);
             horseAnim.SetBool("isWalkingBackward", false); 
+            // horseAnim.SetBool("isWalkingBackward", false);
+            // horseAnim.SetFloat("isWalkingForwards", 0f);
+            // horseAnim.SetFloat("isWalkingBackwards", 0f); 
+        }
+
+        if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
+        {
+            if (rightThumbstickHorizontal > 0)
+            {
+                Debug.Log("Thumbstick pushed right: " + rightThumbstickHorizontal);
+                horseAnim.SetBool("isTurningRight", true);
+                horseAnim.SetBool("isTurningLeft", false);
+                // horseAnim.SetFloat("isWalkingForwards", 1f); 
+
+            }
+            else if (rightThumbstickHorizontal < 0)
+            {
+                Debug.Log("thumbstick pushed left: " + rightThumbstickHorizontal);
+                horseAnim.SetBool("isTurningLeft", true);
+                horseAnim.SetBool("isTurningRight", false);
+                // horseAnim.SetBool("isWalkingBackward", true);
+                // horseAnim.SetFloat("isWalkingBackwards", -1f); 
+            }
+
+        }
+        else
+        {
+            horseAnim.SetBool("isTurningRight", false);
+            horseAnim.SetBool("isTurningLeft", false);
             // horseAnim.SetBool("isWalkingBackward", false);
             // horseAnim.SetFloat("isWalkingForwards", 0f);
             // horseAnim.SetFloat("isWalkingBackwards", 0f); 
