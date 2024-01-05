@@ -5632,6 +5632,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fakeHorse
       objectReference: {fileID: 0}
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
       propertyPath: player
@@ -6129,16 +6134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin (XR Rig)
       objectReference: {fileID: 0}
-    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: leftMovementInputSource
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: rightMovementInputSource
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6231,6 +6226,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fakeHorse (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
       propertyPath: player
@@ -6308,6 +6308,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fakeHorse
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4710398929102085149, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
@@ -6419,6 +6424,11 @@ PrefabInstance:
       objectReference: {fileID: 1836326189}
     - target: {fileID: 6532646518523085727, guid: 7dd65181fe7d31d45864d4ee5ea65059,
         type: 3}
+      propertyPath: looseHorseAnim
+      value: 
+      objectReference: {fileID: 7649573504586756258}
+    - target: {fileID: 6532646518523085727, guid: 7dd65181fe7d31d45864d4ee5ea65059,
+        type: 3}
       propertyPath: characterManagerScript
       value: 
       objectReference: {fileID: 1836326188}
@@ -6430,7 +6440,7 @@ PrefabInstance:
     - target: {fileID: 7371925517533500515, guid: 7dd65181fe7d31d45864d4ee5ea65059,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.07
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 7371925517533500515, guid: 7dd65181fe7d31d45864d4ee5ea65059,
         type: 3}
@@ -6474,7 +6484,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7689764228240752192, guid: 7dd65181fe7d31d45864d4ee5ea65059,
         type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 08833823dcb6f6a4aa8960343557aba6, type: 3}
+    - target: {fileID: 7689764228240752192, guid: 7dd65181fe7d31d45864d4ee5ea65059,
+        type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7689764228240752192, guid: 7dd65181fe7d31d45864d4ee5ea65059,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9d309894f43a7014e8da11af6923695e, type: 2}
+    - target: {fileID: 7689764228240752192, guid: 7dd65181fe7d31d45864d4ee5ea65059,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6482,6 +6507,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dd65181fe7d31d45864d4ee5ea65059, type: 3}
+--- !u!95 &7649573504586756258 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7689764228240752192, guid: 7dd65181fe7d31d45864d4ee5ea65059,
+    type: 3}
+  m_PrefabInstance: {fileID: 7649573504586756257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8977195349447993170
 PrefabInstance:
   m_ObjectHideFlags: 0

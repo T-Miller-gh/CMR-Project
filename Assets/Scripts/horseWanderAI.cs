@@ -8,7 +8,8 @@ public class horseWanderAI : MonoBehaviour
     // all assigned IN EDITOR
     public characterManager characterManagerScript;
     public Transform player;
-    public NavMeshAgent nav; 
+    public NavMeshAgent nav;
+    public Animator looseHorseAnim; 
 
     private float moveSpeed = 3f;
     private float rotSpeed = 70f;
@@ -48,19 +49,29 @@ public class horseWanderAI : MonoBehaviour
         // if this is true (set in the coroutine) rotate right
         if (isRotatingRight == true)
         {
+            looseHorseAnim.SetBool("isTurningRight", true);
             transform.Rotate(transform.up * rotSpeed * Time.deltaTime);
         }
 
         // if this is true (set in the coroutine) rotate left
         if (isRotatingLeft == true)
         {
+            looseHorseAnim.SetBool("isTurningLeft", true);
             transform.Rotate(transform.up * -rotSpeed * Time.deltaTime);
         }
 
         // if this is true (set in the coroutine) walk forward
         if(isWalking == true)
         {
+            looseHorseAnim.SetBool("isWalkingForward", true);
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        }
+
+        if(!isWalking && !isRotatingLeft && !isRotatingRight)
+        {
+            looseHorseAnim.SetBool("isWalkingForward", false);
+            looseHorseAnim.SetBool("isTurningLeft", false);
+            looseHorseAnim.SetBool("isTurningRight", false); 
         }
     }
 
@@ -93,19 +104,31 @@ public class horseWanderAI : MonoBehaviour
         if (rotateLorR == 1)
         {
             isRotatingRight = true;
-        }
             yield return new WaitForSeconds(rotTime);
-        { 
-            isRotatingLeft = false;
-        }
-        if (rotateLorR == 2)
-        {
-            isRotatingLeft = true;
-        }
-            yield return new WaitForSeconds(rotTime);
-        { 
             isRotatingRight = false;
         }
+        else if (rotateLorR == 2)
+        {
+            isRotatingLeft = true;
+            yield return new WaitForSeconds(rotTime);
+            isRotatingLeft = false;
+        }
+        //if (rotateLorR == 1)
+        //{
+        //    isRotatingRight = true;
+        //}
+        //    yield return new WaitForSeconds(rotTime);
+        //{ 
+        //    isRotatingLeft = false;
+        //}
+        //if (rotateLorR == 2)
+        //{
+        //    isRotatingLeft = true;
+        //}
+        //    yield return new WaitForSeconds(rotTime);
+        //{ 
+        //    isRotatingRight = false;
+        //}
         // stops AI from wandering again so the cycle can start all over (in fixed update)
         isWandering = false;
     }
@@ -114,11 +137,15 @@ public class horseWanderAI : MonoBehaviour
     {
         // set movSpeed and rotSpeed to zero so horse has no independant movemant after it has been captured
         moveSpeed = 0f;
-        rotSpeed = 0f; 
+        rotSpeed = 0f;
+        // float distanceThreshold = 2f; 
         // turn on navMesh Agent
         nav.enabled = true; 
         // set destination of horse to player position (adjust stopping distance and such IN EDITOR)
         nav.SetDestination(player.position);
 
+        looseHorseAnim.SetBool("isWalkingForward", true);   
+
+        // looseHorseAnim.SetBool("isWalkingForward", false); 
     }
 }
