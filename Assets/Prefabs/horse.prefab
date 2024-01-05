@@ -434,6 +434,7 @@ MonoBehaviour:
   characterManagerScript: {fileID: 0}
   player: {fileID: 0}
   nav: {fileID: 9015441341789229183}
+  looseHorseAnim: {fileID: 0}
   isCaught: 0
   scriptCommunicationTest: 1
 --- !u!195 &9015441341789229183
@@ -818,9 +819,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3145229808098267582}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -2.4275848e-27, z: -1.2851925e-27, w: 0.7071067}
-  m_LocalPosition: {x: 1.1994119e-25, y: -0.000000045299533, z: 0.00000004529952}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalRotation: {x: 0.7071069, y: -2.427585e-27, z: -1.2851926e-27, w: 0.70710677}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.009999998, z: 0.009999998}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7371925517533500515}
