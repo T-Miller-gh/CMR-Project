@@ -20,7 +20,7 @@ public class horseWanderAI : MonoBehaviour
     private bool isWalking = false;
     public bool isCaught = false; 
 
-    public bool scriptCommunicationTest = true; 
+    public bool startedFollowingAlready = false; 
 
 
     // Start is called before the first frame update
@@ -32,13 +32,33 @@ public class horseWanderAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        // this bool is set to true in characterManger.cs
-        if (isCaught == true)
+        if(isCaught /*&& !startedFollowingAlready*/)
         {
-            // stop the horse custom horse AI, enable NavMeshAgent
             StopAllCoroutines();
             startFollowingPlayer();
+            // isCaught = true;
+            startedFollowingAlready = true; 
         }
+
+        // this bool is set to true in characterManger.cs
+        //if (isCaught)
+        //{
+        //    // stop the horse custom horse AI, enable NavMeshAgent
+        //    // StopAllCoroutines();
+        //    // startFollowingPlayer();
+
+        //    float distanceThreshold = 2f;
+
+        //    if (nav.remainingDistance <= (nav.stoppingDistance + distanceThreshold))
+        //    {
+        //        looseHorseAnim.SetBool("isWalkingForward", false);
+
+        //    }
+        //    else
+        //    {
+        //        looseHorseAnim.SetBool("isWalkingForward", true);
+        //    }
+        //}
 
         // if the horse isn't wandering already, start the wandering process
         if (isWandering == false)
@@ -144,8 +164,20 @@ public class horseWanderAI : MonoBehaviour
         // set destination of horse to player position (adjust stopping distance and such IN EDITOR)
         nav.SetDestination(player.position);
 
-        looseHorseAnim.SetBool("isWalkingForward", true);   
+        // Check if the horse is initially moving
+        //if (nav.velocity.magnitude > 0)
+        //{
+        //    looseHorseAnim.SetBool("isWalkingForward", true);
+        //}
+        //else
+        //{
+        //    looseHorseAnim.SetBool("isWalkingForward", false);
+        //}
 
-        // looseHorseAnim.SetBool("isWalkingForward", false); 
+        // looseHorseAnim.Rebind();
+
+        looseHorseAnim.Play("DefaultState"); 
+
+         
     }
 }
