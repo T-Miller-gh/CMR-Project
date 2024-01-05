@@ -406,12 +406,12 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812856431456402616}
-  m_Enabled: 0
-  m_Avatar: {fileID: 9000000, guid: a3624164232db7542b15701151ce8860, type: 3}
-  m_Controller: {fileID: 9100000, guid: 742e5a408496a864cb5d50a1f15c50d3, type: 2}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 08833823dcb6f6a4aa8960343557aba6, type: 3}
+  m_Controller: {fileID: 9100000, guid: 9d309894f43a7014e8da11af6923695e, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -434,7 +434,7 @@ MonoBehaviour:
   characterManagerScript: {fileID: 0}
   player: {fileID: 0}
   nav: {fileID: 9015441341789229183}
-  looseHorseAnim: {fileID: 0}
+  looseHorseAnim: {fileID: 7689764228240752192}
   isCaught: 0
   scriptCommunicationTest: 1
 --- !u!195 &9015441341789229183
