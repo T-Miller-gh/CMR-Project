@@ -5,18 +5,28 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR; 
 
 public class characterManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference menuInputActionReference;
+    public XRNode leftMovementInputSource;
+    public XRNode rightMovementInputSource; 
+    float threshold = 0.5f; 
+
+    List<XRNodeState> nodeStates = new List<XRNodeState>();
+    Vector3 lastPosition; 
 
     public ParticleSystem playerSnowParticles; 
+
+    public Animator horseAnim; 
 
     public TextMeshProUGUI gameTimerTxt;
     public TextMeshProUGUI horsesCapturedTxt;
 
     public GameObject quitMenu;
     public GameObject loadingUI;
+
     public CanvasGroup youLoseUI;
     public CanvasGroup youWinUI; 
 
@@ -172,6 +182,87 @@ public class characterManager : MonoBehaviour
                 Time.timeScale = 0;
             }
         }
+
+        //InputTracking.GetNodeStates(nodeStates);
+        //XRNodeState state = nodeStates.Find(s => s.nodeType == movementInputSource); 
+
+        float leftThumbstickVertical = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical");
+        float rightThumbstickHorizontal = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal"); 
+
+        if (Mathf.Abs(leftThumbstickVertical) > threshold)
+        {
+            if (leftThumbstickVertical > 0)
+            {
+                Debug.Log("Thumbstick pushed forward: " + leftThumbstickVertical);
+                horseAnim.SetBool("isWalkingForward", true);
+                horseAnim.SetBool("isWalkingBackward", false);
+                // horseAnim.SetFloat("isWalkingForwards", 1f); 
+
+            }
+            else if(leftThumbstickVertical < 0)
+            {
+                Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
+                horseAnim.SetBool("isWalkingBackward", true); 
+                horseAnim.SetBool("isWalkingForward", false);
+                // horseAnim.SetBool("isWalkingBackward", true);
+                // horseAnim.SetFloat("isWalkingBackwards", -1f); 
+            }
+
+        }
+        else
+        {
+            horseAnim.SetBool("isWalkingForward", false);
+            horseAnim.SetBool("isWalkingBackward", false); 
+            // horseAnim.SetBool("isWalkingBackward", false);
+            // horseAnim.SetFloat("isWalkingForwards", 0f);
+            // horseAnim.SetFloat("isWalkingBackwards", 0f); 
+        }
+
+        if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
+        {
+            if (rightThumbstickHorizontal > 0)
+            {
+                Debug.Log("Thumbstick pushed right: " + rightThumbstickHorizontal);
+                horseAnim.SetBool("isTurningRight", true);
+                horseAnim.SetBool("isTurningLeft", false);
+                // horseAnim.SetFloat("isWalkingForwards", 1f); 
+
+            }
+            else if (rightThumbstickHorizontal < 0)
+            {
+                Debug.Log("thumbstick pushed left: " + rightThumbstickHorizontal);
+                horseAnim.SetBool("isTurningLeft", true);
+                horseAnim.SetBool("isTurningRight", false);
+                // horseAnim.SetBool("isWalkingBackward", true);
+                // horseAnim.SetFloat("isWalkingBackwards", -1f); 
+            }
+
+        }
+        else
+        {
+            horseAnim.SetBool("isTurningRight", false);
+            horseAnim.SetBool("isTurningLeft", false);
+            // horseAnim.SetBool("isWalkingBackward", false);
+            // horseAnim.SetFloat("isWalkingForwards", 0f);
+            // horseAnim.SetFloat("isWalkingBackwards", 0f); 
+        }
+
+        //InputTracking.GetNodeStates(nodeStates);
+        //foreach (XRNodeState state in nodeStates)
+        //{
+        //    /*
+        //    Vector3 currentPosition;
+        //    if(state.TryGetPosition(out currentPosition))
+        //    {
+        //        float speed = (currentPosition - lastPosition).magnitude / Time.deltaTime;
+
+        //        lastPosition = currentPosition; 
+        //    }
+        //    break; 
+        //    */
+        //}
+
+        // Debug.Log("Players last position: " + lastPosition); 
     }
 
     // systems for fading in UI when player either wins or loses game
