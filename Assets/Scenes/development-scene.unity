@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 493bfb50af5d9424da505ba945c86600, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.0000508379, g: 0.00006613617, b: 0.14466785, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5632,6 +5632,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fakeHorse
       objectReference: {fileID: 0}
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
       propertyPath: player
@@ -5968,6 +5973,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: bar
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a200d9b9d5ecd2e4ba6b545ee85cdb0e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2654713335656134247, guid: a200d9b9d5ecd2e4ba6b545ee85cdb0e,
         type: 3}
       propertyPath: m_IsActive
@@ -6137,7 +6147,7 @@ PrefabInstance:
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.39
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
@@ -6221,6 +6231,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: fakeHorse (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7173020459753883763, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
       propertyPath: player
@@ -6298,6 +6313,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: fakeHorse
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621967858948952794, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4710398929102085149, guid: ef38fbbcd4d9f5349afb1fddcfb96f75,
         type: 3}
@@ -6420,7 +6440,7 @@ PrefabInstance:
     - target: {fileID: 7371925517533500515, guid: 7dd65181fe7d31d45864d4ee5ea65059,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.07
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 7371925517533500515, guid: 7dd65181fe7d31d45864d4ee5ea65059,
         type: 3}
