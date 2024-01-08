@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2241391353681945216}
   - component: {fileID: 1364561158817735693}
   - component: {fileID: 3373253071652243635}
+  - component: {fileID: 4673810348490546653}
   m_Layer: 0
   m_Name: Terrain_0_0_ba74bf6f-0a30-4603-ad50-3312bf046ebe
   m_TagString: Untagged
@@ -92,6 +93,37 @@ TerrainCollider:
   serializedVersion: 2
   m_TerrainData: {fileID: 15600000, guid: 4adf987bd7932084ca189cc15b4323f4, type: 2}
   m_EnableTreeColliders: 1
+--- !u!114 &4673810348490546653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559410636410203971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: e7df6649e034bc9408fbeb5aa6418b03, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &5451908055519660779
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +138,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5303986290795132426
 Transform:
@@ -138,7 +170,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4578022307367626823
 Transform:
