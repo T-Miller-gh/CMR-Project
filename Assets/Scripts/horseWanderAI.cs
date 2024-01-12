@@ -100,11 +100,11 @@ public class horseWanderAI : MonoBehaviour
         // rot time is amount of time capsule will be rotating
         int rotTime = Random.Range(1, 3);
         // rot wait is amount of time between capsule rotations
-        int rotWait = Random.Range(1, 4);
+        int rotWait = Random.Range(3, 10);
         // this determines whether or not it is going to rotate left or right (basically a bool)
-        int rotateLorR = Random.Range(1, 2);
+        int rotateLorR = Random.Range(1, 3);
         // amount of time between walking
-        int walkWait = Random.Range(1, 4);
+        int walkWait = Random.Range(3, 10);
         // amount of time it will be walking
         int walkTime = Random.Range(1, 5);
 
