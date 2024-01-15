@@ -72,7 +72,8 @@ public class SceneSelectionManager : MonoBehaviour
         gameDescriptionText.text = "The cowboys are in need of rest after a long days work, but someone needs to stay " +
             "up and watch the horses during the night, and herd them in if necessary. Can you do it? Can you brave the " +
             "cold and be the night wrangler?";
-        sceneSelection = 1; 
+        // loading cutscene scene (level_main for nightwrangler game is loaded in CutscenePlayer.cs) 
+        sceneSelection = 2; 
         playBtn.SetActive(true); 
     }
 
@@ -100,6 +101,8 @@ public class SceneSelectionManager : MonoBehaviour
                 return "menu";
             case 1:
                 return "Level_main";
+            case 2:
+                return "cutscene";
             default:
                 Debug.LogWarning("invalid scene selection");
                 return "menu"; 
