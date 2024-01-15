@@ -73,7 +73,7 @@ public class CutscenePlayer : MonoBehaviour
         else
         {
             // If this was the last dialogue element, load the next scene
-            SceneManager.LoadScene("NextScene");
+            SceneManager.LoadScene("Level_main");
         }
     }
 
