@@ -10,8 +10,11 @@ using UnityEngine.XR;
 public class characterManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference menuInputActionReference;
+    [SerializeField] private InputActionReference primaryButtonReference;
+
     public XRNode leftMovementInputSource;
     public XRNode rightMovementInputSource; 
+
     float threshold = 0.5f; 
 
     List<XRNodeState> nodeStates = new List<XRNodeState>();
@@ -28,7 +31,13 @@ public class characterManager : MonoBehaviour
     public GameObject loadingUI;
 
     public CanvasGroup youLoseUI;
-    public CanvasGroup youWinUI; 
+    public CanvasGroup youWinUI;
+    public CanvasGroup introUI;
+
+    public Image peteImage;
+    public TextMeshProUGUI[] dialogue;
+    int currentIndex = 0;
+    int lastIndex = 0;
 
     public float horseCaptureTimer;
     float gameTimeLeft = 300;
@@ -45,17 +54,20 @@ public class characterManager : MonoBehaviour
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
-    public bool gameStarted = false; 
+    public bool gameStarted = false;
+    bool throughCutscene = false; 
     // public bool changeHorseBehavior = false;
 
     void OnEnable()
     {
         menuInputActionReference.action.started += MenuPressed;
+        primaryButtonReference.action.started += PrimaryButtonPressed; 
     }
 
     private void OnDisable()
     {
         menuInputActionReference.action.started -= MenuPressed;
+        primaryButtonReference.action.started -= PrimaryButtonPressed; 
     }
 
     private void Awake()
@@ -79,14 +91,21 @@ public class characterManager : MonoBehaviour
         //    timerOn = false;
         //    horsesCollected = 0; 
         //}
+        Time.timeScale = 0; 
 
-        gameStarted = true;
-        timerOn = true;
-        horsesCollected = 0;
+        StartCoroutine(StartCutscene()); 
 
-        youWinUI.alpha = 0f;
-        youLoseUI.alpha = 0f; 
+        //if(throughCutscene == true)
+        //{
+        //    Debug.Log("game should have started"); 
+        //    Time.timeScale = 1; 
+        //    gameStarted = true;
+        //    timerOn = true;
+        //    horsesCollected = 0;
 
+        //    youWinUI.alpha = 0f;
+        //    youLoseUI.alpha = 0f;
+        //}
 
         // add functions here that start the game 
         // intro to game by pete vann (mini tutorial, etc) 
@@ -126,7 +145,7 @@ public class characterManager : MonoBehaviour
         loadingUI.SetActive(true);
         Time.timeScale = 1;
 
-        Destroy(gameObject);
+        // Destroy(gameObject);
 
         ResetGame();
         Debug.Log("Game reset"); 
@@ -135,7 +154,7 @@ public class characterManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Destroy(gameObject); 
+        // Destroy(gameObject); 
         ResetGame();
         SceneManager.LoadScene(1);
         Time.timeScale = 1; 
@@ -143,6 +162,17 @@ public class characterManager : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (throughCutscene)
+        {
+            // Debug.Log("game should have started");
+            gameStarted = true;
+            timerOn = true;
+            horsesCollected = 0;
+
+            youWinUI.alpha = 0f;
+            youLoseUI.alpha = 0f;
+        }
+
         if (gameStarted)
         {
             // checks if the game started, if so, it counts down
@@ -246,23 +276,6 @@ public class characterManager : MonoBehaviour
             // horseAnim.SetFloat("isWalkingForwards", 0f);
             // horseAnim.SetFloat("isWalkingBackwards", 0f); 
         }
-
-        //InputTracking.GetNodeStates(nodeStates);
-        //foreach (XRNodeState state in nodeStates)
-        //{
-        //    /*
-        //    Vector3 currentPosition;
-        //    if(state.TryGetPosition(out currentPosition))
-        //    {
-        //        float speed = (currentPosition - lastPosition).magnitude / Time.deltaTime;
-
-        //        lastPosition = currentPosition; 
-        //    }
-        //    break; 
-        //    */
-        //}
-
-        // Debug.Log("Players last position: " + lastPosition); 
     }
 
     // systems for fading in UI when player either wins or loses game
@@ -388,4 +401,99 @@ public class characterManager : MonoBehaviour
         }
     }
 
+    // CUTSCENE CODE ALL BELOW
+
+    void PrimaryButtonPressed(InputAction.CallbackContext context)
+    {
+        Debug.Log("primary button pressed");
+
+        // Check if there are more dialogue elements
+        if (currentIndex < dialogue.Length - 1)
+        {
+            // Increment the index to switch to the next dialogue
+            currentIndex++;
+            lastIndex = currentIndex - 1;
+
+            // Start the fade-in for the new dialogue element
+            StartCoroutine(FadeInText(dialogue[currentIndex]));
+            if (currentIndex > 0)
+            {
+                StartCoroutine(FadeOutText(dialogue[0]));
+            }
+
+            if (lastIndex < currentIndex)
+            {
+                StartCoroutine(FadeOutText(dialogue[lastIndex]));
+            }
+        }
+        else
+        {
+            Debug.Log("start game now");
+            throughCutscene = true;
+            Time.timeScale = 1;
+            Debug.Log(throughCutscene); 
+            StartCoroutine(FadeOutIntro(introUI)); 
+        }
+    }
+
+    IEnumerator StartCutscene()
+    {
+        yield return StartCoroutine(FadeIn(peteImage));
+
+        yield return StartCoroutine(FadeInText(dialogue[0]));
+    }
+
+    IEnumerator FadeIn(Image image)
+    {
+        CanvasGroup canvasGroup = image.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = image.gameObject.AddComponent<CanvasGroup>();
+        }
+
+        canvasGroup.alpha = 0;
+
+        while (canvasGroup.alpha < 1)
+        {
+            canvasGroup.alpha += Time.unscaledDeltaTime / 2; // Adjust the speed of fade-in
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeInText(TextMeshProUGUI text)
+    {
+        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
+
+        // Reset the alpha to 0 for the current text
+        canvasGroup.alpha = 0;
+
+        // Fade in the current text
+        while (canvasGroup.alpha < 1)
+        {
+            canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-in
+
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeOutText(TextMeshProUGUI text)
+    {
+        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
+
+        // Fade out the text
+        while (canvasGroup.alpha > 0)
+        {
+            canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-out
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeOutIntro(CanvasGroup canvasGroup)
+    {
+        while(canvasGroup.alpha > 0)
+        {
+            canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration;
+            yield return null; 
+        }
+    }
 }
