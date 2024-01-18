@@ -29,6 +29,9 @@ public class characterManager : MonoBehaviour
 
     public GameObject quitMenu;
     public GameObject loadingUI;
+    public GameObject youLoseUIGO;
+    public GameObject youWinUIGO;
+    public GameObject introUIGO; 
 
     public CanvasGroup youLoseUI;
     public CanvasGroup youWinUI;
@@ -73,7 +76,7 @@ public class characterManager : MonoBehaviour
 
     private void Awake()
     {
-        totalGameTime = 90;
+        totalGameTime = 300;
         gameTimeLeft = totalGameTime;
     }
 
@@ -92,6 +95,10 @@ public class characterManager : MonoBehaviour
         //    timerOn = false;
         //    horsesCollected = 0; 
         //}
+        youLoseUIGO.SetActive(false);
+        youWinUIGO.SetActive(false); 
+        introUIGO.SetActive(true); 
+
         Time.timeScale = 0; 
 
         StartCoroutine(StartCutscene()); 
@@ -198,8 +205,8 @@ public class characterManager : MonoBehaviour
                 // youWinUI.GetComponent<CanvasGroup>().alpha = 1; 
 
                 // Debug.Log("You've won the game!");
-                gameTimerTxt.text = "You won!!";
-                horsesCapturedTxt.text = "You won!!";
+                gameTimerTxt.text = "";
+                horsesCapturedTxt.text = "";
                 // pauses the game, change this later
                 Time.timeScale = 0;
             }
@@ -207,8 +214,8 @@ public class characterManager : MonoBehaviour
             {
                 // Debug.Log("Game Over");
                 StartCoroutine(FadeInYouLoseUI()); 
-                gameTimerTxt.text = "Game over";
-                horsesCapturedTxt.text = "Game over";
+                gameTimerTxt.text = "";
+                horsesCapturedTxt.text = "";
                 // pauses the game, change later; 
                 Time.timeScale = 0;
             }
@@ -282,6 +289,8 @@ public class characterManager : MonoBehaviour
     // systems for fading in UI when player either wins or loses game
     IEnumerator FadeInYouWinUI()
     {
+        youWinUIGO.SetActive(true); 
+
         // Debug.Log("I am within the coroutine"); 
         float elapsedTime = 0f;
         float startAlpha = 0f;
@@ -300,6 +309,7 @@ public class characterManager : MonoBehaviour
 
     IEnumerator FadeInYouLoseUI()
     {
+        youLoseUIGO.SetActive(true); 
         // Debug.Log("I am within the coroutine");
 
         float elapsedTime = 0f;
@@ -494,7 +504,8 @@ public class characterManager : MonoBehaviour
         while(canvasGroup.alpha > 0)
         {
             canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration;
-            yield return null; 
+            yield return null;
+            introUIGO.SetActive(false); 
         }
     }
 }

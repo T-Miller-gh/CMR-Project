@@ -710,7 +710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0001898714, y: 0.8}
+  m_AnchoredPosition: {x: -0.0001898714, y: -1.7999997}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2229913573496988399
@@ -969,7 +969,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457538013849132957}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.217}
+  m_LocalPosition: {x: 0, y: 0, z: 0.29}
   m_LocalScale: {x: 0.010052, y: 0.010052, z: 0.010052}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -982,7 +982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0083, y: -0.00000047684}
+  m_AnchoredPosition: {x: 0.008, y: -0.00000047684}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4646375146203788790
@@ -1330,9 +1330,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Alright, now, here\u2019s what you gotta do. You're gonna ride out and 
-    find those horse\u2026looks we are missing 3. To catch em, you're gonna lead
-    your horse right next to em, and try to stay close by for around 5 seconds. "
+  m_text: "Alright, now, here\u2019s what you gotta do. You're gonna ride out and
+    find those horse\u2026looks like we are missing 3. To catch em, you're gonna
+    lead your horse right next to em, and they should be yours! "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e0aa4c44d9d89ad4da5847d678e612dd, type: 2}
   m_sharedMaterial: {fileID: 5466075280945093131, guid: e0aa4c44d9d89ad4da5847d678e612dd,
@@ -1686,6 +1686,9 @@ MonoBehaviour:
   horsesCapturedTxt: {fileID: 5551538383155785482}
   quitMenu: {fileID: 5075747340557659041}
   loadingUI: {fileID: 8435909205715592155}
+  youLoseUIGO: {fileID: 2846378638798316074}
+  youWinUIGO: {fileID: 5862293281343021482}
+  introUIGO: {fileID: 7913974568644780505}
   youLoseUI: {fileID: 4780788753086549352}
   youWinUI: {fileID: 1669307534878164930}
   introUI: {fileID: 2755576085910657796}
@@ -1693,9 +1696,9 @@ MonoBehaviour:
   dialogue:
   - {fileID: 3459226903266203724}
   - {fileID: 1219115501589399388}
-  horseCaptureTimer: 10
+  horseCaptureTimer: 0
   horsesCollected: 0
-  horseCount: 3
+  horseCount: 1
   timerOn: 0
   playerInSafeZone: 0
   allHorsesCollected: 0
@@ -2379,7 +2382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6742694225918200435
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2388,8 +2391,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2846378638798316074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 18.1}
+  m_LocalScale: {x: 1.5392, y: 1.5392, z: 1.5392}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 320838711837005744}
@@ -2399,7 +2402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.00003858, y: -3.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3547117600726783125
@@ -2448,7 +2451,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2846378638798316074}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -2834,16 +2837,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4099559190734851256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0895757, y: 0.089599, z: 0.089599}
+  m_LocalPosition: {x: 0, y: 0, z: 13.92}
+  m_LocalScale: {x: 0.13787492, y: 0.13791077, z: 0.13791077}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3846335960689576404}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.08, y: -0.6}
-  m_SizeDelta: {x: 291.5, y: 100}
+  m_AnchoredPosition: {x: -0.621, y: -0.6}
+  m_SizeDelta: {x: 263.269, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5350279893613839179
 CanvasRenderer:
@@ -3698,7 +3701,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.5, y: 24.6}
+  m_AnchoredPosition: {x: -0.5, y: 22}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2140409481349582925
@@ -4972,7 +4975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Time remaining: 1:30'
+  m_text: 'Time remaining: 5:00'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5488,7 +5491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1961269772765611828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5497,8 +5500,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862293281343021482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 20.597}
+  m_LocalScale: {x: 1.5038, y: 1.5038, z: 1.5038}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3679850303134879789}
@@ -5507,7 +5510,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.25188, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1968231029711535104
@@ -5556,7 +5559,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862293281343021482}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -6090,7 +6093,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -11515,7 +11518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3846335960689576404
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11986,7 +11989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.669922, y: -3.02}
+  m_AnchoredPosition: {x: 16.669922, y: -2.14}
   m_SizeDelta: {x: 49.52, y: 12.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4484595139273452788
@@ -12084,7 +12087,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 20.625473, w: 3.9709785}
+  m_margin: {x: 0, y: 0, z: 25.67427, w: 3.9709785}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
