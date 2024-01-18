@@ -49,32 +49,43 @@ public class CutscenePlayer : MonoBehaviour
     {
         Debug.Log("primary button pressed");
 
-        Debug.Log("primary button pressed");
-
         // Check if there are more dialogue elements
         if (currentIndex < dialogue.Length - 1)
         {
             // Increment the index to switch to the next dialogue
             currentIndex++;
-            lastIndex = currentIndex - 1; 
+            lastIndex = currentIndex - 1;
+
+            StartCoroutine(HandleFading()); 
 
             // Start the fade-in for the new dialogue element
-            StartCoroutine(FadeInText(dialogue[currentIndex]));
-            if(currentIndex > 0)
-            {
-                StartCoroutine(FadeOutText(dialogue[0]));
-            }
+            //StartCoroutine(FadeInText(dialogue[currentIndex]));
+
+
+            //if(currentIndex > 0)
+            //{
+            //    StartCoroutine(FadeOutText(dialogue[0]));
+            //}
             
-            if(lastIndex < currentIndex)
-            {
-                StartCoroutine(FadeOutText(dialogue[lastIndex])); 
-            }
+            //if(lastIndex < currentIndex)
+            //{
+            //    StartCoroutine(FadeOutText(dialogue[lastIndex])); 
+            //}
         }
         else
         {
             // If this was the last dialogue element, load the next scene
             SceneManager.LoadScene("Level_main");
         }
+    }
+
+    IEnumerator HandleFading()
+    {
+        StartCoroutine(FadeOutText(dialogue[lastIndex]));
+
+        yield return new WaitForSeconds(fadeDuration);
+
+        StartCoroutine(FadeInText(dialogue[currentIndex]));
     }
 
     public void HideQuitMenu()
