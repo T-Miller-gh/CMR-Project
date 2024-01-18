@@ -55,7 +55,8 @@ public class characterManager : MonoBehaviour
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
     public bool gameStarted = false;
-    bool throughCutscene = false; 
+    bool throughCutscene = false;
+    bool isFading = false; 
     // public bool changeHorseBehavior = false;
 
     void OnEnable()
@@ -414,7 +415,7 @@ public class characterManager : MonoBehaviour
             currentIndex++;
             lastIndex = currentIndex - 1;
 
-            // Start the fade-in for the new dialogue element
+            // Start the fade -in for the new dialogue element
             StartCoroutine(FadeInText(dialogue[currentIndex]));
             if (currentIndex > 0)
             {
