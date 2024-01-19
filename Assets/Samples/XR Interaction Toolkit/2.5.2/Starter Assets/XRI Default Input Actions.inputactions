@@ -2613,6 +2613,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "goToGame",
+                    "type": "Button",
+                    "id": "2782b6d0-a866-48aa-a2db-8abe85ff5525",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2624,6 +2633,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "goToMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97d275e1-b4a8-4305-ab37-82c645d6a9fd",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "goToGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
