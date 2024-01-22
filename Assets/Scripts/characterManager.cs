@@ -51,7 +51,7 @@ public class characterManager : MonoBehaviour
     float maxParticleSpeed = 5f;
     float fadeDuration = 2f; 
 
-    public int horsesCollected;
+    public int horsesCollected = 0;
     public int horseCount; 
 
     public bool timerOn = false;
@@ -175,7 +175,7 @@ public class characterManager : MonoBehaviour
             // Debug.Log("game should have started");
             gameStarted = true;
             timerOn = true;
-            horsesCollected = 0;
+            // horsesCollected = 0;
 
             youWinUI.alpha = 0f;
             youLoseUI.alpha = 0f;
@@ -371,25 +371,56 @@ public class characterManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "horse")
         {
-            // get the script off the horse you are capturing
-            horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
-
-            horseCaptureTimer -= Time.deltaTime;
-
-            // if the player stays in the horses radius until 0 seconds, they catch it
-            if (horseCaptureTimer <= 0)
+            if (other.tag == "horse")
             {
-                horseCounter();
-                horseCaptureTimer = 10;
+                // get the script off the horse you are capturing
+                horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
 
-                // change that horses behavior within it's script
-                horseScript.isCaught = true; 
+                // horseCaptureTimer -= Time.deltaTime;
+
+                // if the player stays in the horses radius until 0 seconds, they catch it
+                //if (horseCaptureTimer <= 0)
+                //{
+                //    horseCounter();
+                //    horseCaptureTimer = 10;
+
+                //    // change that horses behavior within it's script
+                //    horseScript.isCaught = true; 
+                //}
+                if(!horseScript.isCaught)
+                {
+                    horseCounter();
+                    horseScript.isCaught = true;
+                }
+
             }
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //if(other.tag == "horse")
+        //{
+        //    // get the script off the horse you are capturing
+        //    horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
+
+        //    // horseCaptureTimer -= Time.deltaTime;
+
+        //    // if the player stays in the horses radius until 0 seconds, they catch it
+        //    //if (horseCaptureTimer <= 0)
+        //    //{
+        //    //    horseCounter();
+        //    //    horseCaptureTimer = 10;
+
+        //    //    // change that horses behavior within it's script
+        //    //    horseScript.isCaught = true; 
+        //    //}
+        //    horseCounter();
+        //    horseScript.isCaught = true; 
+        //}
 
         // check if player is in safe zone, this has to be active in order for player to win
         if (other.tag == "safeZone")
