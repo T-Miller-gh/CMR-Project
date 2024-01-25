@@ -148,18 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686e7018ca39d2142aae00798710f922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &403337075 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6534875032931939274, guid: 4888a55005327484d8610ce3af43141c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1906039381}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bf296fc962d7184ab14ad1841598d5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &604262235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2915403158851067286, guid: 7076ab5c3ec95ec438f4f7b45c8d2e51,
@@ -395,11 +383,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin (XR Rig)
       objectReference: {fileID: 0}
-    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: playerXrMovementSpeed
-      value: 
-      objectReference: {fileID: 403337075}
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: m_LocalPosition.x

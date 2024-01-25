@@ -251,6 +251,7 @@ public class characterManager : MonoBehaviour
                 // Debug.Log("Thumbstick pushed forward: " + leftThumbstickVertical);
                 horseAnim.SetBool("isWalkingForward", false);
                 horseAnim.SetBool("isWalkingBackward", true);
+                playerXrMovementSpeed.moveSpeed = 2.5f; 
             }
             else if(leftThumbstickVertical < 0)
             {
@@ -260,12 +261,17 @@ public class characterManager : MonoBehaviour
 
                 if (Input.GetButton("XRI_Left_GripButton"))
                 {
-                    // add animation logic here
+                    horseAnim.SetBool("isGalloping", true);
+                    horseAnim.SetBool("isWalkingForward", false);
+                    horseAnim.SetBool("isWalkingBackward", false); 
                     playerXrMovementSpeed.moveSpeed = 5f; 
                 }
                 else
                 {
                     // add animation logic here
+                    horseAnim.SetBool("isWalkingForward", true);
+                    horseAnim.SetBool("isGalloping", false);
+                    horseAnim.SetBool("isWalkingBackward", false); 
                     playerXrMovementSpeed.moveSpeed = 2.5f; 
                 }
             }
@@ -274,7 +280,8 @@ public class characterManager : MonoBehaviour
         else
         {
             horseAnim.SetBool("isWalkingForward", false);
-            horseAnim.SetBool("isWalkingBackward", false); 
+            horseAnim.SetBool("isWalkingBackward", false);
+            horseAnim.SetBool("isGalloping", false); 
         }
 
         if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
