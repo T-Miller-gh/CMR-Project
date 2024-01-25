@@ -41,6 +41,11 @@ public class characterManager : MonoBehaviour
     public CanvasGroup introUI;
 
     public Image peteImage;
+    public TextMeshProUGUI textComponent;
+    public string[] dialogueLines;
+    public float textSpeed; 
+    int index; 
+
     public TextMeshProUGUI[] dialogue;
     int currentIndex = 0;
     int lastIndex = 0;
@@ -102,8 +107,9 @@ public class characterManager : MonoBehaviour
         youWinUIGO.SetActive(false); 
         introUIGO.SetActive(true); 
 
-        Time.timeScale = 0; 
+        Time.timeScale = 0;
 
+        textComponent.text = string.Empty; 
         StartCoroutine(StartCutscene()); 
 
         //if(throughCutscene == true)
@@ -158,6 +164,7 @@ public class characterManager : MonoBehaviour
 
         // Destroy(gameObject);
 
+        StopAllCoroutines(); 
         ResetGame();
         Debug.Log("Game reset"); 
         SceneSelectionManager.LoadMenuScene();
@@ -166,6 +173,7 @@ public class characterManager : MonoBehaviour
     public void RestartGame()
     {
         // Destroy(gameObject); 
+        StopAllCoroutines(); 
         ResetGame();
         SceneManager.LoadScene(1);
         Time.timeScale = 1; 
@@ -471,40 +479,81 @@ public class characterManager : MonoBehaviour
     {
         Debug.Log("primary button pressed");
 
-        // Check if there are more dialogue elements
-        if (currentIndex < dialogue.Length - 1)
+        if (textComponent.text == dialogueLines[index])
         {
-            // Increment the index to switch to the next dialogue
-            currentIndex++;
-            lastIndex = currentIndex - 1;
+            NextLine();
+        }
+        else
+        {
+            StopAllCoroutines();
+            textComponent.text = dialogueLines[index];
+        }
 
-            // Start the fade -in for the new dialogue element
-            StartCoroutine(FadeInText(dialogue[currentIndex]));
-            if (currentIndex > 0)
-            {
-                StartCoroutine(FadeOutText(dialogue[0]));
-            }
+        //// Check if there are more dialogue elements
+        //if (currentIndex < dialogue.Length - 1)
+        //{
+        //    // Increment the index to switch to the next dialogue
+        //    currentIndex++;
+        //    lastIndex = currentIndex - 1;
 
-            if (lastIndex < currentIndex)
-            {
-                StartCoroutine(FadeOutText(dialogue[lastIndex]));
-            }
+        //    // Start the fade -in for the new dialogue element
+        //    StartCoroutine(FadeInText(dialogue[currentIndex]));
+        //    if (currentIndex > 0)
+        //    {
+        //        StartCoroutine(FadeOutText(dialogue[0]));
+        //    }
+
+        //    if (lastIndex < currentIndex)
+        //    {
+        //        StartCoroutine(FadeOutText(dialogue[lastIndex]));
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("start game now");
+        //    throughCutscene = true;
+        //    Time.timeScale = 1;
+        //    Debug.Log(throughCutscene); 
+        //    StartCoroutine(FadeOutIntro(introUI)); 
+        //}
+    }
+
+    IEnumerator StartCutscene()
+    {
+        yield return StartCoroutine(FadeIn(peteImage));
+        index = 0;
+        Debug.Log("past fadeimage" + index);
+        StartCoroutine(TypeLine());
+        // yield return StartCoroutine(FadeInText(dialogue[0]));
+    }
+
+    IEnumerator TypeLine()
+    {
+        Debug.Log("within type line");
+        foreach (char c in dialogueLines[index].ToCharArray())
+        {
+            Debug.Log("within foreach");
+            textComponent.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < dialogueLines.Length - 1)
+        {
+            index++;
+            textComponent.text = string.Empty;
+            StartCoroutine(TypeLine());
         }
         else
         {
             Debug.Log("start game now");
             throughCutscene = true;
             Time.timeScale = 1;
-            Debug.Log(throughCutscene); 
-            StartCoroutine(FadeOutIntro(introUI)); 
+            Debug.Log(throughCutscene);
+            StartCoroutine(FadeOutIntro(introUI));
         }
-    }
-
-    IEnumerator StartCutscene()
-    {
-        yield return StartCoroutine(FadeIn(peteImage));
-
-        yield return StartCoroutine(FadeInText(dialogue[0]));
     }
 
     IEnumerator FadeIn(Image image)
@@ -524,33 +573,33 @@ public class characterManager : MonoBehaviour
         }
     }
 
-    IEnumerator FadeInText(TextMeshProUGUI text)
-    {
-        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
+    //IEnumerator FadeInText(TextMeshProUGUI text)
+    //{
+    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
 
-        // Reset the alpha to 0 for the current text
-        canvasGroup.alpha = 0;
+    //    // Reset the alpha to 0 for the current text
+    //    canvasGroup.alpha = 0;
 
-        // Fade in the current text
-        while (canvasGroup.alpha < 1)
-        {
-            canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-in
+    //    // Fade in the current text
+    //    while (canvasGroup.alpha < 1)
+    //    {
+    //        canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-in
 
-            yield return null;
-        }
-    }
+    //        yield return null;
+    //    }
+    //}
 
-    IEnumerator FadeOutText(TextMeshProUGUI text)
-    {
-        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
+    //IEnumerator FadeOutText(TextMeshProUGUI text)
+    //{
+    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
 
-        // Fade out the text
-        while (canvasGroup.alpha > 0)
-        {
-            canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-out
-            yield return null;
-        }
-    }
+    //    // Fade out the text
+    //    while (canvasGroup.alpha > 0)
+    //    {
+    //        canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-out
+    //        yield return null;
+    //    }
+    //}
 
     IEnumerator FadeOutIntro(CanvasGroup canvasGroup)
     {
