@@ -4,8 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; 
-
+using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR;
 
 public class SceneSelectionManager : MonoBehaviour
 {
@@ -21,10 +22,18 @@ public class SceneSelectionManager : MonoBehaviour
     public int sceneSelection = 0;
 
     public GameObject loadingScreen;
-    float loadingDelay = 2.0f; 
+    float loadingDelay = 2.0f;
+
+    private UnityEngine.XR.InputDevice leftController;
+    private UnityEngine.XR.InputDevice rightController;
+
+    bool leftFound = false;
+    bool rightFound = false;
 
     void Start()
     {
+        StartCoroutine(CheckForControllersRoutine());
+
         Button nightWranglerPlay = nightwranglerBtn.GetComponent<Button>();
         Button playGameBtn = playBtn.GetComponent<Button>();
         playBtn.SetActive(false);
@@ -34,9 +43,62 @@ public class SceneSelectionManager : MonoBehaviour
         // buttonDictionay["menu"] = LoadMenuScene;
 
         nightWranglerPlay.onClick.AddListener(() => OnButtonClick("nightwrangler"));
-        playGameBtn.onClick.AddListener(() => OnButtonClick("play")); 
+        playGameBtn.onClick.AddListener(() => OnButtonClick("play"));
     }
 
+    IEnumerator CheckForControllersRoutine()
+    {
+        bool controllersFound = false;
+
+        while (!controllersFound)
+        {
+            CheckForControllers();
+
+            // Check if controllers are found
+            if (leftFound && rightFound)
+            {
+                controllersFound = true;
+            }
+            else
+            {
+                // Wait for a short duration before checking again
+                yield return new WaitForSeconds(1.0f);
+            }
+        }
+
+        // Controllers found, continue with your logic
+        Debug.Log("Controllers found!");
+    }
+
+    public void CheckForControllers()
+    {
+        bool xrControllerFound = false;
+
+        List<UnityEngine.XR.InputDevice> leftHandDevices = new List<UnityEngine.XR.InputDevice>();
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left, leftHandDevices);
+
+        if (leftHandDevices.Count > 0)
+        {
+            xrControllerFound = true;
+            leftFound = true;
+        }
+
+        List<UnityEngine.XR.InputDevice> rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right, rightHandDevices);
+        if (rightHandDevices.Count > 0)
+        {
+            xrControllerFound = true;
+            rightFound = true;
+        }
+
+        if (!xrControllerFound)
+        {
+            // deal with this
+        }
+
+        //leftController.SetActive(leftFound);
+        //rightController.SetActive(rightFound);
+    }
 
     public void OnButtonClick(string buttonName)
     {

@@ -1410,7 +1410,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619915117478222996}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1678,8 +1678,7 @@ MonoBehaviour:
     type: 3}
   primaryButtonReference: {fileID: 2956074260459399776, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
-  leftMovementInputSource: 6
-  rightMovementInputSource: 6
+  playerXrMovementSpeed: {fileID: 6534875032931939274}
   playerSnowParticles: {fileID: 4804805350795165355}
   horseAnim: {fileID: 8691088660895360728}
   gameTimerTxt: {fileID: 6973154251954451941}
@@ -1693,12 +1692,22 @@ MonoBehaviour:
   youWinUI: {fileID: 1669307534878164930}
   introUI: {fileID: 2755576085910657796}
   peteImage: {fileID: 2953184815655061363}
+  textComponent: {fileID: 3459226903266203724}
+  dialogueLines:
+  - "Alright, now, here\u2019s what you gotta do. You're gonna ride out and find
+    those horse\u2026looks like we are missing 3. To catch em, you're gonna lead
+    your horse right next to em, and they should be yours! "
+  - "Once you\u2019ve gathered all the horses, head back to camp. Keep in mind that
+    there\u2019s a storm coming. See that timer on your left wrist? Yeah, that\u2019s
+    how much time you got. The storm will close in and become a whiteout the closer
+    that number gets down to zero. Godspeed. "
+  textSpeed: 0
   dialogue:
   - {fileID: 3459226903266203724}
   - {fileID: 1219115501589399388}
   horseCaptureTimer: 0
   horsesCollected: 0
-  horseCount: 1
+  horseCount: 3
   timerOn: 0
   playerInSafeZone: 0
   allHorsesCollected: 0
@@ -11924,15 +11933,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8789252612792631508}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.018201945, z: -0, w: 0.9998344}
-  m_LocalPosition: {x: 0.007168837, y: -0.929, z: -0.06298558}
+  m_LocalRotation: {x: -0, y: -0.005604654, z: -0, w: 0.9999843}
+  m_LocalPosition: {x: 0.00335709, y: -0.9289999, z: -0.06310868}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1009570827130522352}
   - {fileID: 2230295453437018919}
   m_Father: {fileID: 9030457514872782280}
-  m_LocalEulerAnglesHint: {x: 0, y: 2.086, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -0.642, z: 0}
 --- !u!95 &8691088660895360728
 Animator:
   serializedVersion: 5

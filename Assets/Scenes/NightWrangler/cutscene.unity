@@ -141,6 +141,19 @@ MonoBehaviour:
     type: 3}
   introCutsceneUI: {fileID: 0}
   peteImage: {fileID: 1368569415}
+  textComponent: {fileID: 1631605732}
+  dialogueLines:
+  - 'Pete Vann: Well howdy. You must be our new nighthawk? Well, I won''t lie to
+    ye; it''s a tough job. But you''ll get the hang of it. The names Pete, Pete Vann.
+    I''m part of this outfit and will help you out. '
+  - 'It''s a great responsibility being a night wrangler. Your job is to watch and
+    take care of our horses while we sleep. In short, no horses, no cowboys. No cowboys,
+    no cattle. We need you so we can drive these cattle. Don''t forget that. '
+  - 'Oh no! Looks like the horses escaped during the night, and theres a storm comin!
+    It''s time to prove yourself. be sure to get back before the storm hits, I don''t
+    wanna go out there lookin for ye like I had to do for ol'' Kid Russell. If I
+    hadn''t found him he would have froze to death. Now, get going! '
+  textSpeed: 0.06
   dialogue:
   - {fileID: 1631605732}
   - {fileID: 735980642}
@@ -390,7 +403,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press       to move forward
+  m_text: 'Press       to skip forward
 
 '
   m_isRightToLeft: 0
@@ -737,7 +750,7 @@ GameObject:
   - component: {fileID: 1631605732}
   - component: {fileID: 1631605734}
   m_Layer: 0
-  m_Name: Line1
+  m_Name: textComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,9 +795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pete Vann: Well howdy. You must be our new nighthawk? Well, I won''t lie
-    to ye; it''s a tough job. But you''ll get the hang of it. The names Pete, Pete
-    Vann. I''m part of this outfit and will help you out. '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e0aa4c44d9d89ad4da5847d678e612dd, type: 2}
   m_sharedMaterial: {fileID: 5466075280945093131, guid: e0aa4c44d9d89ad4da5847d678e612dd,
@@ -870,7 +881,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631605730}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

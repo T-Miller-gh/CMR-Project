@@ -15,6 +15,12 @@ public class CutscenePlayer : MonoBehaviour
     public CanvasGroup introCutsceneUI;
 
     public Image peteImage;
+    public TextMeshProUGUI textComponent;
+    public string[] dialogueLines;
+    public float textSpeed;
+
+    int index; 
+
     public TextMeshProUGUI[] dialogue;
     int currentIndex = 0;
     int lastIndex = 0; 
@@ -35,6 +41,7 @@ public class CutscenePlayer : MonoBehaviour
 
     private void Start()
     {
+        textComponent.text = string.Empty; 
         StartCoroutine(StartCutscene()); 
     }
 
@@ -49,44 +56,53 @@ public class CutscenePlayer : MonoBehaviour
     {
         Debug.Log("primary button pressed");
 
-        // Check if there are more dialogue elements
-        if (currentIndex < dialogue.Length - 1)
+        if (textComponent.text == dialogueLines[index])
         {
-            // Increment the index to switch to the next dialogue
-            currentIndex++;
-            lastIndex = currentIndex - 1;
-
-            StartCoroutine(HandleFading()); 
-
-            // Start the fade-in for the new dialogue element
-            //StartCoroutine(FadeInText(dialogue[currentIndex]));
-
-
-            //if(currentIndex > 0)
-            //{
-            //    StartCoroutine(FadeOutText(dialogue[0]));
-            //}
-            
-            //if(lastIndex < currentIndex)
-            //{
-            //    StartCoroutine(FadeOutText(dialogue[lastIndex])); 
-            //}
+            NextLine(); 
         }
         else
         {
-            // If this was the last dialogue element, load the next scene
-            SceneManager.LoadScene("Level_main");
+            StopAllCoroutines();
+            textComponent.text = dialogueLines[index]; 
         }
+        //// Check if there are more dialogue elements
+        //if (currentIndex < dialogue.Length - 1)
+        //{
+        //    // Increment the index to switch to the next dialogue
+        //    currentIndex++;
+        //    lastIndex = currentIndex - 1;
+
+        //    StartCoroutine(HandleFading()); 
+
+        //    // Start the fade-in for the new dialogue element
+        //    //StartCoroutine(FadeInText(dialogue[currentIndex]));
+
+
+        //    //if(currentIndex > 0)
+        //    //{
+        //    //    StartCoroutine(FadeOutText(dialogue[0]));
+        //    //}
+            
+        //    //if(lastIndex < currentIndex)
+        //    //{
+        //    //    StartCoroutine(FadeOutText(dialogue[lastIndex])); 
+        //    //}
+        //}
+        //else
+        //{
+        //    // If this was the last dialogue element, load the next scene
+        //    SceneManager.LoadScene("Level_main");
+        //}
     }
 
-    IEnumerator HandleFading()
-    {
-        StartCoroutine(FadeOutText(dialogue[lastIndex]));
+    //IEnumerator HandleFading()
+    //{
+    //    StartCoroutine(FadeOutText(dialogue[lastIndex]));
 
-        yield return new WaitForSeconds(fadeDuration);
+    //    yield return new WaitForSeconds(fadeDuration);
 
-        StartCoroutine(FadeInText(dialogue[currentIndex]));
-    }
+    //    StartCoroutine(FadeInText(dialogue[currentIndex]));
+    //}
 
     public void HideQuitMenu()
     {
@@ -110,8 +126,36 @@ public class CutscenePlayer : MonoBehaviour
     IEnumerator StartCutscene()
     {
         yield return StartCoroutine(FadeIn(peteImage));
+        index = 0;
+        Debug.Log("past fadeimage" + index); 
+        StartCoroutine(TypeLine()); 
+        // yield return StartCoroutine(FadeInText(dialogue[0]));
+    }
 
-        yield return StartCoroutine(FadeInText(dialogue[0]));
+    IEnumerator TypeLine()
+    {
+        Debug.Log("within type line"); 
+        foreach (char c in dialogueLines[index].ToCharArray())
+        {
+            Debug.Log("within foreach"); 
+            textComponent.text += c;
+            yield return new WaitForSeconds(textSpeed); 
+        }
+    }
+
+    void NextLine()
+    {
+        if(index < dialogueLines.Length - 1)
+        {
+            index++;
+            textComponent.text = string.Empty;
+            StartCoroutine(TypeLine()); 
+        }
+        else
+        {
+            StopAllCoroutines(); 
+            SceneManager.LoadScene("Level_main");
+        }
     }
 
     IEnumerator FadeIn(Image image)
@@ -131,31 +175,31 @@ public class CutscenePlayer : MonoBehaviour
         }
     }
 
-    IEnumerator FadeInText(TextMeshProUGUI text)
-    {
-        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>(); 
+    //IEnumerator FadeInText(TextMeshProUGUI text)
+    //{
+    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>(); 
  
-        // Reset the alpha to 0 for the current text
-        canvasGroup.alpha = 0;
+    //    // Reset the alpha to 0 for the current text
+    //    canvasGroup.alpha = 0;
 
-        // Fade in the current text
-        while (canvasGroup.alpha < 1)
-        {
-            canvasGroup.alpha += Time.deltaTime / fadeDuration; // Adjust the speed of fade-in
+    //    // Fade in the current text
+    //    while (canvasGroup.alpha < 1)
+    //    {
+    //        canvasGroup.alpha += Time.deltaTime / fadeDuration; // Adjust the speed of fade-in
 
-            yield return null;
-        }
-    }
+    //        yield return null;
+    //    }
+    //}
 
-    IEnumerator FadeOutText(TextMeshProUGUI text)
-    {
-        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>(); 
+    //IEnumerator FadeOutText(TextMeshProUGUI text)
+    //{
+    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>(); 
 
-        // Fade out the text
-        while (canvasGroup.alpha > 0)
-        {
-            canvasGroup.alpha -= Time.deltaTime / fadeDuration; // Adjust the speed of fade-out
-            yield return null;
-        }
-    }
+    //    // Fade out the text
+    //    while (canvasGroup.alpha > 0)
+    //    {
+    //        canvasGroup.alpha -= Time.deltaTime / fadeDuration; // Adjust the speed of fade-out
+    //        yield return null;
+    //    }
+    //}
 }

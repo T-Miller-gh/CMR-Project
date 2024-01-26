@@ -5,20 +5,23 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR; 
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit; 
 
 public class characterManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference menuInputActionReference;
     [SerializeField] private InputActionReference primaryButtonReference;
 
-    public XRNode leftMovementInputSource;
-    public XRNode rightMovementInputSource; 
+    //public XRNode leftMovementInputSource;
+    //public XRNode rightMovementInputSource; 
 
     float threshold = 0.5f; 
 
-    List<XRNodeState> nodeStates = new List<XRNodeState>();
-    Vector3 lastPosition; 
+    //List<XRNodeState> nodeStates = new List<XRNodeState>();
+    //Vector3 lastPosition;
+
+    public ActionBasedContinuousMoveProvider playerXrMovementSpeed;
 
     public ParticleSystem playerSnowParticles; 
 
@@ -38,6 +41,11 @@ public class characterManager : MonoBehaviour
     public CanvasGroup introUI;
 
     public Image peteImage;
+    public TextMeshProUGUI textComponent;
+    public string[] dialogueLines;
+    public float textSpeed; 
+    int index; 
+
     public TextMeshProUGUI[] dialogue;
     int currentIndex = 0;
     int lastIndex = 0;
@@ -51,7 +59,7 @@ public class characterManager : MonoBehaviour
     float maxParticleSpeed = 5f;
     float fadeDuration = 2f; 
 
-    public int horsesCollected;
+    public int horsesCollected = 0;
     public int horseCount; 
 
     public bool timerOn = false;
@@ -99,8 +107,9 @@ public class characterManager : MonoBehaviour
         youWinUIGO.SetActive(false); 
         introUIGO.SetActive(true); 
 
-        Time.timeScale = 0; 
+        Time.timeScale = 0;
 
+        textComponent.text = string.Empty; 
         StartCoroutine(StartCutscene()); 
 
         //if(throughCutscene == true)
@@ -155,6 +164,7 @@ public class characterManager : MonoBehaviour
 
         // Destroy(gameObject);
 
+        StopAllCoroutines(); 
         ResetGame();
         Debug.Log("Game reset"); 
         SceneSelectionManager.LoadMenuScene();
@@ -163,6 +173,7 @@ public class characterManager : MonoBehaviour
     public void RestartGame()
     {
         // Destroy(gameObject); 
+        StopAllCoroutines(); 
         ResetGame();
         SceneManager.LoadScene(1);
         Time.timeScale = 1; 
@@ -175,7 +186,7 @@ public class characterManager : MonoBehaviour
             // Debug.Log("game should have started");
             gameStarted = true;
             timerOn = true;
-            horsesCollected = 0;
+            // horsesCollected = 0;
 
             youWinUI.alpha = 0f;
             youLoseUI.alpha = 0f;
@@ -225,54 +236,76 @@ public class characterManager : MonoBehaviour
         //XRNodeState state = nodeStates.Find(s => s.nodeType == movementInputSource); 
 
         float leftThumbstickVertical = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical");
-        float rightThumbstickHorizontal = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal"); 
+        float rightThumbstickHorizontal = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal");
+
+        //if (Input.GetButton("XRI_Left_GripButton"))
+        //{
+        //    Debug.Log("Run now");
+        //}
+
+        //{
+        //    Debug.Log("running now");  
+        //}
+
+        //if (leftTrigger)
+        //{
+        //    Debug.Log("Left trigger"); 
+        //}
 
         if (Mathf.Abs(leftThumbstickVertical) > threshold)
         {
             if (leftThumbstickVertical > 0)
             {
-                Debug.Log("Thumbstick pushed forward: " + leftThumbstickVertical);
-                horseAnim.SetBool("isWalkingForward", true);
-                horseAnim.SetBool("isWalkingBackward", false);
-                // horseAnim.SetFloat("isWalkingForwards", 1f); 
-
+                // Debug.Log("Thumbstick pushed forward: " + leftThumbstickVertical);
+                horseAnim.SetBool("isWalkingForward", false);
+                horseAnim.SetBool("isWalkingBackward", true);
+                playerXrMovementSpeed.moveSpeed = 2.5f; 
             }
             else if(leftThumbstickVertical < 0)
             {
-                Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
-                horseAnim.SetBool("isWalkingBackward", true); 
-                horseAnim.SetBool("isWalkingForward", false);
-                // horseAnim.SetBool("isWalkingBackward", true);
-                // horseAnim.SetFloat("isWalkingBackwards", -1f); 
+                // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
+                horseAnim.SetBool("isWalkingBackward", false);
+                horseAnim.SetBool("isWalkingForward", true);
+
+                if (Input.GetButton("XRI_Left_GripButton"))
+                {
+                    horseAnim.SetBool("isGalloping", true);
+                    horseAnim.SetBool("isWalkingForward", false);
+                    horseAnim.SetBool("isWalkingBackward", false); 
+                    playerXrMovementSpeed.moveSpeed = 5f; 
+                }
+                else
+                {
+                    // add animation logic here
+                    horseAnim.SetBool("isWalkingForward", true);
+                    horseAnim.SetBool("isGalloping", false);
+                    horseAnim.SetBool("isWalkingBackward", false); 
+                    playerXrMovementSpeed.moveSpeed = 2.5f; 
+                }
             }
 
         }
         else
         {
             horseAnim.SetBool("isWalkingForward", false);
-            horseAnim.SetBool("isWalkingBackward", false); 
-            // horseAnim.SetBool("isWalkingBackward", false);
-            // horseAnim.SetFloat("isWalkingForwards", 0f);
-            // horseAnim.SetFloat("isWalkingBackwards", 0f); 
+            horseAnim.SetBool("isWalkingBackward", false);
+            horseAnim.SetBool("isGalloping", false); 
         }
 
         if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
         {
             if (rightThumbstickHorizontal > 0)
             {
-                Debug.Log("Thumbstick pushed right: " + rightThumbstickHorizontal);
+                // Debug.Log("Thumbstick pushed right: " + rightThumbstickHorizontal);
                 horseAnim.SetBool("isTurningRight", true);
                 horseAnim.SetBool("isTurningLeft", false);
-                // horseAnim.SetFloat("isWalkingForwards", 1f); 
 
             }
             else if (rightThumbstickHorizontal < 0)
             {
-                Debug.Log("thumbstick pushed left: " + rightThumbstickHorizontal);
+                // Debug.Log("thumbstick pushed left: " + rightThumbstickHorizontal);
                 horseAnim.SetBool("isTurningLeft", true);
                 horseAnim.SetBool("isTurningRight", false);
-                // horseAnim.SetBool("isWalkingBackward", true);
-                // horseAnim.SetFloat("isWalkingBackwards", -1f); 
             }
 
         }
@@ -280,9 +313,6 @@ public class characterManager : MonoBehaviour
         {
             horseAnim.SetBool("isTurningRight", false);
             horseAnim.SetBool("isTurningLeft", false);
-            // horseAnim.SetBool("isWalkingBackward", false);
-            // horseAnim.SetFloat("isWalkingForwards", 0f);
-            // horseAnim.SetFloat("isWalkingBackwards", 0f); 
         }
     }
 
@@ -371,25 +401,56 @@ public class characterManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "horse")
         {
-            // get the script off the horse you are capturing
-            horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
-
-            horseCaptureTimer -= Time.deltaTime;
-
-            // if the player stays in the horses radius until 0 seconds, they catch it
-            if (horseCaptureTimer <= 0)
+            if (other.tag == "horse")
             {
-                horseCounter();
-                horseCaptureTimer = 10;
+                // get the script off the horse you are capturing
+                horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
 
-                // change that horses behavior within it's script
-                horseScript.isCaught = true; 
+                // horseCaptureTimer -= Time.deltaTime;
+
+                // if the player stays in the horses radius until 0 seconds, they catch it
+                //if (horseCaptureTimer <= 0)
+                //{
+                //    horseCounter();
+                //    horseCaptureTimer = 10;
+
+                //    // change that horses behavior within it's script
+                //    horseScript.isCaught = true; 
+                //}
+                if(!horseScript.isCaught)
+                {
+                    horseCounter();
+                    horseScript.isCaught = true;
+                }
+
             }
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //if(other.tag == "horse")
+        //{
+        //    // get the script off the horse you are capturing
+        //    horseWanderAI horseScript = other.GetComponent<horseWanderAI>();
+
+        //    // horseCaptureTimer -= Time.deltaTime;
+
+        //    // if the player stays in the horses radius until 0 seconds, they catch it
+        //    //if (horseCaptureTimer <= 0)
+        //    //{
+        //    //    horseCounter();
+        //    //    horseCaptureTimer = 10;
+
+        //    //    // change that horses behavior within it's script
+        //    //    horseScript.isCaught = true; 
+        //    //}
+        //    horseCounter();
+        //    horseScript.isCaught = true; 
+        //}
 
         // check if player is in safe zone, this has to be active in order for player to win
         if (other.tag == "safeZone")
@@ -418,40 +479,81 @@ public class characterManager : MonoBehaviour
     {
         Debug.Log("primary button pressed");
 
-        // Check if there are more dialogue elements
-        if (currentIndex < dialogue.Length - 1)
+        if (textComponent.text == dialogueLines[index])
         {
-            // Increment the index to switch to the next dialogue
-            currentIndex++;
-            lastIndex = currentIndex - 1;
+            NextLine();
+        }
+        else
+        {
+            StopAllCoroutines();
+            textComponent.text = dialogueLines[index];
+        }
 
-            // Start the fade -in for the new dialogue element
-            StartCoroutine(FadeInText(dialogue[currentIndex]));
-            if (currentIndex > 0)
-            {
-                StartCoroutine(FadeOutText(dialogue[0]));
-            }
+        //// Check if there are more dialogue elements
+        //if (currentIndex < dialogue.Length - 1)
+        //{
+        //    // Increment the index to switch to the next dialogue
+        //    currentIndex++;
+        //    lastIndex = currentIndex - 1;
 
-            if (lastIndex < currentIndex)
-            {
-                StartCoroutine(FadeOutText(dialogue[lastIndex]));
-            }
+        //    // Start the fade -in for the new dialogue element
+        //    StartCoroutine(FadeInText(dialogue[currentIndex]));
+        //    if (currentIndex > 0)
+        //    {
+        //        StartCoroutine(FadeOutText(dialogue[0]));
+        //    }
+
+        //    if (lastIndex < currentIndex)
+        //    {
+        //        StartCoroutine(FadeOutText(dialogue[lastIndex]));
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("start game now");
+        //    throughCutscene = true;
+        //    Time.timeScale = 1;
+        //    Debug.Log(throughCutscene); 
+        //    StartCoroutine(FadeOutIntro(introUI)); 
+        //}
+    }
+
+    IEnumerator StartCutscene()
+    {
+        yield return StartCoroutine(FadeIn(peteImage));
+        index = 0;
+        Debug.Log("past fadeimage" + index);
+        StartCoroutine(TypeLine());
+        // yield return StartCoroutine(FadeInText(dialogue[0]));
+    }
+
+    IEnumerator TypeLine()
+    {
+        Debug.Log("within type line");
+        foreach (char c in dialogueLines[index].ToCharArray())
+        {
+            Debug.Log("within foreach");
+            textComponent.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < dialogueLines.Length - 1)
+        {
+            index++;
+            textComponent.text = string.Empty;
+            StartCoroutine(TypeLine());
         }
         else
         {
             Debug.Log("start game now");
             throughCutscene = true;
             Time.timeScale = 1;
-            Debug.Log(throughCutscene); 
-            StartCoroutine(FadeOutIntro(introUI)); 
+            Debug.Log(throughCutscene);
+            StartCoroutine(FadeOutIntro(introUI));
         }
-    }
-
-    IEnumerator StartCutscene()
-    {
-        yield return StartCoroutine(FadeIn(peteImage));
-
-        yield return StartCoroutine(FadeInText(dialogue[0]));
     }
 
     IEnumerator FadeIn(Image image)
@@ -471,33 +573,33 @@ public class characterManager : MonoBehaviour
         }
     }
 
-    IEnumerator FadeInText(TextMeshProUGUI text)
-    {
-        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
+    //IEnumerator FadeInText(TextMeshProUGUI text)
+    //{
+    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
 
-        // Reset the alpha to 0 for the current text
-        canvasGroup.alpha = 0;
+    //    // Reset the alpha to 0 for the current text
+    //    canvasGroup.alpha = 0;
 
-        // Fade in the current text
-        while (canvasGroup.alpha < 1)
-        {
-            canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-in
+    //    // Fade in the current text
+    //    while (canvasGroup.alpha < 1)
+    //    {
+    //        canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-in
 
-            yield return null;
-        }
-    }
+    //        yield return null;
+    //    }
+    //}
 
-    IEnumerator FadeOutText(TextMeshProUGUI text)
-    {
-        CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
+    //IEnumerator FadeOutText(TextMeshProUGUI text)
+    //{
+    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
 
-        // Fade out the text
-        while (canvasGroup.alpha > 0)
-        {
-            canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-out
-            yield return null;
-        }
-    }
+    //    // Fade out the text
+    //    while (canvasGroup.alpha > 0)
+    //    {
+    //        canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-out
+    //        yield return null;
+    //    }
+    //}
 
     IEnumerator FadeOutIntro(CanvasGroup canvasGroup)
     {
