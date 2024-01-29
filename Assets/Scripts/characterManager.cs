@@ -22,6 +22,7 @@ public class characterManager : MonoBehaviour
     //Vector3 lastPosition;
 
     public ActionBasedContinuousMoveProvider playerXrMovementSpeed;
+    public XRInteractorLineVisual[] lineVisuals; 
 
     public ParticleSystem playerSnowParticles; 
 
@@ -103,6 +104,9 @@ public class characterManager : MonoBehaviour
         //    timerOn = false;
         //    horsesCollected = 0; 
         //}
+
+        lineVisuals[0].enabled = true;
+        lineVisuals[1].enabled = true;
         youLoseUIGO.SetActive(false);
         youWinUIGO.SetActive(false); 
         introUIGO.SetActive(true); 
@@ -143,7 +147,9 @@ public class characterManager : MonoBehaviour
 
     void MenuPressed(InputAction.CallbackContext context)
     {
-        Time.timeScale = 0; 
+        Time.timeScale = 0;
+        lineVisuals[0].enabled = true;
+        lineVisuals[1].enabled = true;
         quitMenu.SetActive(true); 
         // Debug.Log("Menu pressed");
         // SceneSelectionManager.LoadMenuScene();
@@ -152,6 +158,8 @@ public class characterManager : MonoBehaviour
     public void HideQuitMenu()
     {
         quitMenu.SetActive(false);
+        lineVisuals[0].enabled = false;
+        lineVisuals[1].enabled = false;
         Time.timeScale = 1; 
     }
 
@@ -186,6 +194,8 @@ public class characterManager : MonoBehaviour
             // Debug.Log("game should have started");
             gameStarted = true;
             timerOn = true;
+            lineVisuals[0].enabled = false;
+            lineVisuals[1].enabled = false;
             // horsesCollected = 0;
 
             youWinUI.alpha = 0f;
@@ -319,7 +329,9 @@ public class characterManager : MonoBehaviour
     // systems for fading in UI when player either wins or loses game
     IEnumerator FadeInYouWinUI()
     {
-        youWinUIGO.SetActive(true); 
+        youWinUIGO.SetActive(true);
+        lineVisuals[0].enabled = true;
+        lineVisuals[1].enabled = true;
 
         // Debug.Log("I am within the coroutine"); 
         float elapsedTime = 0f;
@@ -339,7 +351,9 @@ public class characterManager : MonoBehaviour
 
     IEnumerator FadeInYouLoseUI()
     {
-        youLoseUIGO.SetActive(true); 
+        youLoseUIGO.SetActive(true);
+        lineVisuals[0].enabled = true;
+        lineVisuals[1].enabled = true;
         // Debug.Log("I am within the coroutine");
 
         float elapsedTime = 0f;
