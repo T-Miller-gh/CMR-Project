@@ -212,7 +212,9 @@ public class characterManager : MonoBehaviour
                     gameTimeLeft -= Time.deltaTime;
                     gameProgress = 1f - (gameTimeLeft / totalGameTime);
                     updateTimer(gameTimeLeft);
-                    updatePlayerParticles(); 
+
+                    // Particles handled in particle settings; replaced size increase with fog increase; speed increase was too much for quest
+                    //updatePlayerParticles(); 
                 }
                 else
                 {
@@ -376,6 +378,8 @@ public class characterManager : MonoBehaviour
     {
         if(timerOn)
         {
+            
+            
             var particleSize = playerSnowParticles.main;
             var particleRateOverTime = playerSnowParticles.emission;
             var particleSpeed = playerSnowParticles.velocityOverLifetime;

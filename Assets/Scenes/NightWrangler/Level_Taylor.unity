@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.23561764, g: 0.24193266, b: 0.2924528, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.02
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 527047050}
-  m_IndirectSpecularColor: {r: 0.027965728, g: 0.027945822, b: 0.035372883, a: 1}
+  m_IndirectSpecularColor: {r: 0.027336236, g: 0.028151382, b: 0.036788832, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -477,6 +477,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
         type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 395
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976658075303988987, guid: 886fcedaa939d2248b16eb0362c2c7b8,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -750,6 +785,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Temporary_Junk
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504674158189072864, guid: 87b12de986db9124998e3b99b9a56c05,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
