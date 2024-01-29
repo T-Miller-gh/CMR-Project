@@ -1679,6 +1679,9 @@ MonoBehaviour:
   primaryButtonReference: {fileID: 2956074260459399776, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   playerXrMovementSpeed: {fileID: 6534875032931939274}
+  lineVisuals:
+  - {fileID: 8205384145496430579}
+  - {fileID: 2231120903402751126}
   playerSnowParticles: {fileID: 4804805350795165355}
   horseAnim: {fileID: 8691088660895360728}
   gameTimerTxt: {fileID: 6973154251954451941}
@@ -5152,7 +5155,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5018851, g: 1, b: 0.4481132, a: 1}
+    m_HighlightedColor: {r: 0.34146264, g: 1, b: 0.2688679, a: 1}
     m_PressedColor: {r: 0.09948823, g: 0.6320754, b: 0, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
