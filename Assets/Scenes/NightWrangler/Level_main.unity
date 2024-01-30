@@ -413,6 +413,16 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].value
       value: 0.540542
       objectReference: {fileID: 0}
+    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
+        type: 3}
+      propertyPath: gameTimeLeft
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
+        type: 3}
+      propertyPath: totalGameTime
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1095,6 +1105,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7063470650986927148, guid: 044289c54df0e604ea6a0e95ac1cb229,
+        type: 3}
+      propertyPath: targetDensity
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7063470650986927148, guid: 044289c54df0e604ea6a0e95ac1cb229,
+        type: 3}
+      propertyPath: characterManager
+      value: 
+      objectReference: {fileID: 382145177}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
