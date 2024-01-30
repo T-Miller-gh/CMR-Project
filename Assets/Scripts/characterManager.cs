@@ -52,9 +52,9 @@ public class characterManager : MonoBehaviour
     int lastIndex = 0;
 
     public float horseCaptureTimer;
-    float gameTimeLeft = 300;
-    float totalGameTime = 300;
-    float gameProgress; 
+    public float gameTimeLeft = 300;
+    public float totalGameTime = 300;
+    public float gameProgress; 
     float maxParticleSize = 3f;
     float maxEmissionRate = 100f;
     float maxParticleSpeed = 5f;
@@ -85,7 +85,7 @@ public class characterManager : MonoBehaviour
 
     private void Awake()
     {
-        totalGameTime = 300;
+        // totalGameTime = 30;
         gameTimeLeft = totalGameTime;
     }
 
@@ -540,17 +540,17 @@ public class characterManager : MonoBehaviour
     {
         yield return StartCoroutine(FadeIn(peteImage));
         index = 0;
-        Debug.Log("past fadeimage" + index);
+        // Debug.Log("past fadeimage" + index);
         StartCoroutine(TypeLine());
         // yield return StartCoroutine(FadeInText(dialogue[0]));
     }
 
     IEnumerator TypeLine()
     {
-        Debug.Log("within type line");
+        // Debug.Log("within type line");
         foreach (char c in dialogueLines[index].ToCharArray())
         {
-            Debug.Log("within foreach");
+            // Debug.Log("within foreach");
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
