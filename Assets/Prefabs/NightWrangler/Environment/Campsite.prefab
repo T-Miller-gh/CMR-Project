@@ -100,8 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcbf086d1448ec42b009c05a1b43371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterManager: {fileID: 0}
+  startDensity: 0.02
   targetDensity: 0.08
-  fadeDuration: 300
 --- !u!1 &2415125940750766572
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class modifyFog : MonoBehaviour
         {
             float newFogDensity = Mathf.Lerp(startDensity, targetDensity, characterManager.gameProgress);
             RenderSettings.fogDensity = newFogDensity;
-            Debug.Log(newFogDensity); 
+            // Debug.Log(newFogDensity); 
         }
     }
 }

@@ -378,50 +378,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 855384104458476289, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 855384104458476289, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.75
-      objectReference: {fileID: 0}
     - target: {fileID: 1774880479277080246, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
       objectReference: {fileID: 0}
-    - target: {fileID: 4804805350795165355, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 3.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804805350795165355, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: VelocityModule.speedModifier.scalar
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804805350795165355, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804805350795165355, guid: 4888a55005327484d8610ce3af43141c,
-        type: 3}
-      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].value
-      value: 0.540542
-      objectReference: {fileID: 0}
     - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: gameTimeLeft
-      value: 30
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8949248598215451627, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
       propertyPath: totalGameTime
-      value: 30
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 9030457514872782280, guid: 4888a55005327484d8610ce3af43141c,
         type: 3}
@@ -1104,11 +1074,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7063470650986927148, guid: 044289c54df0e604ea6a0e95ac1cb229,
-        type: 3}
-      propertyPath: targetDensity
-      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 7063470650986927148, guid: 044289c54df0e604ea6a0e95ac1cb229,
         type: 3}
