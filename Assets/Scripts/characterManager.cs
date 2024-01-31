@@ -24,7 +24,10 @@ public class characterManager : MonoBehaviour
     public ActionBasedContinuousMoveProvider playerXrMovementSpeed;
     public XRInteractorLineVisual[] lineVisuals; 
 
-    public ParticleSystem playerSnowParticles; 
+    public ParticleSystem playerSnowParticles;
+
+    public AudioSource playerAudioSource;
+    public AudioClip whistleCaught; 
 
     public Animator horseAnim; 
 
@@ -411,6 +414,7 @@ public class characterManager : MonoBehaviour
         horsesCollected += 1;
         // update horses collected UI
         horsesCapturedTxt.text = "Horses collected: " + horsesCollected + "/3";
+        playerAudioSource.PlayOneShot(whistleCaught); 
 
         if (horsesCollected == horseCount)
         {
@@ -506,34 +510,6 @@ public class characterManager : MonoBehaviour
             StopAllCoroutines();
             textComponent.text = dialogueLines[index];
         }
-
-        //// Check if there are more dialogue elements
-        //if (currentIndex < dialogue.Length - 1)
-        //{
-        //    // Increment the index to switch to the next dialogue
-        //    currentIndex++;
-        //    lastIndex = currentIndex - 1;
-
-        //    // Start the fade -in for the new dialogue element
-        //    StartCoroutine(FadeInText(dialogue[currentIndex]));
-        //    if (currentIndex > 0)
-        //    {
-        //        StartCoroutine(FadeOutText(dialogue[0]));
-        //    }
-
-        //    if (lastIndex < currentIndex)
-        //    {
-        //        StartCoroutine(FadeOutText(dialogue[lastIndex]));
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("start game now");
-        //    throughCutscene = true;
-        //    Time.timeScale = 1;
-        //    Debug.Log(throughCutscene); 
-        //    StartCoroutine(FadeOutIntro(introUI)); 
-        //}
     }
 
     IEnumerator StartCutscene()
