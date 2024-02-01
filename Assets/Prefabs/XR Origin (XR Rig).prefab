@@ -1549,7 +1549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_System: {fileID: 3859713335685279619}
   m_MoveSpeed: 2.5
-  m_EnableStrafe: 1
+  m_EnableStrafe: 0
   m_EnableFly: 0
   m_UseGravity: 1
   m_GravityApplicationMode: 1
@@ -1710,8 +1710,8 @@ MonoBehaviour:
   - {fileID: 3459226903266203724}
   - {fileID: 1219115501589399388}
   horseCaptureTimer: 0
-  gameTimeLeft: 300
-  totalGameTime: 300
+  gameTimeLeft: 60
+  totalGameTime: 60
   gameProgress: 0
   horsesCollected: 0
   horseCount: 3

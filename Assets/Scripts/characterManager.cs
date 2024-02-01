@@ -168,16 +168,18 @@ public class characterManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        Debug.Log("returning to menu"); 
+        // Debug.Log("returning to menu"); 
         quitMenu.SetActive(false); 
         loadingUI.SetActive(true);
         Time.timeScale = 1;
+
+        StartCoroutine(waitForReferencesToUnsubscribe()); 
 
         // Destroy(gameObject);
 
         StopAllCoroutines(); 
         ResetGame();
-        Debug.Log("Game reset"); 
+        // Debug.Log("Game reset"); 
         SceneSelectionManager.LoadMenuScene();
     }
 
@@ -245,6 +247,12 @@ public class characterManager : MonoBehaviour
                 // pauses the game, change later; 
                 Time.timeScale = 0;
             }
+
+            //if(menuInputActionReference == null || menuInputActionReference.action == null 
+            //    || primaryButtonReference == null || primaryButtonReference.action == null)
+            //{
+            //    return; 
+            //}
         }
 
         //InputTracking.GetNodeStates(nodeStates);
@@ -329,6 +337,12 @@ public class characterManager : MonoBehaviour
             horseAnim.SetBool("isTurningRight", false);
             horseAnim.SetBool("isTurningLeft", false);
         }
+    }
+
+    IEnumerator waitForReferencesToUnsubscribe()
+    {
+        yield return new WaitForSeconds(4f);
+        Debug.Log("leaving coroutine"); 
     }
 
     // systems for fading in UI when player either wins or loses game
