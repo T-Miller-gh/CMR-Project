@@ -32,18 +32,25 @@ public class SceneSelectionManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(CheckForControllersRoutine());
+        try
+        {
+            StartCoroutine(CheckForControllersRoutine());
 
-        Button nightWranglerPlay = nightwranglerBtn.GetComponent<Button>();
-        Button playGameBtn = playBtn.GetComponent<Button>();
-        playBtn.SetActive(false);
+            Button nightWranglerPlay = nightwranglerBtn.GetComponent<Button>();
+            Button playGameBtn = playBtn.GetComponent<Button>();
+            playBtn.SetActive(false);
 
-        buttonDictionay["nightwrangler"] = LoadNightwranglerScene;
-        buttonDictionay["play"] = PlayGame; 
-        // buttonDictionay["menu"] = LoadMenuScene;
+            buttonDictionay["nightwrangler"] = LoadNightwranglerScene;
+            buttonDictionay["play"] = PlayGame;
+            // buttonDictionay["menu"] = LoadMenuScene;
 
-        nightWranglerPlay.onClick.AddListener(() => OnButtonClick("nightwrangler"));
-        playGameBtn.onClick.AddListener(() => OnButtonClick("play"));
+            nightWranglerPlay.onClick.AddListener(() => OnButtonClick("nightwrangler"));
+            playGameBtn.onClick.AddListener(() => OnButtonClick("play"));
+        }
+        catch 
+        {
+            Debug.Log("Game crashed...most likely controllers not found"); 
+        }
     }
 
     IEnumerator CheckForControllersRoutine()
