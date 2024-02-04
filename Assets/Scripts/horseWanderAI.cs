@@ -9,7 +9,9 @@ public class horseWanderAI : MonoBehaviour
     public characterManager characterManagerScript;
     public Transform player;
     public NavMeshAgent nav;
-    public Animator looseHorseAnim; 
+    public Animator looseHorseAnim;
+    [SerializeField] private AudioSource horseAudioSrc;
+    [SerializeField] private AudioClip horseNeighClip; 
 
     private float moveSpeed = 3f;
     private float rotSpeed = 70f;
@@ -18,7 +20,9 @@ public class horseWanderAI : MonoBehaviour
     private bool isRotatingRight = false;
     private bool isRotatingLeft = false;
     private bool isWalking = false;
-    public bool isCaught = false; 
+    public bool isCaught = false;
+
+    bool audioPlaying = false; 
 
     public bool startedFollowingAlready = false; 
 
@@ -35,10 +39,17 @@ public class horseWanderAI : MonoBehaviour
         if(isCaught /*&& !startedFollowingAlready*/)
         {
             StopAllCoroutines();
-            startFollowingPlayer();
+            Destroy(gameObject); 
+            // startFollowingPlayer();
             // isCaught = true;
             startedFollowingAlready = true; 
         }
+
+        if(!audioPlaying)
+        {
+            StartCoroutine(triggerNeigh());
+        }
+         
 
         // this bool is set to true in characterManger.cs
         //if (isCaught)
@@ -93,6 +104,14 @@ public class horseWanderAI : MonoBehaviour
             looseHorseAnim.SetBool("isTurningLeft", false);
             looseHorseAnim.SetBool("isTurningRight", false); 
         }
+    }
+
+    IEnumerator triggerNeigh()
+    {
+        audioPlaying = true; 
+        horseAudioSrc.PlayOneShot(horseNeighClip);
+        yield return new WaitForSeconds(15f);
+        audioPlaying = false; 
     }
 
     IEnumerator Wander()

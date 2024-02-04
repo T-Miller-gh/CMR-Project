@@ -24,7 +24,12 @@ public class characterManager : MonoBehaviour
     public ActionBasedContinuousMoveProvider playerXrMovementSpeed;
     public XRInteractorLineVisual[] lineVisuals; 
 
-    public ParticleSystem playerSnowParticles; 
+    public ParticleSystem playerSnowParticles;
+
+    public AudioSource playerAudioSource;
+    public AudioClip whistleCaught;
+    public AudioClip horseWalk;
+    public AudioClip horseRun; 
 
     public Animator horseAnim; 
 
@@ -52,9 +57,9 @@ public class characterManager : MonoBehaviour
     int lastIndex = 0;
 
     public float horseCaptureTimer;
-    float gameTimeLeft = 300;
-    float totalGameTime = 300;
-    float gameProgress; 
+    public float gameTimeLeft = 300;
+    public float totalGameTime = 300;
+    public float gameProgress; 
     float maxParticleSize = 3f;
     float maxEmissionRate = 100f;
     float maxParticleSpeed = 5f;
@@ -68,7 +73,9 @@ public class characterManager : MonoBehaviour
     public bool allHorsesCollected = false;
     public bool gameStarted = false;
     bool throughCutscene = false;
-    bool isFading = false; 
+    bool isFading = false;
+    bool horseWalkPlaying = false;
+    bool horseRunPlaying = false; 
     // public bool changeHorseBehavior = false;
 
     void OnEnable()
@@ -85,7 +92,7 @@ public class characterManager : MonoBehaviour
 
     private void Awake()
     {
-        totalGameTime = 300;
+        // totalGameTime = 30;
         gameTimeLeft = totalGameTime;
     }
 
@@ -165,16 +172,18 @@ public class characterManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        Debug.Log("returning to menu"); 
+        // Debug.Log("returning to menu"); 
         quitMenu.SetActive(false); 
         loadingUI.SetActive(true);
         Time.timeScale = 1;
+
+        StartCoroutine(waitForReferencesToUnsubscribe()); 
 
         // Destroy(gameObject);
 
         StopAllCoroutines(); 
         ResetGame();
-        Debug.Log("Game reset"); 
+        // Debug.Log("Game reset"); 
         SceneSelectionManager.LoadMenuScene();
     }
 
@@ -242,6 +251,12 @@ public class characterManager : MonoBehaviour
                 // pauses the game, change later; 
                 Time.timeScale = 0;
             }
+
+            //if(menuInputActionReference == null || menuInputActionReference.action == null 
+            //    || primaryButtonReference == null || primaryButtonReference.action == null)
+            //{
+            //    return; 
+            //}
         }
 
         //InputTracking.GetNodeStates(nodeStates);
@@ -250,20 +265,6 @@ public class characterManager : MonoBehaviour
         float leftThumbstickVertical = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical");
         float rightThumbstickHorizontal = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal");
 
-        //if (Input.GetButton("XRI_Left_GripButton"))
-        //{
-        //    Debug.Log("Run now");
-        //}
-
-        //{
-        //    Debug.Log("running now");  
-        //}
-
-        //if (leftTrigger)
-        //{
-        //    Debug.Log("Left trigger"); 
-        //}
-
         if (Mathf.Abs(leftThumbstickVertical) > threshold)
         {
             if (leftThumbstickVertical > 0)
@@ -271,37 +272,95 @@ public class characterManager : MonoBehaviour
                 // Debug.Log("Thumbstick pushed forward: " + leftThumbstickVertical);
                 horseAnim.SetBool("isWalkingForward", false);
                 horseAnim.SetBool("isWalkingBackward", true);
-                playerXrMovementSpeed.moveSpeed = 2.5f; 
+                playerXrMovementSpeed.moveSpeed = 2.5f;
+
+                if (!horseWalkPlaying)
+                {
+                    playerAudioSource.clip = horseWalk;
+                    playerAudioSource.Play();
+                    horseWalkPlaying = true;
+                }
             }
             else if(leftThumbstickVertical < 0)
             {
                 // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
                 horseAnim.SetBool("isWalkingBackward", false);
+                horseAnim.SetBool("isGalloping", false);
                 horseAnim.SetBool("isWalkingForward", true);
+                playerXrMovementSpeed.moveSpeed = 2.5f;
+
+                if (!horseWalkPlaying)
+                {
+                    playerAudioSource.clip = horseWalk;
+                    playerAudioSource.Play();
+                    horseWalkPlaying = true;
+                }
 
                 if (Input.GetButton("XRI_Left_GripButton"))
                 {
                     horseAnim.SetBool("isGalloping", true);
                     horseAnim.SetBool("isWalkingForward", false);
-                    horseAnim.SetBool("isWalkingBackward", false); 
-                    playerXrMovementSpeed.moveSpeed = 5f; 
-                }
-                else
-                {
-                    // add animation logic here
-                    horseAnim.SetBool("isWalkingForward", true);
-                    horseAnim.SetBool("isGalloping", false);
-                    horseAnim.SetBool("isWalkingBackward", false); 
-                    playerXrMovementSpeed.moveSpeed = 2.5f; 
-                }
-            }
+                    horseAnim.SetBool("isWalkingBackward", false);
+                    playerXrMovementSpeed.moveSpeed = 5f;
 
+                    if (!horseRunPlaying)
+                    {
+                        playerAudioSource.clip = horseRun;
+                        playerAudioSource.Play();
+                        horseRunPlaying = true;
+                        // Debug.Log("into horse running"); 
+                    }
+                }
+
+                //if(!Input.GetButton("XRI_Left_GripButton"))
+                //{
+                //    Debug.Log("into held down");
+                //    horseWalkPlaying = false;
+                //    if (!horseWalkPlaying)
+                //    {
+                //        playerAudioSource.clip = horseWalk;
+                //        playerAudioSource.Play();
+                //        horseWalkPlaying = true;
+                //        Debug.Log("in audio"); 
+                //    }
+                //    Debug.Log("after audio"); 
+                //}
+                //else 
+                //{
+                //    Debug.Log("button released"); 
+
+                //    // add animation logic here
+                //    horseAnim.SetBool("isWalkingForward", true);
+                //    horseAnim.SetBool("isGalloping", false);
+                //    horseAnim.SetBool("isWalkingBackward", false); 
+                //    playerXrMovementSpeed.moveSpeed = 2.5f;
+
+
+                //    if (!horseWalkPlaying)
+                //    {
+                //        playerAudioSource.clip = horseWalk;
+                //        playerAudioSource.Play();
+                //        horseWalkPlaying = true;
+                //        Debug.Log("out of horse running"); 
+                //    }
+                //}
+            }
         }
         else
         {
             horseAnim.SetBool("isWalkingForward", false);
             horseAnim.SetBool("isWalkingBackward", false);
-            horseAnim.SetBool("isGalloping", false); 
+            horseAnim.SetBool("isGalloping", false);
+
+            playerAudioSource.Stop();
+            //horseWalkPlaying = false;
+            //horseRunPlaying = false;
+        }
+
+        if(Mathf.Abs(rightThumbstickHorizontal) < threshold && Mathf.Abs(leftThumbstickVertical) < threshold)
+        {
+            horseWalkPlaying = false;
+            horseRunPlaying = false; 
         }
 
         if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
@@ -312,12 +371,30 @@ public class characterManager : MonoBehaviour
                 horseAnim.SetBool("isTurningRight", true);
                 horseAnim.SetBool("isTurningLeft", false);
 
+
+                if (!horseWalkPlaying)
+                {
+                    Debug.Log("in horse turn right audio"); 
+                    playerAudioSource.clip = horseWalk;
+                    playerAudioSource.Play();
+                    horseWalkPlaying = true;
+                }
+
             }
             else if (rightThumbstickHorizontal < 0)
             {
                 // Debug.Log("thumbstick pushed left: " + rightThumbstickHorizontal);
                 horseAnim.SetBool("isTurningLeft", true);
                 horseAnim.SetBool("isTurningRight", false);
+
+
+                if (!horseWalkPlaying)
+                {
+                    Debug.Log("in horse turn left audio");
+                    playerAudioSource.clip = horseWalk;
+                    playerAudioSource.Play();
+                    horseWalkPlaying = true;
+                }
             }
 
         }
@@ -325,7 +402,17 @@ public class characterManager : MonoBehaviour
         {
             horseAnim.SetBool("isTurningRight", false);
             horseAnim.SetBool("isTurningLeft", false);
+
+            //playerAudioSource.Stop();
+            //horseWalkPlaying = false;
+            //horseRunPlaying = false;
         }
+    }
+
+    IEnumerator waitForReferencesToUnsubscribe()
+    {
+        yield return new WaitForSeconds(4f);
+        Debug.Log("leaving coroutine"); 
     }
 
     // systems for fading in UI when player either wins or loses game
@@ -411,6 +498,7 @@ public class characterManager : MonoBehaviour
         horsesCollected += 1;
         // update horses collected UI
         horsesCapturedTxt.text = "Horses collected: " + horsesCollected + "/3";
+        playerAudioSource.PlayOneShot(whistleCaught); 
 
         if (horsesCollected == horseCount)
         {
@@ -506,51 +594,23 @@ public class characterManager : MonoBehaviour
             StopAllCoroutines();
             textComponent.text = dialogueLines[index];
         }
-
-        //// Check if there are more dialogue elements
-        //if (currentIndex < dialogue.Length - 1)
-        //{
-        //    // Increment the index to switch to the next dialogue
-        //    currentIndex++;
-        //    lastIndex = currentIndex - 1;
-
-        //    // Start the fade -in for the new dialogue element
-        //    StartCoroutine(FadeInText(dialogue[currentIndex]));
-        //    if (currentIndex > 0)
-        //    {
-        //        StartCoroutine(FadeOutText(dialogue[0]));
-        //    }
-
-        //    if (lastIndex < currentIndex)
-        //    {
-        //        StartCoroutine(FadeOutText(dialogue[lastIndex]));
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("start game now");
-        //    throughCutscene = true;
-        //    Time.timeScale = 1;
-        //    Debug.Log(throughCutscene); 
-        //    StartCoroutine(FadeOutIntro(introUI)); 
-        //}
     }
 
     IEnumerator StartCutscene()
     {
         yield return StartCoroutine(FadeIn(peteImage));
         index = 0;
-        Debug.Log("past fadeimage" + index);
+        // Debug.Log("past fadeimage" + index);
         StartCoroutine(TypeLine());
         // yield return StartCoroutine(FadeInText(dialogue[0]));
     }
 
     IEnumerator TypeLine()
     {
-        Debug.Log("within type line");
+        // Debug.Log("within type line");
         foreach (char c in dialogueLines[index].ToCharArray())
         {
-            Debug.Log("within foreach");
+            // Debug.Log("within foreach");
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
