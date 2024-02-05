@@ -279,25 +279,14 @@ public class characterManager : MonoBehaviour
                     playerAudioSource.clip = horseWalk;
                     playerAudioSource.Play();
                     horseWalkPlaying = true;
+                    horseRunPlaying = false;
                 }
             }
-            else if(leftThumbstickVertical < 0)
+            else
             {
-                // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
-                horseAnim.SetBool("isWalkingBackward", false);
-                horseAnim.SetBool("isGalloping", false);
-                horseAnim.SetBool("isWalkingForward", true);
-                playerXrMovementSpeed.moveSpeed = 2.5f;
-
-                if (!horseWalkPlaying)
-                {
-                    playerAudioSource.clip = horseWalk;
-                    playerAudioSource.Play();
-                    horseWalkPlaying = true;
-                }
-
                 if (Input.GetButton("XRI_Left_GripButton"))
                 {
+                    // Debug.Log(" within gallop ");
                     horseAnim.SetBool("isGalloping", true);
                     horseAnim.SetBool("isWalkingForward", false);
                     horseAnim.SetBool("isWalkingBackward", false);
@@ -308,40 +297,107 @@ public class characterManager : MonoBehaviour
                         playerAudioSource.clip = horseRun;
                         playerAudioSource.Play();
                         horseRunPlaying = true;
+                        horseWalkPlaying = false;
                         // Debug.Log("into horse running"); 
                     }
                 }
+                else
+                {
+                    // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
+                    horseAnim.SetBool("isWalkingBackward", false);
+                    horseAnim.SetBool("isGalloping", false);
+                    horseAnim.SetBool("isWalkingForward", true);
+                    playerXrMovementSpeed.moveSpeed = 2.5f;
 
-                //if(!Input.GetButton("XRI_Left_GripButton"))
+                    if (!horseWalkPlaying)
+                    {
+                        playerAudioSource.clip = horseWalk;
+                        playerAudioSource.Play();
+                        horseWalkPlaying = true;
+                        horseRunPlaying = false;
+                    }
+                }
+                //else if(leftThumbstickVertical < 0)
                 //{
-                //    Debug.Log("into held down");
-                //    horseWalkPlaying = false;
-                //    if (!horseWalkPlaying)
-                //    {
-                //        playerAudioSource.clip = horseWalk;
-                //        playerAudioSource.Play();
-                //        horseWalkPlaying = true;
-                //        Debug.Log("in audio"); 
-                //    }
-                //    Debug.Log("after audio"); 
-                //}
-                //else 
-                //{
-                //    Debug.Log("button released"); 
-
-                //    // add animation logic here
-                //    horseAnim.SetBool("isWalkingForward", true);
+                //    // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
+                //    horseAnim.SetBool("isWalkingBackward", false);
                 //    horseAnim.SetBool("isGalloping", false);
-                //    horseAnim.SetBool("isWalkingBackward", false); 
+                //    horseAnim.SetBool("isWalkingForward", true);
                 //    playerXrMovementSpeed.moveSpeed = 2.5f;
 
-
                 //    if (!horseWalkPlaying)
                 //    {
                 //        playerAudioSource.clip = horseWalk;
                 //        playerAudioSource.Play();
                 //        horseWalkPlaying = true;
-                //        Debug.Log("out of horse running"); 
+                //        horseRunPlaying = false; 
+                //    }
+
+                //    //if (Input.GetButton("XRI_Left_GripButton"))
+                //    //{
+                //    //    horseAnim.SetBool("isGalloping", true);
+                //    //    horseAnim.SetBool("isWalkingForward", false);
+                //    //    horseAnim.SetBool("isWalkingBackward", false);
+                //    //    playerXrMovementSpeed.moveSpeed = 5f;
+
+                //    //    if (!horseRunPlaying)
+                //    //    {
+                //    //        playerAudioSource.clip = horseRun;
+                //    //        playerAudioSource.Play();
+                //    //        horseRunPlaying = true;
+                //    //        // Debug.Log("into horse running"); 
+                //    //    }
+                //    //}
+
+                //    //if(!Input.GetButton("XRI_Left_GripButton"))
+                //    //{
+                //    //    Debug.Log("into held down");
+                //    //    horseWalkPlaying = false;
+                //    //    if (!horseWalkPlaying)
+                //    //    {
+                //    //        playerAudioSource.clip = horseWalk;
+                //    //        playerAudioSource.Play();
+                //    //        horseWalkPlaying = true;
+                //    //        Debug.Log("in audio"); 
+                //    //    }
+                //    //    Debug.Log("after audio"); 
+                //    //}
+                //    //else 
+                //    //{
+                //    //    Debug.Log("button released"); 
+
+                //    //    // add animation logic here
+                //    //    horseAnim.SetBool("isWalkingForward", true);
+                //    //    horseAnim.SetBool("isGalloping", false);
+                //    //    horseAnim.SetBool("isWalkingBackward", false); 
+                //    //    playerXrMovementSpeed.moveSpeed = 2.5f;
+
+
+                //    //    if (!horseWalkPlaying)
+                //    //    {
+                //    //        playerAudioSource.clip = horseWalk;
+                //    //        playerAudioSource.Play();
+                //    //        horseWalkPlaying = true;
+                //    //        Debug.Log("out of horse running"); 
+                //    //    }
+                //    //}
+                //}
+
+                //else if (leftThumbstickVertical < 0 && Input.GetButton("XRI_Left_GripButton"))
+                //{
+                //    Debug.Log(" within gallop "); 
+                //    horseAnim.SetBool("isGalloping", true);
+                //    horseAnim.SetBool("isWalkingForward", false);
+                //    horseAnim.SetBool("isWalkingBackward", false);
+                //    playerXrMovementSpeed.moveSpeed = 5f;
+
+                //    if (!horseRunPlaying)
+                //    {
+                //        playerAudioSource.clip = horseRun;
+                //        playerAudioSource.Play();
+                //        horseRunPlaying = true;
+                //        horseWalkPlaying = false;
+                //        // Debug.Log("into horse running"); 
                 //    }
                 //}
             }
@@ -353,8 +409,8 @@ public class characterManager : MonoBehaviour
             horseAnim.SetBool("isGalloping", false);
 
             playerAudioSource.Stop();
-            //horseWalkPlaying = false;
-            //horseRunPlaying = false;
+            horseWalkPlaying = false;
+            horseRunPlaying = false;
         }
 
         if(Mathf.Abs(rightThumbstickHorizontal) < threshold && Mathf.Abs(leftThumbstickVertical) < threshold)
@@ -365,6 +421,7 @@ public class characterManager : MonoBehaviour
 
         if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
         {
+            Debug.Log("Horse walk playing value: " + horseWalkPlaying); 
             if (rightThumbstickHorizontal > 0)
             {
                 // Debug.Log("Thumbstick pushed right: " + rightThumbstickHorizontal);
@@ -377,7 +434,9 @@ public class characterManager : MonoBehaviour
                     Debug.Log("in horse turn right audio"); 
                     playerAudioSource.clip = horseWalk;
                     playerAudioSource.Play();
+                    Debug.Log("in horse turn right after player"); 
                     horseWalkPlaying = true;
+                    Debug.Log("in horse turn rigth after bool set to true"); 
                 }
 
             }
