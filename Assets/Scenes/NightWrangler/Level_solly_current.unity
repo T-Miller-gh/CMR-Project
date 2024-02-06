@@ -921,6 +921,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Horses
       objectReference: {fileID: 0}
+    - target: {fileID: 3676390141711482387, guid: 49f05b34d17f3c246a4927e4ce0607c5,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.638
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676390141711482387, guid: 49f05b34d17f3c246a4927e4ce0607c5,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 3703845202946594169, guid: 49f05b34d17f3c246a4927e4ce0607c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -981,6 +991,26 @@ PrefabInstance:
       propertyPath: characterManagerScript
       value: 
       objectReference: {fileID: 382145177}
+    - target: {fileID: 6389018180635257096, guid: 49f05b34d17f3c246a4927e4ce0607c5,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.638
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389018180635257096, guid: 49f05b34d17f3c246a4927e4ce0607c5,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6600397344003631196, guid: 49f05b34d17f3c246a4927e4ce0607c5,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.638
+      objectReference: {fileID: 0}
+    - target: {fileID: 6600397344003631196, guid: 49f05b34d17f3c246a4927e4ce0607c5,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 8663614589474554946, guid: 49f05b34d17f3c246a4927e4ce0607c5,
         type: 3}
       propertyPath: player
