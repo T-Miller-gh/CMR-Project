@@ -13,13 +13,7 @@ public class characterManager : MonoBehaviour
     [SerializeField] private InputActionReference menuInputActionReference;
     [SerializeField] private InputActionReference primaryButtonReference;
 
-    //public XRNode leftMovementInputSource;
-    //public XRNode rightMovementInputSource; 
-
     float threshold = 0.5f; 
-
-    //List<XRNodeState> nodeStates = new List<XRNodeState>();
-    //Vector3 lastPosition;
 
     public ActionBasedContinuousMoveProvider playerXrMovementSpeed;
     public XRInteractorLineVisual[] lineVisuals; 
@@ -134,11 +128,6 @@ public class characterManager : MonoBehaviour
         //    youWinUI.alpha = 0f;
         //    youLoseUI.alpha = 0f;
         //}
-
-        // add functions here that start the game 
-        // intro to game by pete vann (mini tutorial, etc) 
-        // fade to black then back to game view
-        // timer starts now
     }
 
     public void ResetGame()
@@ -251,16 +240,7 @@ public class characterManager : MonoBehaviour
                 // pauses the game, change later; 
                 Time.timeScale = 0;
             }
-
-            //if(menuInputActionReference == null || menuInputActionReference.action == null 
-            //    || primaryButtonReference == null || primaryButtonReference.action == null)
-            //{
-            //    return; 
-            //}
         }
-
-        //InputTracking.GetNodeStates(nodeStates);
-        //XRNodeState state = nodeStates.Find(s => s.nodeType == movementInputSource); 
 
         float leftThumbstickVertical = Input.GetAxis("XRI_Left_Primary2DAxis_Vertical");
         float rightThumbstickHorizontal = Input.GetAxis("XRI_Right_Primary2DAxis_Horizontal");
@@ -279,25 +259,14 @@ public class characterManager : MonoBehaviour
                     playerAudioSource.clip = horseWalk;
                     playerAudioSource.Play();
                     horseWalkPlaying = true;
+                    horseRunPlaying = false;
                 }
             }
-            else if(leftThumbstickVertical < 0)
+            else
             {
-                // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
-                horseAnim.SetBool("isWalkingBackward", false);
-                horseAnim.SetBool("isGalloping", false);
-                horseAnim.SetBool("isWalkingForward", true);
-                playerXrMovementSpeed.moveSpeed = 2.5f;
-
-                if (!horseWalkPlaying)
-                {
-                    playerAudioSource.clip = horseWalk;
-                    playerAudioSource.Play();
-                    horseWalkPlaying = true;
-                }
-
                 if (Input.GetButton("XRI_Left_GripButton"))
                 {
+                    // Debug.Log(" within gallop ");
                     horseAnim.SetBool("isGalloping", true);
                     horseAnim.SetBool("isWalkingForward", false);
                     horseAnim.SetBool("isWalkingBackward", false);
@@ -308,42 +277,26 @@ public class characterManager : MonoBehaviour
                         playerAudioSource.clip = horseRun;
                         playerAudioSource.Play();
                         horseRunPlaying = true;
+                        horseWalkPlaying = false;
                         // Debug.Log("into horse running"); 
                     }
                 }
+                else
+                {
+                    // Debug.Log("thumbstick pushed backwards: " + leftThumbstickVertical);
+                    horseAnim.SetBool("isWalkingBackward", false);
+                    horseAnim.SetBool("isGalloping", false);
+                    horseAnim.SetBool("isWalkingForward", true);
+                    playerXrMovementSpeed.moveSpeed = 2.5f;
 
-                //if(!Input.GetButton("XRI_Left_GripButton"))
-                //{
-                //    Debug.Log("into held down");
-                //    horseWalkPlaying = false;
-                //    if (!horseWalkPlaying)
-                //    {
-                //        playerAudioSource.clip = horseWalk;
-                //        playerAudioSource.Play();
-                //        horseWalkPlaying = true;
-                //        Debug.Log("in audio"); 
-                //    }
-                //    Debug.Log("after audio"); 
-                //}
-                //else 
-                //{
-                //    Debug.Log("button released"); 
-
-                //    // add animation logic here
-                //    horseAnim.SetBool("isWalkingForward", true);
-                //    horseAnim.SetBool("isGalloping", false);
-                //    horseAnim.SetBool("isWalkingBackward", false); 
-                //    playerXrMovementSpeed.moveSpeed = 2.5f;
-
-
-                //    if (!horseWalkPlaying)
-                //    {
-                //        playerAudioSource.clip = horseWalk;
-                //        playerAudioSource.Play();
-                //        horseWalkPlaying = true;
-                //        Debug.Log("out of horse running"); 
-                //    }
-                //}
+                    if (!horseWalkPlaying)
+                    {
+                        playerAudioSource.clip = horseWalk;
+                        playerAudioSource.Play();
+                        horseWalkPlaying = true;
+                        horseRunPlaying = false;
+                    }
+                }
             }
         }
         else
@@ -353,14 +306,8 @@ public class characterManager : MonoBehaviour
             horseAnim.SetBool("isGalloping", false);
 
             playerAudioSource.Stop();
-            //horseWalkPlaying = false;
-            //horseRunPlaying = false;
-        }
-
-        if(Mathf.Abs(rightThumbstickHorizontal) < threshold && Mathf.Abs(leftThumbstickVertical) < threshold)
-        {
             horseWalkPlaying = false;
-            horseRunPlaying = false; 
+            horseRunPlaying = false;
         }
 
         if (Mathf.Abs(rightThumbstickHorizontal) > threshold)
@@ -370,54 +317,30 @@ public class characterManager : MonoBehaviour
                 // Debug.Log("Thumbstick pushed right: " + rightThumbstickHorizontal);
                 horseAnim.SetBool("isTurningRight", true);
                 horseAnim.SetBool("isTurningLeft", false);
-
-
-                if (!horseWalkPlaying)
-                {
-                    Debug.Log("in horse turn right audio"); 
-                    playerAudioSource.clip = horseWalk;
-                    playerAudioSource.Play();
-                    horseWalkPlaying = true;
-                }
-
             }
             else if (rightThumbstickHorizontal < 0)
             {
                 // Debug.Log("thumbstick pushed left: " + rightThumbstickHorizontal);
                 horseAnim.SetBool("isTurningLeft", true);
                 horseAnim.SetBool("isTurningRight", false);
-
-
-                if (!horseWalkPlaying)
-                {
-                    Debug.Log("in horse turn left audio");
-                    playerAudioSource.clip = horseWalk;
-                    playerAudioSource.Play();
-                    horseWalkPlaying = true;
-                }
             }
-
         }
         else
         {
             horseAnim.SetBool("isTurningRight", false);
             horseAnim.SetBool("isTurningLeft", false);
-
-            //playerAudioSource.Stop();
-            //horseWalkPlaying = false;
-            //horseRunPlaying = false;
         }
     }
 
     IEnumerator waitForReferencesToUnsubscribe()
     {
         yield return new WaitForSeconds(4f);
-        Debug.Log("leaving coroutine"); 
     }
 
     // systems for fading in UI when player either wins or loses game
     IEnumerator FadeInYouWinUI()
     {
+        playerAudioSource.Stop(); 
         youWinUIGO.SetActive(true);
         lineVisuals[0].enabled = true;
         lineVisuals[1].enabled = true;
@@ -440,6 +363,7 @@ public class characterManager : MonoBehaviour
 
     IEnumerator FadeInYouLoseUI()
     {
+        playerAudioSource.Stop(); 
         youLoseUIGO.SetActive(true);
         lineVisuals[0].enabled = true;
         lineVisuals[1].enabled = true;
@@ -583,8 +507,7 @@ public class characterManager : MonoBehaviour
 
     void PrimaryButtonPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("primary button pressed");
-
+        //Debug.Log("primary button pressed");
         if (textComponent.text == dialogueLines[index])
         {
             NextLine();
@@ -650,34 +573,6 @@ public class characterManager : MonoBehaviour
             yield return null;
         }
     }
-
-    //IEnumerator FadeInText(TextMeshProUGUI text)
-    //{
-    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
-
-    //    // Reset the alpha to 0 for the current text
-    //    canvasGroup.alpha = 0;
-
-    //    // Fade in the current text
-    //    while (canvasGroup.alpha < 1)
-    //    {
-    //        canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-in
-
-    //        yield return null;
-    //    }
-    //}
-
-    //IEnumerator FadeOutText(TextMeshProUGUI text)
-    //{
-    //    CanvasGroup canvasGroup = text.GetComponent<CanvasGroup>();
-
-    //    // Fade out the text
-    //    while (canvasGroup.alpha > 0)
-    //    {
-    //        canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration; // Adjust the speed of fade-out
-    //        yield return null;
-    //    }
-    //}
 
     IEnumerator FadeOutIntro(CanvasGroup canvasGroup)
     {
