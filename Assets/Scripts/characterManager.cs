@@ -31,6 +31,7 @@ public class characterManager : MonoBehaviour
     public TextMeshProUGUI horsesCapturedTxt;
 
     public GameObject quitMenu;
+    public GameObject inactivityMenu; 
     public GameObject loadingUI;
     public GameObject youLoseUIGO;
     public GameObject youWinUIGO;
@@ -75,13 +76,15 @@ public class characterManager : MonoBehaviour
     void OnEnable()
     {
         menuInputActionReference.action.started += MenuPressed;
-        primaryButtonReference.action.started += PrimaryButtonPressed; 
+        primaryButtonReference.action.started += PrimaryButtonPressed;
+        CameraMovementTracker.pauseGameForInactivity += GamePausedForInactivity;
     }
 
     private void OnDisable()
     {
         menuInputActionReference.action.started -= MenuPressed;
-        primaryButtonReference.action.started -= PrimaryButtonPressed; 
+        primaryButtonReference.action.started -= PrimaryButtonPressed;
+        CameraMovementTracker.pauseGameForInactivity -= GamePausedForInactivity; 
     }
 
     private void Awake()
@@ -151,12 +154,29 @@ public class characterManager : MonoBehaviour
         // SceneSelectionManager.LoadMenuScene();
     }
 
+    void GamePausedForInactivity()
+    {
+        Time.timeScale = 0;
+        lineVisuals[0].enabled = true;
+        lineVisuals[1].enabled = true;
+        inactivityMenu.SetActive(true);
+        // Debug.Log("Menu pressed");
+    }
+
     public void HideQuitMenu()
     {
         quitMenu.SetActive(false);
         lineVisuals[0].enabled = false;
         lineVisuals[1].enabled = false;
         Time.timeScale = 1; 
+    }
+
+    public void HideInactivityMenu()
+    {
+        inactivityMenu.SetActive(false);
+        lineVisuals[0].enabled = false;
+        lineVisuals[1].enabled = false;
+        Time.timeScale = 1;
     }
 
     public void ReturnToMenu()
