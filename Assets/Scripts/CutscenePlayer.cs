@@ -19,13 +19,18 @@ public class CutscenePlayer : MonoBehaviour
     public string[] dialogueLines;
     public float textSpeed;
 
-    int index; 
+    int index;
 
     public TextMeshProUGUI[] dialogue;
     int currentIndex = 0;
     int lastIndex = 0; 
 
     float fadeDuration = 2f;
+
+    public AudioSource playerAudioSource;
+    public AudioClip[] narrativeAudio;
+
+    bool finishedTyping = true; 
 
     void OnEnable()
     {
@@ -42,7 +47,9 @@ public class CutscenePlayer : MonoBehaviour
     private void Start()
     {
         textComponent.text = string.Empty; 
-        StartCoroutine(StartCutscene()); 
+        StartCoroutine(StartCutscene());
+        //playerAudioSource.clip = narrativeAudio[index];
+        //playerAudioSource.Play();
     }
 
     void MenuPressed(InputAction.CallbackContext context)
@@ -55,15 +62,19 @@ public class CutscenePlayer : MonoBehaviour
     void PrimaryButtonPressed(InputAction.CallbackContext context)
     {
         Debug.Log("primary button pressed");
-
+            
         if (textComponent.text == dialogueLines[index])
         {
-            NextLine(); 
+            NextLine();
+            // finishedTyping = false; 
+            playerAudioSource.clip = narrativeAudio[index];
+            playerAudioSource.Play();
         }
         else
         {
             StopAllCoroutines();
-            textComponent.text = dialogueLines[index]; 
+            textComponent.text = dialogueLines[index];
+            // finishedTyping = true; 
         }
         //// Check if there are more dialogue elements
         //if (currentIndex < dialogue.Length - 1)
@@ -128,7 +139,10 @@ public class CutscenePlayer : MonoBehaviour
         yield return StartCoroutine(FadeIn(peteImage));
         index = 0;
         Debug.Log("past fadeimage" + index); 
-        StartCoroutine(TypeLine()); 
+        StartCoroutine(TypeLine());
+
+        playerAudioSource.clip = narrativeAudio[index];
+        playerAudioSource.Play();
         // yield return StartCoroutine(FadeInText(dialogue[0]));
     }
 
