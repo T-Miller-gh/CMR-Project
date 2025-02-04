@@ -21,9 +21,12 @@ public class characterManager : MonoBehaviour
     public ParticleSystem playerSnowParticles;
 
     public AudioSource playerAudioSource;
+    public AudioSource horseAudioSource;
     public AudioClip whistleCaught;
     public AudioClip horseWalk;
-    public AudioClip horseRun; 
+    public AudioClip horseRun;
+    public AudioClip wind; 
+    public AudioClip[] narrativeAudio; 
 
     public Animator horseAnim; 
 
@@ -35,7 +38,8 @@ public class characterManager : MonoBehaviour
     public GameObject loadingUI;
     public GameObject youLoseUIGO;
     public GameObject youWinUIGO;
-    public GameObject introUIGO; 
+    public GameObject introUIGO;
+    public GameObject introUIInstructions; 
 
     public CanvasGroup youLoseUI;
     public CanvasGroup youWinUI;
@@ -61,8 +65,10 @@ public class characterManager : MonoBehaviour
     float fadeDuration = 2f; 
 
     public int horsesCollected = 0;
-    public int horseCount; 
+    public int horseCount;
 
+    bool throughIntroInstructions = false;
+    bool cutsceneStarted = false; 
     public bool timerOn = false;
     public bool playerInSafeZone = false;
     public bool allHorsesCollected = false;
@@ -77,6 +83,7 @@ public class characterManager : MonoBehaviour
     {
         menuInputActionReference.action.started += MenuPressed;
         primaryButtonReference.action.started += PrimaryButtonPressed;
+        // primaryButtonReference.action.started += PlayerInstructions; 
         CameraMovementTracker.pauseGameForInactivity += GamePausedForInactivity;
     }
 
@@ -84,6 +91,7 @@ public class characterManager : MonoBehaviour
     {
         menuInputActionReference.action.started -= MenuPressed;
         primaryButtonReference.action.started -= PrimaryButtonPressed;
+        // primaryButtonReference.action.started -= PlayerInstructions; 
         CameraMovementTracker.pauseGameForInactivity -= GamePausedForInactivity; 
     }
 
@@ -113,12 +121,13 @@ public class characterManager : MonoBehaviour
         lineVisuals[1].enabled = true;
         youLoseUIGO.SetActive(false);
         youWinUIGO.SetActive(false); 
-        introUIGO.SetActive(true); 
+        // introUIGO.SetActive(true); 
 
         Time.timeScale = 0;
 
-        textComponent.text = string.Empty; 
-        StartCoroutine(StartCutscene()); 
+        textComponent.text = string.Empty;
+        //StartCoroutine(StartCutscene()); 
+        PlayerInstructions();
 
         //if(throughCutscene == true)
         //{
@@ -276,8 +285,8 @@ public class characterManager : MonoBehaviour
 
                 if (!horseWalkPlaying)
                 {
-                    playerAudioSource.clip = horseWalk;
-                    playerAudioSource.Play();
+                    horseAudioSource.clip = horseWalk;
+                    horseAudioSource.Play();
                     horseWalkPlaying = true;
                     horseRunPlaying = false;
                 }
@@ -294,8 +303,8 @@ public class characterManager : MonoBehaviour
 
                     if (!horseRunPlaying)
                     {
-                        playerAudioSource.clip = horseRun;
-                        playerAudioSource.Play();
+                        horseAudioSource.clip = horseRun;
+                        horseAudioSource.Play();
                         horseRunPlaying = true;
                         horseWalkPlaying = false;
                         // Debug.Log("into horse running"); 
@@ -311,8 +320,8 @@ public class characterManager : MonoBehaviour
 
                     if (!horseWalkPlaying)
                     {
-                        playerAudioSource.clip = horseWalk;
-                        playerAudioSource.Play();
+                        horseAudioSource.clip = horseWalk;
+                        horseAudioSource.Play();
                         horseWalkPlaying = true;
                         horseRunPlaying = false;
                     }
@@ -325,7 +334,7 @@ public class characterManager : MonoBehaviour
             horseAnim.SetBool("isWalkingBackward", false);
             horseAnim.SetBool("isGalloping", false);
 
-            playerAudioSource.Stop();
+            horseAudioSource.Stop();
             horseWalkPlaying = false;
             horseRunPlaying = false;
         }
@@ -360,7 +369,9 @@ public class characterManager : MonoBehaviour
     // systems for fading in UI when player either wins or loses game
     IEnumerator FadeInYouWinUI()
     {
-        playerAudioSource.Stop(); 
+        horseAudioSource.Stop();
+        playerAudioSource.Stop();
+        playerAudioSource.PlayOneShot(narrativeAudio[2]);
         youWinUIGO.SetActive(true);
         lineVisuals[0].enabled = true;
         lineVisuals[1].enabled = true;
@@ -383,7 +394,9 @@ public class characterManager : MonoBehaviour
 
     IEnumerator FadeInYouLoseUI()
     {
-        playerAudioSource.Stop(); 
+        horseAudioSource.Stop();
+        playerAudioSource.Stop();
+        playerAudioSource.PlayOneShot(narrativeAudio[3]);
         youLoseUIGO.SetActive(true);
         lineVisuals[0].enabled = true;
         lineVisuals[1].enabled = true;
@@ -442,7 +455,7 @@ public class characterManager : MonoBehaviour
         horsesCollected += 1;
         // update horses collected UI
         horsesCapturedTxt.text = "Horses collected: " + horsesCollected + "/3";
-        playerAudioSource.PlayOneShot(whistleCaught); 
+        horseAudioSource.PlayOneShot(whistleCaught); 
 
         if (horsesCollected == horseCount)
         {
@@ -525,8 +538,25 @@ public class characterManager : MonoBehaviour
 
     // CUTSCENE CODE ALL BELOW
 
+    void PlayerInstructions()
+    {
+        introUIInstructions.SetActive(true);
+        throughIntroInstructions = true;
+
+        playerAudioSource.PlayOneShot(narrativeAudio[0]);
+    }
+
     void PrimaryButtonPressed(InputAction.CallbackContext context)
     {
+        if(throughIntroInstructions && !cutsceneStarted)
+        {
+            Debug.Log("start cutscene");
+            introUIInstructions.SetActive(false); 
+            introUIGO.SetActive(true); 
+            StartCoroutine(StartCutscene());
+            cutsceneStarted = true;
+        }
+
         //Debug.Log("primary button pressed");
         if (textComponent.text == dialogueLines[index])
         {
@@ -541,11 +571,17 @@ public class characterManager : MonoBehaviour
 
     IEnumerator StartCutscene()
     {
-        yield return StartCoroutine(FadeIn(peteImage));
+        peteImage.gameObject.SetActive(true); 
+        // yield return StartCoroutine(FadeIn(peteImage));
         index = 0;
         // Debug.Log("past fadeimage" + index);
+
+        playerAudioSource.Stop(); 
+        playerAudioSource.PlayOneShot(narrativeAudio[1]); 
+
         StartCoroutine(TypeLine());
         // yield return StartCoroutine(FadeInText(dialogue[0]));
+        yield return null; 
     }
 
     IEnumerator TypeLine()
@@ -573,6 +609,9 @@ public class characterManager : MonoBehaviour
             throughCutscene = true;
             Time.timeScale = 1;
             Debug.Log(throughCutscene);
+            playerAudioSource.Stop(); 
+            playerAudioSource.clip = wind;
+            playerAudioSource.Play(); 
             StartCoroutine(FadeOutIntro(introUI));
         }
     }
