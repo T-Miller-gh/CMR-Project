@@ -30,6 +30,8 @@ public class SceneSelectionManager : MonoBehaviour
     bool leftFound = false;
     bool rightFound = false;
 
+    [SerializeField] private InputActionReference primaryButtonReference;
+
     void Start()
     {
         try
@@ -51,6 +53,23 @@ public class SceneSelectionManager : MonoBehaviour
         {
             Debug.Log("Game crashed...most likely controllers not found"); 
         }
+    }
+
+    void OnEnable()
+    {
+        primaryButtonReference.action.started += PrimaryButtonPressed;
+    }
+
+    private void OnDisable()
+    {
+        primaryButtonReference.action.started -= PrimaryButtonPressed;
+    }
+
+    void PrimaryButtonPressed(InputAction.CallbackContext context)
+    {
+        Debug.Log("primary button pressed");
+        sceneSelection = 2;
+        PlayGame();
     }
 
     IEnumerator CheckForControllersRoutine()
@@ -138,12 +157,12 @@ public class SceneSelectionManager : MonoBehaviour
     void LoadNightwranglerScene()
     {
         Debug.Log("loading nightwrangler game");
-        gameDescriptionText.text = "The cowboys are in need of rest after a long days work, but someone needs to stay " +
+        /*gameDescriptionText.text = "The cowboys are in need of rest after a long days work, but someone needs to stay " +
             "up and watch the horses during the night, and herd them in if necessary. Can you do it? Can you brave the " +
-            "cold and be the night wrangler?";
+            "cold and be the night wrangler?";*/
         // loading cutscene scene (level_main for nightwrangler game is loaded in CutscenePlayer.cs) 
         sceneSelection = 2; 
-        playBtn.SetActive(true); 
+        //playBtn.SetActive(true); 
     }
 
     public static void LoadMenuScene()
