@@ -662,6 +662,8 @@ PrefabInstance:
     - {fileID: 652226840049014126, guid: 2478dd6ce52ed2a4488506ca898a7d55, type: 3}
     - {fileID: 3506156993913164508, guid: 2478dd6ce52ed2a4488506ca898a7d55, type: 3}
     - {fileID: 4793624010212047645, guid: 2478dd6ce52ed2a4488506ca898a7d55, type: 3}
+    - {fileID: 4143093678274364351, guid: 2478dd6ce52ed2a4488506ca898a7d55, type: 3}
+    - {fileID: 7138163487037805063, guid: 2478dd6ce52ed2a4488506ca898a7d55, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2478dd6ce52ed2a4488506ca898a7d55, type: 3}
@@ -688,6 +690,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Menu_Prop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4405060793457556082, guid: 5f0438702fee9f241a47d44795fd784c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7558396336858161336, guid: 5f0438702fee9f241a47d44795fd784c,
         type: 3}
